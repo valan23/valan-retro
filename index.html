@@ -93,7 +93,10 @@
             else if (r.includes("JAP") || r.includes("JPN")) code = "jp";
             else if (r.includes("USA") || r.includes("EEUU")) code = "us";
             else if (r.includes("EUR") || r.includes("PAL")) code = "eu";
-            else if (r.includes("UK")) code = "gb";
+            else if (r.includes("UK") || r.includes("Reino Unido") code = "gb";
+            else if (r.includes("Australia")) code = "au";
+            else if (r.includes("ITA") || r.includes("Italia")) code = "eu";
+            else if (r.includes("ALE") || r.includes("Alemania") || r.includes("GER")) code = "eu";
             return `<span class="fi fi-${code}"></span>`;
         }
 
