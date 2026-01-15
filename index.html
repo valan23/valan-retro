@@ -15,6 +15,39 @@
         
         #searchInput { width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: #1a1a20; color: white; display: block; margin: 20px auto; }
 
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: #1a1a20;
+            color: #aaa;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+    
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         
         .card { 
@@ -84,87 +117,67 @@
             <h1>VALAN ARCHIVE</h1>
             <input type="text" id="searchInput" placeholder="Buscar por juego, plataforma, serial..." onkeyup="filterGames()">
         </header>
+        <div id="platform-filters" class="filter-container"></div>
         <div id="game-grid" class="grid"></div>
     </div>
 
-    <script>
+<script>
         let allGames = [];
+        let currentPlatform = "TODAS";
+
         const csvFile = "Inventario_JuegosRetro - Juegos.csv";
 
         Papa.parse(csvFile, {
             download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 allGames = results.data.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim().length > 0);
+                createFilters(allGames);
                 renderGames(allGames);
             }
         });
 
-        // Función para asignar banderas según el texto de la Región
-        function getFlag(region) {
-            if (!region) return '<span class="fi fi-xx"></span>'; // Icono de mundo/desconocido
-            const r = region.toUpperCase().trim();
-    
-            // Mapeo de códigos de país (ISO 3166-1-alpha-2)
-            let code = "xx"; 
-            if (r.includes("ESP")) code = "es";
-            else if (r.includes("JAP") || r.includes("NTSC-J") || r.includes("JPN")) code = "jp";
-            else if (r.includes("USA") || r.includes("NTSC-U") || r.includes("EEUU")) code = "us";
-            else if (r.includes("EUR") || r.includes("PAL")) code = "eu";
-            else if (r.includes("UK") || r.includes("REINO UNIDO")) code = "gb";
-            else if (r.includes("FRA")) code = "fr";
-            else if (r.includes("GER") || r.includes("ALE")) code = "de";
-            else if (r.includes("ITA")) code = "it";
-            else if (r.includes("CAN")) code = "ca";
-            else if (r.includes("AUS")) code = "au";
-
-            // Devolvemos el HTML necesario para mostrar la bandera redondita o cuadrada
-            return `<span class="fi fi-${code}" style="border-radius: 2px;"></span>`;
-        }
-
-        function formatNotaGeneral(valor) {
-            if (!valor) return '?';
-            const v = valor.toString().toUpperCase().trim();
-            if (v === "PEND" || v === "?") return '?';
-            return v;
-        }
-        
-        function getColorForNota(valor) {
-            const n = parseFloat(valor);
-            if (isNaN(n)) return '#555'; // Gris para "?" o valores no numéricos
+        function createFilters(games) {
+            const platforms = ["TODAS", ...new Set(games.map(j => j["Plataforma"]))].sort();
+            const container = document.getElementById('platform-filters');
             
-            // Lógica de colores (Rojo -> Amarillo -> Verde)
-            let r, g, b = 0;
-            if (n < 5) {
-                // De Rojo (255, 68, 68) a Amarillo (255, 230, 0)
-                r = 255;
-                g = Math.round(68 + (n * 32.4)); 
-                b = 68;
-            } else {
-                // De Amarillo (255, 230, 0) a Verde (0, 255, 136)
-                r = Math.round(255 - ((n - 5) * 51));
-                g = 255;
-                b = Math.round((n - 5) * 27);
-            }
-            return `rgb(${r}, ${g}, ${b})`;
+            container.innerHTML = platforms.map(p => `
+                <button class="filter-btn ${p === 'TODAS' ? 'active' : ''}" 
+                        onclick="filterByPlatform('${p}', this)">
+                    ${p}
+                </button>
+            `).join('');
         }
 
-        function formatNotaGeneral(valor) {
-            if (!valor) return '?';
-            const v = valor.toString().toUpperCase().trim();
-            if (v === "PEND" || v === "?") return '?';
-            return v;
+        function filterByPlatform(platform, btn) {
+            currentPlatform = platform;
+            
+            // Actualizar estilo de botones
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            applyFilters();
         }
-        
-        function formatEstado(valor) {
-            if (!valor) return null;
-            const v = valor.toString().toUpperCase().trim();
-            if (v === "NA") return null;
-            if (v === "FALTA") return '<span style="color:#ff4444; font-weight:bold;">FALTA</span>';
-            if (v === "?" || v === "PEND") {
-                return '<span style="color: #ffaa00; font-weight: bold;">?</span>';
-            }
-            return `<span style="color:#00ff88; font-weight:bold;">${v}/10</span>`;
+
+        function filterGames() {
+            // Esta es la función que se activa al escribir en el buscador
+            applyFilters();
         }
+
+        function applyFilters() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = allGames.filter(j => {
+                const matchesPlatform = (currentPlatform === "TODAS" || j["Plataforma"] === currentPlatform);
+                const matchesSearch = (j["Nombre Juego"] || "").toLowerCase().includes(searchQuery) || 
+                                     (j["Serial"] || "").toLowerCase().includes(searchQuery);
+                
+                return matchesPlatform && matchesSearch;
+            });
+            
+            renderGames(filtered);
+        }
+
+        // ... MANTÉN AQUÍ TUS FUNCIONES: getFlag, getColorForNota, formatNotaGeneral, formatEstado ...
 
         function renderGames(games) {
             let html = "";
@@ -179,18 +192,14 @@
                 
                 const notaRaw = j["Estado General"];
                 const notaGral = formatNotaGeneral(notaRaw);
-                const colorBadge = getColorForNota(notaRaw); // Obtenemos el color dinámico
+                const colorBadge = getColorForNota(notaRaw);
                 const bandera = getFlag(j["Región"]);
 
                 html += `
                     <div class="card">
-                        <div class="grade-badge" style="background-color: ${colorBadge};">
-                            ${notaGral}
-                        </div>
-                        
+                        <div class="grade-badge" style="background-color: ${colorBadge};">${notaGral}</div>
                         <span class="platform-tag">${j["Plataforma"]}</span>
                         <span class="game-title">${j["Nombre Juego"]}</span>
-                        
                         ${j["Edición"] ? `<span class="edition-text">${j["Edición"]}</span>` : ''}
                         <div class="region-row">${bandera} ${j["Región"] || '-'}</div>
                         
@@ -206,26 +215,12 @@
                         </div>
 
                         ${j["Extras"] ? `<div style="font-size:0.75em; color:#888; margin-bottom:10px;"><b>Extras:</b> ${j["Extras"]}</div>` : ''}
-                        
                         <div class="price-tag">Tasación: ${j["Tasación Actual"] || 'S/T'}</div>
-                        
-                        <div class="logistics">
-                            Serial: ${j["Serial"] || '-'} | Ubicación: ${j["Ubicación"] || '-'}
-                        </div>
+                        <div class="logistics">Serial: ${j["Serial"] || '-'} | Ubicación: ${j["Ubicación"] || '-'}</div>
                     </div>
                 `;
             });
             document.getElementById('game-grid').innerHTML = html;
-        }
-
-        function filterGames() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const f = allGames.filter(j => 
-                (j["Nombre Juego"] || "").toLowerCase().includes(q) || 
-                (j["Plataforma"] || "").toLowerCase().includes(q) ||
-                (j["Serial"] || "").toLowerCase().includes(q)
-            );
-            renderGames(f);
         }
     </script>
 </body>
