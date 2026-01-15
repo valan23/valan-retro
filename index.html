@@ -3,91 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valan Archive | Explorer</title>
+    <title>Valan Archive | Ultra</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root { --accent: #00f2ff; --bg: #0b0b0e; --card: #16161a; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #fff; padding: 20px; }
-        .header { text-align: center; padding: 20px; }
-        h1 { letter-spacing: 5px; color: var(--accent); text-shadow: 0 0 10px rgba(0,242,255,0.3); }
+        :root { --accent: #00f2ff; --bg: #0b0b0e; --card: #16161a; --text: #e0e0e0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; }
+        header { text-align: center; padding: 20px 0; }
+        h1 { letter-spacing: 5px; color: var(--accent); text-shadow: 0 0 10px rgba(0,242,255,0.4); }
         
-        /* Buscador */
-        .search-container { max-width: 600px; margin: 20px auto; position: relative; }
-        #searchInput { width: 100%; padding: 15px; border-radius: 30px; border: 1px solid #333; background: #222; color: white; font-size: 1em; outline: none; transition: 0.3s; }
-        #searchInput:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0,242,255,0.1); }
+        #searchInput { width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px; border: 1px solid #333; background: #1a1a20; color: white; display: block; margin: 20px auto; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         
-        .platform-tag { font-size: 0.7em; font-weight: 800; padding: 4px 10px; border-radius: 5px; background: #ff0055; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
-        .game-title { font-size: 1.1em; font-weight: bold; margin: 10px 0; display: block; height: 2.4em; overflow: hidden; }
-        .info-row { font-size: 0.85em; color: #888; display: flex; justify-content: space-between; margin-top: 10px; }
-        .price-tag { display: block; margin-top: 15px; color: #00ff88; font-weight: bold; border-top: 1px solid #333; padding-top: 10px; }
+        .card { 
+            background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #222; 
+            position: relative; transition: 0.3s;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        
+        .grade-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--accent); color: #000; font-weight: 900;
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2em;
+        }
+
+        .platform-tag { font-size: 0.7em; font-weight: 800; color: #ff0055; text-transform: uppercase; }
+        .edition-tag { font-size: 0.75em; color: #aaa; font-style: italic; display: block; margin-bottom: 5px; }
+        .game-title { font-size: 1.15em; font-weight: 700; margin: 5px 0; color: #fff; padding-right: 45px; }
+        
+        .details-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+            background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin: 12px 0;
+            font-size: 0.8em; line-height: 1.4;
+        }
+
+        .logistics { font-size: 0.75em; color: #666; border-top: 1px solid #222; padding-top: 10px; margin-top: 10px; }
+        .price-tag { color: #00ff88; font-weight: bold; font-size: 0.9em; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>VALAN ARCHIVE</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Buscar juego o consola..." onkeyup="filterGames()">
-        </div>
+    <div class="container">
+        <header>
+            <h1>VALAN ARCHIVE</h1>
+            <input type="text" id="searchInput" placeholder="Buscar por juego, plataforma, serial..." onkeyup="filterGames()">
+        </header>
+        <div id="game-grid" class="grid"></div>
     </div>
-
-    <div id="game-grid" class="grid"></div>
 
     <script>
         let allGames = [];
         const csvFile = "Inventario_JuegosRetro - Juegos.csv";
 
         Papa.parse(csvFile, {
-            download: true, 
-            header: true,
-            skipEmptyLines: true,
+            download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
-                // Filtro mejorado: solo cogemos filas que tengan un nombre de juego real
-                // y que no sean simplemente encabezados o booleanos accidentales
-                allGames = results.data.filter(j => {
-                    const nombre = j["Juego"] ? j["Juego"].toString().trim() : "";
-                    return nombre !== "" && nombre !== "TRUE" && nombre !== "FALSE" && nombre !== "Juego";
-                });
-                
-                console.log("Juegos cargados:", allGames.length); // Esto ayuda a depurar
+                allGames = results.data.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim().length > 0);
                 renderGames(allGames);
             }
         });
 
+        function formatEstado(valor) {
+            if (!valor) return null;
+            const v = valor.toString().toUpperCase().trim();
+            if (v === "NA") return null;
+            if (v === "FALTA") return '<span style="color:#ff4444">FALTA</span>';
+            if (v === "PEND") return '<span style="color:#ffaa00">PEND</span>';
+            return `<span style="color:#00ff88">${v}/10</span>`;
+        }
+
         function renderGames(games) {
             let html = "";
-            if (games.length === 0) {
-                html = "<p style='text-align:center; width:100%; color:#888;'>No se han encontrado juegos.</p>";
-            } else {
-                games.forEach(j => {
-                    html += `
-                        <div class="card">
-                            <span class="platform-tag">${j["Plataforma"] || 'Sistema'}</span>
-                            <span class="game-title">${j["Juego"]}</span>
-                            <div class="info-row">
-                                <span>🌍 ${j["Región"] || '-'}</span>
-                                <span>📦 ${j["Estado Caja"] || '?'}/10 | 📖 ${j["Estado Manual"] || '?'}/10</span>
-                            </div>
-                            <span class="price-tag">Tasación: ${j["Tasación Actual"] || 'S/T'}</span>
+            games.forEach(j => {
+                const sCaja = formatEstado(j["Estado Caja"]);
+                const sIns = formatEstado(j["Estado Inserto"]);
+                const sPort = formatEstado(j["Estado Portada"]);
+                const sSpin = formatEstado(j["Estado Spinecard"]);
+                const sMan = formatEstado(j["Estado Manual"]);
+                const sJgo = formatEstado(j["Estado Juego"]);
+                const sExt = formatEstado(j["Estado Extras"]);
+
+                html += `
+                    <div class="card">
+                        <div class="grade-badge">${j["Estado General"] || '-'}</div>
+                        <span class="platform-tag">${j["Plataforma"]}</span>
+                        ${j["Edición"] ? `<span class="edition-tag">${j["Edición"]}</span>` : ''}
+                        <span class="game-title">${j["Nombre Juego"]}</span>
+                        
+                        <div class="details-grid">
+                            ${sCaja ? `<div>📦 Caja: ${sCaja}</div>` : ''}
+                            ${sPort ? `<div>🖼️ Port: ${sPort}</div>` : ''}
+                            ${sIns ? `<div>📥 Ins: ${sIns}</div>` : ''}
+                            ${sMan ? `<div>📖 Man: ${sMan}</div>` : ''}
+                            ${sJgo ? `<div>🎮 Jgo: ${sJgo}</div>` : ''}
+                            ${sSpin ? `<div>🔖 Obi: ${sSpin}</div>` : ''}
+                            ${sExt ? `<div>✨ Ext: ${sExt}</div>` : ''}
+                            <div>🌍 Reg: ${j["Región"] || '-'}</div>
+                            <div>📦 Est: ${j["Completitud"] || '-'}</div>
                         </div>
-                    `;
-                });
-            }
+
+                        ${j["Extras"] ? `<div style="font-size:0.75em; color:#888; margin-bottom:10px;"><b>Extras:</b> ${j["Extras"]}</div>` : ''}
+                        
+                        <div class="price-tag">Tasación: ${j["Tasación Actual"] || 'S/T'}</div>
+                        
+                        <div class="logistics">
+                            Serial: ${j["Serial"] || '-'} | Ubicación: ${j["Ubicación"] || '-'}
+                        </div>
+                    </div>
+                `;
+            });
             document.getElementById('game-grid').innerHTML = html;
         }
 
         function filterGames() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allGames.filter(j => {
-                const titulo = (j["Juego"] || "").toLowerCase();
-                const sistema = (j["Plataforma"] || "").toLowerCase();
-                return titulo.includes(query) || sistema.includes(query);
-            });
-            renderGames(filtered);
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const f = allGames.filter(j => 
+                (j["Nombre Juego"] || "").toLowerCase().includes(q) || 
+                (j["Plataforma"] || "").toLowerCase().includes(q) ||
+                (j["Serial"] || "").toLowerCase().includes(q)
+            );
+            renderGames(f);
         }
     </script>
 </body>
