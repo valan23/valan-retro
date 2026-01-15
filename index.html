@@ -67,12 +67,18 @@
 
         function formatEstado(valor) {
             if (!valor) return null;
+            // Limpiamos el texto: quitamos espacios y pasamos a mayúsculas
             const v = valor.toString().toUpperCase().trim();
+            // 1. Si es NA (No aplica), devolvemos null para que la fila se oculte
             if (v === "NA") return null;
-            if (v === "FALTA") return '<span style="color:#ff4444">FALTA</span>';
+            // 2. Si es FALTA, lo ponemos en rojo
+            if (v === "FALTA") return '<span style="color:#ff4444; font-weight:bold;">FALTA</span>';
+            // 3. Si es ? o PEND, lo ponemos en naranja SIN el /10
             if (v === "?" || v === "PEND") {
                 return '<span style="color: #ffaa00; font-weight: bold;">?</span>';
-            return `<span style="color:#00ff88">${v}/10</span>`;
+            }
+            // 4. Para todo lo demás (números del 0 al 10), ponemos /10 en verde
+            return `<span style="color:#00ff88; font-weight:bold;">${v}/10</span>`;
         }
 
         function renderGames(games) {
