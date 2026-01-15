@@ -48,11 +48,9 @@
             download: true, 
             header: true, 
             skipEmptyLines: true,
-            transformHeader: h => h.trim(), // LIMPIA ESPACIOS EN LOS NOMBRES DE COLUMNAS
+            transformHeader: h => h.trim(),
             complete: function(results) {
-                console.log("Columnas detectadas:", results.meta.fields); // ESTO AYUDA A DEPURAR
                 allGames = results.data.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
-                console.log("Juegos cargados:", allGames.length);
                 createFilters(allGames);
                 renderGames(allGames);
             }
@@ -93,10 +91,10 @@
             else if (r.includes("JAP") || r.includes("JPN")) code = "jp";
             else if (r.includes("USA") || r.includes("EEUU")) code = "us";
             else if (r.includes("EUR") || r.includes("PAL")) code = "eu";
-            else if (r.includes("UK") || r.includes("Reino Unido") code = "gb";
-            else if (r.includes("Australia")) code = "au";
-            else if (r.includes("ITA") || r.includes("Italia")) code = "eu";
-            else if (r.includes("ALE") || r.includes("Alemania") || r.includes("GER")) code = "eu";
+            else if (r.includes("UK") || r.includes("REINO UNIDO")) code = "gb";
+            else if (r.includes("AUSTRALIA") || r.includes("AUS")) code = "au";
+            else if (r.includes("ITA") || r.includes("ITALIA")) code = "it";
+            else if (r.includes("ALE") || r.includes("ALEMANIA") || r.includes("GER")) code = "de";
             return `<span class="fi fi-${code}"></span>`;
         }
 
