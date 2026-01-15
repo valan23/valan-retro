@@ -39,7 +39,6 @@
 
     <script>
         let allGames = [];
-        // Asegúrate de que este nombre sea EXACTO al de tu archivo subido
         const csvFile = "Inventario_JuegosRetro - Juegos.csv";
 
         Papa.parse(csvFile, {
@@ -47,44 +46,47 @@
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                // Limpiamos los datos para evitar errores de columnas desplazadas
-                allGames = results.data.filter(j => j["Juego"] && j["Juego"] !== "TRUE" && j["Juego"] !== "FALSE");
+                // Filtro mejorado: solo cogemos filas que tengan un nombre de juego real
+                // y que no sean simplemente encabezados o booleanos accidentales
+                allGames = results.data.filter(j => {
+                    const nombre = j["Juego"] ? j["Juego"].toString().trim() : "";
+                    return nombre !== "" && nombre !== "TRUE" && nombre !== "FALSE" && nombre !== "Juego";
+                });
+                
+                console.log("Juegos cargados:", allGames.length); // Esto ayuda a depurar
                 renderGames(allGames);
             }
         });
 
         function renderGames(games) {
             let html = "";
-            games.forEach(j => {
-                // Usamos corchetes para asegurar que lea bien los nombres con espacios o tildes
-                const nombreJuego = j["Juego"];
-                const plataforma = j["Plataforma"];
-                const region = j["Región"];
-                const estadoCaja = j["Estado Caja"];
-                const estadoManual = j["Estado Manual"];
-                const tasacion = j["Tasación Actual"];
-
-                html += `
-                    <div class="card">
-                        <span class="platform-tag">${plataforma}</span>
-                        <span class="game-title">${nombreJuego}</span>
-                        <div class="info-row">
-                            <span>🌍 ${region}</span>
-                            <span>📦 ${estadoCaja}/10 | 📖 ${estadoManual}/10</span>
+            if (games.length === 0) {
+                html = "<p style='text-align:center; width:100%; color:#888;'>No se han encontrado juegos.</p>";
+            } else {
+                games.forEach(j => {
+                    html += `
+                        <div class="card">
+                            <span class="platform-tag">${j["Plataforma"] || 'Sistema'}</span>
+                            <span class="game-title">${j["Juego"]}</span>
+                            <div class="info-row">
+                                <span>🌍 ${j["Región"] || '-'}</span>
+                                <span>📦 ${j["Estado Caja"] || '?'}/10 | 📖 ${j["Estado Manual"] || '?'}/10</span>
+                            </div>
+                            <span class="price-tag">Tasación: ${j["Tasación Actual"] || 'S/T'}</span>
                         </div>
-                        <span class="price-tag">Tasación: ${tasacion || 'S/T'}</span>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
             document.getElementById('game-grid').innerHTML = html;
         }
 
         function filterGames() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allGames.filter(j => 
-                (j["Juego"] && j["Juego"].toLowerCase().includes(query)) || 
-                (j["Plataforma"] && j["Plataforma"].toLowerCase().includes(query))
-            );
+            const filtered = allGames.filter(j => {
+                const titulo = (j["Juego"] || "").toLowerCase();
+                const sistema = (j["Plataforma"] || "").toLowerCase();
+                return titulo.includes(query) || sistema.includes(query);
+            });
             renderGames(filtered);
         }
     </script>
