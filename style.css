@@ -52,6 +52,7 @@ header {
     color: white; 
     display: block; 
     margin: 20px auto; 
+    box-sizing: border-box; /* CLAVE: evita que el padding "estire" el buscador fuera de la pantalla */
 }
 
 /* --- CONTENEDOR DE FILTROS --- */
@@ -121,10 +122,11 @@ header {
     display: flex;
     justify-content: center;
     align-items: flex-end; /* Alinea los logos por la base para que se vean ordenados */
-    gap: 25px;
+    gap: 15px; /* Reducimos el hueco de 25px a 15px para móviles */
     margin: 20px 0;
     padding-bottom: 20px;
     border-bottom: 1px solid #222;
+    flex-wrap: wrap; /* CLAVE: si no caben los 5 logos, saltan a la siguiente línea */
 }
 
 .brand-icon {
@@ -134,7 +136,8 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    min-width: 80px; /* Asegura un espacio uniforme */
+    min-width: 60px; /* Reducimos el ancho mínimo para que entren más en una fila */
+    flex: 1 1 auto;  /* Permite que los iconos crezcan o se encojan según el espacio */
 }
 
 /* Estilo para las imágenes de los logos */
@@ -322,4 +325,29 @@ header {
     font-weight: bold; 
     font-size: 0.9em; 
     margin-top: auto; /* Empuja el precio al fondo de la tarjeta */
+}
+
+/* --- AJUSTES PARA MÓVILES --- */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Menos margen en los bordes de la pantalla */
+    }
+
+    .brand-logo-img {
+        height: 28px; /* Logos un pelín más pequeños para que quepan mejor */
+    }
+
+    .brand-icon span {
+        font-size: 0.5em; /* Texto de marca más pequeño */
+    }
+
+    .platform-subgroup {
+        gap: 8px;
+        padding: 15px 5px;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 0.7em; /* Botones de consola más compactos */
+    }
 }
