@@ -112,7 +112,7 @@ header {
 .filter-btn.sega.active { background: #00569e; color: white; border-color: #0074d3; box-shadow: 0 0 15px rgba(0, 86, 158, 0.6); }
 .filter-btn.nintendo.active { background: #e60012; color: white; border-color: #ff2a3b; box-shadow: 0 0 15px rgba(230, 0, 18, 0.6); }
 .filter-btn.sony.active { background: #003087; color: white; border-color: #0047ca; box-shadow: 0 0 15px rgba(0, 48, 135, 0.6); }
-.filter-btn.xbox.active { background: #107c10; color: white; border-color: #1bad1b; box-shadow: 0 0 15px rgba(16, 124, 16, 0.6); }
+.filter-btn.microsoft.active { background: #107c10; color: white; border-color: #1bad1b; box-shadow: 0 0 15px rgba(16, 124, 16, 0.6); }
 .filter-btn.otros.active { background: #444; color: white; border-color: #666; box-shadow: 0 0 15px rgba(155, 155, 155, 0.4); }
 
 /* --- TARJETA DE CADA JUEGO --- */
