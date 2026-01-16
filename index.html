@@ -39,31 +39,44 @@
         });
 
         function createFilters(games) {
-            // 1. Contamos cuántos juegos hay por plataforma
             const counts = games.reduce((acc, game) => {
                 const p = game["Plataforma"];
-                if (p) {
-                    acc[p] = (acc[p] || 0) + 1;
-                }
+                if (p) acc[p] = (acc[p] || 0) + 1;
                 return acc;
             }, {});
-            // 2. Obtenemos la lista de plataformas únicas (sin contar "TODAS" todavía)
-            const platforms = Object.keys(counts).sort();
-            // 3. El total de juegos para el botón "TODAS"
-            const totalJuegos = games.length;
+
+            // Mapeo de marcas
+            const brands = {
+                "SEGA": ["Master System", "Mega Drive", "Game Gear", "Mega CD", "Saturn", "32X", "Dreamcast"],
+                "NINTENDO": ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Switch 2"],
+                "SONY": ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"],
+                "MICROSOFT": ["Xbox 360", "Xbox One", "Xbox Series X/S"],
+                "OTROS": ["PC", "PC Engine", "3DO", "WonderSwan Color"]
+            };
+
             const container = document.getElementById('platform-filters');
-            // 4. Generamos el HTML de los botones con los números
-            let buttonsHtml = `
-                <button class="filter-btn active" onclick="filterByPlatform('TODAS', this)">
-                    TODAS (${totalJuegos})
-                </button>
-            `;
-            buttonsHtml += platforms.map(p => `
-                <button class="filter-btn" onclick="filterByPlatform('${p}', this)">
-                    ${p} (${counts[p]})
-                </button>
-            `).join('');
-            container.innerHTML = buttonsHtml;
+            let html = `<button class="filter-btn active" onclick="filterByPlatform('TODAS', this)">TODAS (${games.length})</button>`;
+
+            for (const [brand, platforms] of Object.entries(brands)) {
+                // Solo mostramos la marca si tienes al menos un juego de ella
+                const filteredPlatforms = platforms.filter(p => counts[p]);
+        
+                if (filteredPlatforms.length > 0) {
+                    html += `<div class="filter-group">
+                        <div class="group-title">${brand}</div>
+                        <div style="display:flex; gap:5px; flex-wrap:wrap; justify-content:center;">`;
+            
+                    filteredPlatforms.forEach(p => {
+                        const brandClass = brand.split(' ')[0].toLowerCase(); // sega, nintendo, etc.
+                        html += `<button class="filter-btn ${brandClass}" onclick="filterByPlatform('${p}', this)">
+                            ${p} (${counts[p]})
+                        </button>`;
+                    });
+
+                    html += `</div></div>`;
+                }
+            }
+            container.innerHTML = html;
         }
 
         function filterByPlatform(platform, btn) {
