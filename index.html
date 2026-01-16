@@ -46,17 +46,18 @@
                 return acc;
             }, {});
 
+            // El objeto con las rutas exactas a tus nuevos archivos
             const brands = {
-                "SEGA": { icon: "fa-solid fa-s", class: "sega", platforms: ["Master System", "Mega Drive", "Game Gear", "Mega CD", "Saturn", "32X", "Dreamcast"] },
-                "NINTENDO": { icon: "fa-solid fa-n", class: "nintendo", platforms: ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Switch 2"] },
-                "SONY": { icon: "fa-brands fa-playstation", class: "sony", platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"] },
-                "MICROSOFT": { icon: "fa-brands fa-microsoft", class: "microsoft", platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"], },
-                "OTROS": { icon: "fa-solid fa-gamepad", class: "otros", platforms: ["PC Engine", "3DO", "WonderSwan Color"] }
+                "SEGA": { logo: "images/icons/SEGA_logo.png", class: "sega", platforms: ["Master System", "Mega Drive", "Game Gear", "Mega CD", "Saturn", "32X", "Dreamcast"] },
+                "NINTENDO": { logo: "images/icons/NINTENDO_logo.png", class: "nintendo", platforms: ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Switch 2"] },
+                "SONY": { logo: "images/icons/PLAYSTATION_logo.png", class: "sony", platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"] },
+                "MICROSOFT": { logo: "images/icons/MICROSOFT_logo.png", class: "microsoft", platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"] },
+                "OTROS": { logo: "images/icons/OTROS_logo.png", class: "otros", platforms: ["PC", "PC Engine", "3DO", "WonderSwan Color"] }
             };
 
             const container = document.getElementById('platform-filters');
     
-            // Botón de Inicio / Todas
+            // 1. Empezamos creando el selector de marcas (la fila de arriba)
             let html = `
                 <div class="brand-selector">
                     <div class="brand-icon active" onclick="showBrand('TODAS', this)">
@@ -64,31 +65,36 @@
                         <span>TODAS</span>
                     </div>
             `;
-
-            // Crear iconos de marca
+        
+            // 2. Añadimos cada marca con su LOGO PNG
             for (const [brandName, data] of Object.entries(brands)) {
                 html += `
                     <div class="brand-icon ${data.class}" onclick="showBrand('${brandName}', this)">
-                        <i class="${data.icon}"></i>
+                        <img src="${data.logo}" alt="Logo ${brandName}" class="brand-logo-img">
                         <span>${brandName}</span>
                     </div>
                 `;
             }
-            html += `</div>`;
+            html += `</div>`; // Cerramos la fila de marcas
 
-            // Crear subgrupos de plataformas (ocultos)
+            // 3. Creamos los subgrupos de botones de consola (estarán ocultos al principio)
             for (const [brandName, data] of Object.entries(brands)) {
                 html += `<div id="group-${brandName}" class="platform-subgroup">`;
+        
                 data.platforms.forEach(p => {
+                    // Solo creamos el botón si realmente tienes juegos de esa consola en el CSV
                     if (counts[p]) {
-                        html += `<button class="filter-btn ${data.class}" onclick="filterByPlatform('${p}', this)">
-                            ${p} (${counts[p]})
-                        </button>`;
+                        html += `
+                            <button class="filter-btn ${data.class}" onclick="filterByPlatform('${p}', this)">
+                                ${p} (${counts[p]})
+                            </button>`;
                     }
                 });
+        
                 html += `</div>`;
             }
 
+            // Inyectamos todo el HTML generado en el contenedor
             container.innerHTML = html;
         }
 
