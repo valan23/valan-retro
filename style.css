@@ -1,3 +1,14 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow-x: hidden; /* Prohibido el scroll lateral */
+    width: 100%;
+}
+
 /* --- CONFIGURACIÓN DE COLORES Y VARIABLES --- */
 :root { 
     --accent: #00f2ff;   /* Color cian neón para acentos */
@@ -19,16 +30,13 @@ body {
     width: 100%;
     max-width: 1300px; 
     margin: 0 auto; 
-    box-sizing: border-box;
-    overflow-x: hidden; /* Evita el scroll lateral */
+    padding: 10px; /* Margen de seguridad para que nada toque el borde */
 }
 
-/* --- CABECERA --- */
 header { 
-    text-align: center; 
-    padding: 20px 0; 
     width: 100%;
-    box-sizing: border-box;
+    text-align: center; 
+    padding: 10px 0; 
 }
 
 /* --- LOGO PRINCIPAL --- */
@@ -51,15 +59,15 @@ header {
 /* --- BARRA DE BÚSQUEDA --- */
 #searchInput { 
     width: 100%; 
-    max-width: 500px; 
+    max-width: 100%; /* No puede ser mayor que el móvil */
     padding: 12px 20px; 
     border-radius: 25px; 
     border: 1px solid #333; 
     background: #1a1a20; 
     color: white; 
     display: block; 
-    margin: 20px auto; 
-    box-sizing: border-box; /* CLAVE: evita que el padding "estire" el buscador fuera de la pantalla */
+    margin: 15px auto;
+    font-size: 16px; /* Evita que el iPhone haga zoom automático al pulsar */
 }
 
 /* --- CONTENEDOR DE FILTROS --- */
@@ -128,25 +136,21 @@ header {
 .brand-selector {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     gap: 10px; 
-    margin: 20px 0;
-    padding: 0 10px 20px 10px; /* Padding lateral para que no toque los bordes */
+    margin: 15px 0;
+    padding-bottom: 15px;
     border-bottom: 1px solid #222;
-    flex-wrap: wrap; 
-    width: 100%;
-    box-sizing: border-box;
+    flex-wrap: wrap; /* Si no caben, saltan de línea */
 }
 
 .brand-icon {
     cursor: pointer;
-    transition: 0.3s;
+    flex: 1 1 70px; /* Se estiran para llenar la fila, mínimo 70px */
+    max-width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    min-width: 70px; /* Un poco más pequeño para asegurar que entren en fila */
-    flex: 1; 
 }
 
 /* Estilo para las imágenes de los logos */
