@@ -122,24 +122,21 @@
                 games.forEach(j => {
                     const colorB = getColorForNota(j["Estado General"]);
                     const notaG = (j["Estado General"] === "PEND" || !j["Estado General"]) ? "?" : j["Estado General"];
-                    
+                    const completitud = j["Completitud"] || "Desconocido";
+    
                     html += `
                     <div class="card">
                         <div class="grade-badge" style="background-color: ${colorB}">${notaG}</div>
-                        <span class="platform-tag">${j["Plataforma"]}</span>
-                        <span class="game-title">${j["Nombre Juego"]}</span>
-                        <span class="edition-text">${j["Edición"] || ""}</span>
+                            <div style="display:flex; justify-content: space-between; align-items: flex-start;">
+                                <span class="platform-tag">${j["Plataforma"]}</span>
+                                <span style="font-size: 0.7em; color: #666;">${j["Año"] || ""}</span>
+                            </div>
+                            <span class="game-title">${j["Nombre Juego"]}</span>
+                            <span class="edition-text">${j["Edición"] || ""}</span>
+                            <div style="font-size: 0.75em; margin-bottom: 5px;">
+                                <span style="color: ${completitud.includes('Completo') ? '#00ff88' : '#ffaa00'}">● ${completitud}</span>
+                            </div>
                         <div class="region-row">${getFlag(j["Región"])} ${j["Región"] || ""}</div>
-                        <div class="details-grid">
-                            ${formatEstado(j["Estado Caja"]) ? `<div>📦 Caja: ${formatEstado(j["Estado Caja"])}</div>` : ''}
-                            ${formatEstado(j["Estado Portada"]) ? `<div>🖼️ Portada: ${formatEstado(j["Estado Portada"])}</div>` : ''}
-                            ${formatEstado(j["Estado Inserto"]) ? `<div>📥 Inserto: ${formatEstado(j["Estado Inserto"])}</div>` : ''}
-                            ${formatEstado(j["Estado Manual"]) ? `<div>📖 Manual: ${formatEstado(j["Estado Manual"])}</div>` : ''}
-                            ${formatEstado(j["Estado Juego"]) ? `<div>🎮 Juego: ${formatEstado(j["Estado Juego"])}</div>` : ''}
-                            ${formatEstado(j["Estado Spinecard"]) ? `<div>🔖 Obi: ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
-                            ${formatEstado(j["Estado Extras"]) ? `<div>🎁 Extras: ${formatEstado(j["Estado Extras"])}</div>` : ''}
-                        </div>
-                        <div class="price-tag">Tasación: ${j["Tasación Actual"] || "S/T"}</div>
                     </div>`;
                 });
             }
