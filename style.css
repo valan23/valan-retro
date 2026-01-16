@@ -14,23 +14,30 @@ body {
     padding: 20px; 
 }
 
-/* --- CONTENEDOR PRINCIPAL (Ancho de la web) --- */
+/* --- CONTENEDOR PRINCIPAL --- */
 .container { 
+    width: 100%;
     max-width: 1300px; 
     margin: 0 auto; 
+    box-sizing: border-box;
+    overflow-x: hidden; /* Evita el scroll lateral */
 }
 
-/* --- CABECERA (Logo y Buscador) --- */
+/* --- CABECERA --- */
 header { 
     text-align: center; 
     padding: 20px 0; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* --- LOGO PRINCIPAL --- */
 .logo-container {
-    padding: 10px 0;
+    padding: 10px;
+    width: 100%; /* Cambiado de max-width fijo a 100% */
     max-width: 450px;
     margin: 0 auto 20px auto;
+    box-sizing: border-box;
 }
 
 .main-logo {
@@ -121,12 +128,14 @@ header {
 .brand-selector {
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* Alinea los logos por la base para que se vean ordenados */
-    gap: 15px; /* Reducimos el hueco de 25px a 15px para móviles */
+    align-items: flex-end;
+    gap: 10px; 
     margin: 20px 0;
-    padding-bottom: 20px;
+    padding: 0 10px 20px 10px; /* Padding lateral para que no toque los bordes */
     border-bottom: 1px solid #222;
-    flex-wrap: wrap; /* CLAVE: si no caben los 5 logos, saltan a la siguiente línea */
+    flex-wrap: wrap; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .brand-icon {
@@ -136,8 +145,8 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    min-width: 60px; /* Reducimos el ancho mínimo para que entren más en una fila */
-    flex: 1 1 auto;  /* Permite que los iconos crezcan o se encojan según el espacio */
+    min-width: 70px; /* Un poco más pequeño para asegurar que entren en fila */
+    flex: 1; 
 }
 
 /* Estilo para las imágenes de los logos */
@@ -305,18 +314,6 @@ header {
     width: 1.3em; 
     line-height: 1em; 
     border-radius: 2px; 
-}
-
-/* --- CUADRÍCULA DE DETALLES (Caja, Manual, etc.) --- */
-.details-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 5px; 
-    background: rgba(0,0,0,0.2); 
-    padding: 10px; 
-    border-radius: 8px; 
-    margin: 12px 0; 
-    font-size: 0.8em; 
 }
 
 /* --- PRECIO O TASACIÓN --- */
