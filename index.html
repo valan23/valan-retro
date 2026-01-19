@@ -164,20 +164,17 @@
 // Las demás funciones (showBrand, filterByPlatform, renderGames, etc.) se mantienen igual
 
         function showBrand(brand, element) {
-            // 1. Quitar el estado activo de todos los iconos de marca
             document.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
             element.classList.add('active');
 
-            // 2. Ocultar todos los grupos de consolas
+            // Al ocultar todos los subgrupos, la línea divisora (border-top) desaparece con ellos
             document.querySelectorAll('.platform-subgroup').forEach(g => g.classList.remove('show'));
 
             if (brand === 'TODAS') {
-                currentPlatform = "TODAS"; // Resetear filtro
-                // Quitar el active de cualquier botón de consola que estuviera marcado
+                currentPlatform = "TODAS";
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 applyFilters();
             } else {
-                // 3. Mostrar solo el grupo de la marca elegida
                 const targetGroup = document.getElementById(`group-${brand}`);
                 if (targetGroup) targetGroup.classList.add('show');
             }
