@@ -83,8 +83,9 @@ function renderGames(games) {
                 </div>
             </div>
 
-            <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: flex-start;">
-                <span class="game-title" style="margin-bottom: 2px; line-height: 1.2;">
+            <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: space-between;">
+    
+                <span class="game-title" style="margin: 0; line-height: 1.2;">
                     ${j["Nombre Juego"]}
                 </span>
 
@@ -97,10 +98,11 @@ function renderGames(games) {
                         display: flex;
                         align-items: center;
                         gap: 4px;
-                        line-height: 1.2;">
+                        line-height: 1.2;
+                        margin-top: 5px;">
                         <i class="fa-solid fa-star" style="color: #ffd700; font-size: 0.9em;"></i>
                         ${j["Edición"]}
-                    </div>` : ''}
+                    </div>` : `<div></div>` /* Div vacío para mantener el espacio si no hay edición */}
             </div>
 
             <div style="margin-bottom: 15px;"></div>
