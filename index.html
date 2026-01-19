@@ -139,20 +139,24 @@
             }
             html += `</div>`; 
 
-            // 2. GENERAR SUBGRUPOS DE CONSOLAS
+            // 2. GENERAR SUBGRUPOS DE CONSOLAS (Formato idéntico a Marcas)
             for (const [brandName, data] of Object.entries(brands)) {
                 html += `<div id="group-${brandName}" class="platform-subgroup">`;
 
                 data.platforms.forEach(p => {
                     if (counts[p]) {
                         const iconUrl = data.icons && data.icons[p] ? data.icons[p] : null;
-                        const imgHtml = iconUrl ? `<img src="${iconUrl}" class="btn-console-icon" alt="">` : '';
+                        
+                        // Si no hay icono, usamos un gamepad genérico de FontAwesome
+                        const imgHtml = iconUrl 
+                            ? `<img src="${iconUrl}" class="btn-console-icon" alt="${p}">` 
+                            : `<i class="fa-solid fa-gamepad" style="font-size: 24px; margin-bottom: 5px; color: #444;"></i>`;
 
                         html += `
-                            <button class="filter-btn ${data.class}" onclick="filterByPlatform('${p}', this)">
+                            <div class="filter-btn" onclick="filterByPlatform('${p}', this)">
                                 ${imgHtml}
-                                <span>${p} (${counts[p]})</span>
-                            </button>`;
+                                <span>${p}</span>
+                            </div>`;
                     }
                 });
                 html += `</div>`;
