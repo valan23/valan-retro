@@ -83,25 +83,27 @@ function renderGames(games) {
                 </div>
             </div>
 
-            <span class="game-title">${j["Nombre Juego"]}</span>
+            <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: flex-start;">
+                <span class="game-title" style="margin-bottom: 2px; line-height: 1.2;">
+                    ${j["Nombre Juego"]}
+                </span>
 
-            ${isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR" && j["Edición"].toUpperCase() !== "ESTANDAR" ? `
-                <div class="edition-text" style="
-                    font-family: 'Segoe UI', Roboto, sans-serif;
-                    font-size: 0.75em; 
-                    font-style: italic; 
-                    color: #aaa; 
-                    margin-top: -4px; 
-                    margin-bottom: 15px; 
-                    line-height: 1.2;
-                    display: flex;
-                    align-items: center;
-                    gap: 4px;">
-                    <i class="fa-solid fa-star" style="color: #ffd700; font-size: 0.9em;"></i>
-                    ${j["Edición"]}
-                </div>` : `
-                <div style="margin-bottom: 15px;"></div>
-            `}
+                ${isValid(j["Edición"]) && !["ESTÁNDAR", "ESTANDAR"].includes(j["Edición"].toUpperCase()) ? `
+                    <div class="edition-text" style="
+                        font-family: 'Segoe UI', Roboto, sans-serif;
+                        font-size: 0.75em; 
+                        font-style: italic; 
+                        color: #aaa; 
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        line-height: 1.2;">
+                        <i class="fa-solid fa-star" style="color: #ffd700; font-size: 0.9em;"></i>
+                        ${j["Edición"]}
+                    </div>` : ''}
+            </div>
+
+            <div style="margin-bottom: 15px;"></div>
 
             <div class="details-grid" style="font-family: 'Segoe UI', Roboto, sans-serif; font-size: 0.8em; letter-spacing: 0.3px; line-height: 1.4; margin-top: 10px;">
                 ${isValid(j["Estado Caja"]) ? `<div><span style="color: #aaa;">📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
