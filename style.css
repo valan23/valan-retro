@@ -73,14 +73,9 @@ header { width: 100%; text-align: center; }
 }
 
 .brand-logo-img, .btn-console-icon {
-    height: 35px;
-    width: auto;
-    max-width: 80px;
-    object-fit: contain;
-    margin-bottom: 8px;
-    filter: grayscale(1) brightness(0.7); /* Estado apagado más sutil */
-    transition: all 0.3s ease;
-}
+    /* Esto crea un fino halo blanco alrededor de la silueta negra */
+    filter: drop-shadow(0px 0px 1px rgba(255, 255, 255, 0.8)) opacity(0.7);
+
 
 .brand-icon span, .filter-btn span {
     font-size: 10px;
@@ -94,7 +89,7 @@ header { width: 100%; text-align: center; }
 /* Solo iluminamos el icono y el texto, sin fondos */
 .brand-icon.active .brand-logo-img, 
 .filter-btn.active .btn-console-icon {
-    filter: grayscale(0) brightness(1.2); 
+    filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 1)) opacity(1);
     transform: scale(1.1);
 }
 
