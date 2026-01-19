@@ -84,7 +84,19 @@ function renderGames(games) {
             </div>
 
             <span class="game-title">${j["Nombre Juego"]}</span>
-            ${isValid(j["Edición"]) ? `<div class="edition-text">${j["Edición"]}</div>` : ''}
+
+            ${isValid(j["Edición"]) ? `
+                <div class="edition-text" style="
+                    font-family: 'Segoe UI', Roboto, sans-serif;
+                    font-size: 0.75em; 
+                    font-style: italic; 
+                    color: #aaa; 
+                    margin-top: -4px; 
+                    margin-bottom: 15px; /* Aumentado de 5px a 15px para dar más aire */
+                    line-height: 1.2;">
+                    ${j["Edición"]}
+                </div>` : `
+                <div style="margin-bottom: 15px;"></div> `}
 
             <div class="details-grid" style="font-family: 'Segoe UI', Roboto, sans-serif; font-size: 0.8em; letter-spacing: 0.3px; line-height: 1.4; margin-top: 10px;">
                 ${isValid(j["Estado Caja"]) ? `<div><span style="color: #aaa;">📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
