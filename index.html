@@ -235,16 +235,15 @@
 
                     html += `
                     <div class="card">
-                        <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 8px;">
+                        <div class="grade-badge" style="background-color: ${colorB}">${notaG}</div>
+
+                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; padding-right: 35px;">
                             <span class="platform-tag">${j["Plataforma"]}</span>
                             <span class="year-tag">${j["Año"] || ""}</span>
-                            <div class="region-badge-container" style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; display: flex; align-items: center; gap: 4px;">
+                            <div class="region-badge-container" style="display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">
                                 ${getFlag(j["Región"])} 
-                                <span style="font-size: 0.7em; font-weight: bold;">${j["Región"] || "N/A"}</span>
+                                <span style="font-size: 0.7em; font-weight: bold; color: #ccc;">${j["Región"] || "N/A"}</span>
                             </div>
-                            <span class="grade-tag" style="background-color: ${colorB}; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.75em; margin-left: auto;">
-                                ${notaG}
-                            </span>
                         </div>
 
                         <span class="game-title" style="display: block; margin-bottom: 2px;">${j["Nombre Juego"]}</span>
