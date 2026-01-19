@@ -169,13 +169,19 @@ border: 1px solid #333; background: #1a1a20; color: white; display: block; margi
     margin-bottom: 4px;
 }
 
-.game-title { 
-    font-size: 1.2em; 
-    font-weight: 700; 
-    color: #ffffff; 
-    line-height: 1.2;
-    margin-bottom: 8px;
-    min-height: 2.4em; /* Mantiene alineación si hay 2 líneas */
+.game-title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.completitud-text {
+    /* Un pequeño resplandor para que el color luzca más "neon" */
+    text-shadow: 0 0 8px currentColor;
+    opacity: 0.9;
 }
 
 /* Fila de Región y Año */
