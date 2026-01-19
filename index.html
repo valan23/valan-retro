@@ -236,44 +236,49 @@
                 html = "<p style='grid-column: 1/-1; text-align:center;'>No se encontraron juegos.</p>";
             } else {
                 games.forEach(j => {
-                    const colorB = getColorForNota(j["Estado General"]);
-                    const notaG = (j["Estado General"] === "PEND" || !j["Estado General"]) ? "?" : j["Estado General"];
-                    const completitud = j["Completitud"] || "Desconocido";
-            
-                    html += `
-                    <div class="card">
-                        <div class="grade-badge" style="background-color: ${colorB}">${notaG}</div>
-                
-                        <span class="platform-tag">${j["Plataforma"]}</span>
-                        <span class="game-title">${j["Nombre Juego"]}</span>
-                
-                        <div class="meta-row">
-                            <div class="region-row">${getFlag(j["Región"])} <span>${j["Región"] || ""}</span></div>
-                            <span style="font-size: 0.75em; color: #888; font-weight: bold;">${j["Año"] || ""}</span>
-                        </div>
+                const colorB = getColorForNota(j["Estado General"]);
+                const notaG = (j["Estado General"] === "PEND" || !j["Estado General"]) ? "?" : j["Estado General"];
+                const completitud = j["Completitud"] || "Desconocido";
+    
+                html += `
+                <div class="card">
+                    <div class="grade-badge" style="background-color: ${colorB}">${notaG}</div>
+                    <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <span class="platform-tag">${j["Plataforma"]}</span>
+                    <span class="year-tag">${j["Año"] || ""}</span>
+                </div>
 
-                        <div style="font-size: 0.75em; margin-bottom: 10px; font-weight: 600;">
-                            <span style="color: ${completitud.toLowerCase().includes('completo') ? '#00ff88' : '#ffaa00'}">
-                                ● ${completitud}
-                            </span>
-                            <span style="color: #666; margin-left: 5px;">${j["Edición"] || ""}</span>
-                        </div>
+                <span class="game-title">${j["Nombre Juego"]}</span>
+        
+                <div class="meta-row">
+                    <div style="font-size: 0.75em; color: #888;">${j["Edición"] || "Edición Estándar"}</div>
+                    <div class="region-badge-container">
+                        ${getFlag(j["Región"])} 
+                        <span>${j["Región"] || "N/A"}</span>
+                    </div>
+                </div>
 
-                        <div class="details-grid">
-                            ${j["Estado Caja"] ? `<div><span>Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
-                            ${j["Estado Manual"] ? `<div><span>Manual:</span> ${formatEstado(j["Estado Manual"])}</div>` : ''}
-                            ${j["Estado Juego"] ? `<div><span>Juego:</span> ${formatEstado(j["Estado Juego"])}</div>` : ''}
-                            ${j["Estado Portada"] ? `<div><span>Portada:</span> ${formatEstado(j["Estado Portada"])}</div>` : ''}
-                            ${j["Estado Spinecard"] ? `<div><span>Obi:</span> ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
-                            ${j["Estado Extras"] ? `<div><span>Extras:</span> ${formatEstado(j["Estado Extras"])}</div>` : ''}
-                        </div>
-                
-                        <div class="price-tag">${j["Tasación Actual"] || "S/T"}</div>
-                    </div>`;
-                });
-            }
+                <div style="font-size: 0.75em; margin-bottom: 10px; font-weight: 600;">
+                    <span style="color: ${completitud.toLowerCase().includes('completo') ? '#00ff88' : '#ffaa00'}">
+                        ● ${completitud}
+                    </span>
+                </div>
+
+                <div class="details-grid">
+                    ${j["Estado Caja"] ? `<div><span>Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
+                    ${j["Estado Manual"] ? `<div><span>Manual:</span> ${formatEstado(j["Estado Manual"])}</div>` : ''}
+                    ${j["Estado Juego"] ? `<div><span>Juego:</span> ${formatEstado(j["Estado Juego"])}</div>` : ''}
+                    ${j["Estado Portada"] ? `<div><span>Portada:</span> ${formatEstado(j["Estado Portada"])}</div>` : ''}
+                    ${j["Estado Spinecard"] ? `<div><span>Obi:</span> ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
+                    ${j["Estado Extras"] ? `<div><span>Extras:</span> ${formatEstado(j["Estado Extras"])}</div>` : ''}
+                </div>
+        
+                <div class="price-tag">${j["Tasación Actual"] || "S/T"}</div>
+            </div>`;
+            });
             document.getElementById('game-grid').innerHTML = html;
         }
+    }
     </script>
 </body>
 </html>
