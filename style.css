@@ -2,17 +2,17 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', sans-serif; 
-    background: #0b0b0e; 
-    color: #e0e0e0; 
-    padding: 10px;
-    overflow-x: hidden;
+font-family: 'Inter', sans-serif; 
+background: #0b0b0e; 
+color: #e0e0e0; 
+padding: 10px;
+overflow-x: hidden;
 }
 
 :root { 
-    --accent: #00f2ff; 
-    --bg: #0b0b0e; 
-    --card: #16161a; 
+--accent: #00f2ff; 
+--bg: #0b0b0e; 
+--card: #16161a; 
 }
 
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
@@ -22,60 +22,66 @@ header { width: 100%; text-align: center; }
 .main-logo { width: 100%; height: auto; filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.4)); }
 
 #searchInput { 
-    width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px; 
-    border: 1px solid #333; background: #1a1a20; color: white; display: block; margin: 15px auto;
+width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px; 
+border: 1px solid #333; background: #1a1a20; color: white; display: block; margin: 15px auto;
 }
 
 /* --- SISTEMA DE FILTROS --- */
 .filter-container {
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    width: 100%;
+display: flex;
+flex-direction: column; 
+align-items: center;
+width: 100%;
 }
 
 .brand-selector {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-    margin-bottom: 15px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 15px;
+width: 100%;
+margin-bottom: 15px;
 }
 
 .platform-subgroup {
-    display: none; /* OCULTO POR DEFECTO */
-    flex-direction: row; /* HORIZONTAL */
-    justify-content: center;
-    flex-wrap: wrap; 
-    gap: 10px;
-    width: 100%;
-    padding: 20px 0;
-    border-top: 1px solid #222;
-    animation: fadeIn 0.4s ease;
+display: none; /* OCULTO POR DEFECTO */
+flex-direction: row; /* HORIZONTAL */
+justify-content: center;
+flex-wrap: wrap; 
+gap: 10px;
+width: 100%;
+padding: 20px 0;
+border-top: 1px solid #222;
+animation: fadeIn 0.4s ease;
 }
 
 .platform-subgroup.show { display: flex; }
 
 /* --- BOTONES DE ICONOS SIN GLOW --- */
 .brand-icon, .filter-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100px;
-    height: 85px;
-    background: transparent !important; /* Asegura que no haya fondo */
-    border: none;
-    padding: 5px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 100px;
+height: 85px;
+background: transparent !important; /* Asegura que no haya fondo */
+border: none;
+padding: 5px;
 }
 
 .brand-logo-img, .btn-console-icon {
-    /* Esto crea un fino halo blanco alrededor de la silueta negra */
-    filter: drop-shadow(0px 0px 1px rgba(255, 255, 255, 0.8)) opacity(0.7);
-
+height: 35px;
+width: auto;
+max-width: 80px;
+object-fit: contain;
+margin-bottom: 8px;
+filter: grayscale(1) brightness(0.7); /* Estado apagado más sutil */
+    transition: all
+    transition: all 0.3s ease;
+}
 
 .brand-icon span, .filter-btn span {
     font-size: 10px;
@@ -89,7 +95,7 @@ header { width: 100%; text-align: center; }
 /* Solo iluminamos el icono y el texto, sin fondos */
 .brand-icon.active .brand-logo-img, 
 .filter-btn.active .btn-console-icon {
-    filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 1)) opacity(1);
+    filter: grayscale(0) brightness(1.2); 
     transform: scale(1.1);
 }
 
