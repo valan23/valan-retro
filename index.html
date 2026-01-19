@@ -158,7 +158,10 @@
             else if (r.includes("JAP") || r.includes("JPN")) code = "jp";
             else if (r.includes("USA") || r.includes("EEUU")) code = "us";
             else if (r.includes("EUR") || r.includes("PAL")) code = "eu";
-            else if (r.includes("UK")) code = "gb";
+            else if (r.includes("UK") || r.includes("REINO UNIDO")) code = "gb";
+            else if (r.includes("AUSTRALIA") || r.includes("AUS")) code = "au";
+            else if (r.includes("ITA") || r.includes("ITALIA")) code = "it";
+            else if (r.includes("ALE") || r.includes("ALEMANIA") || r.includes("GER")) code = "de";
             return `<span class="fi fi-${code}"></span>`;
         }
 
@@ -198,7 +201,12 @@
                         <div class="region-row">${getFlag(j["Región"])} ${j["Región"] || ""}</div>
                         <div class="details-grid">
                             ${formatEstado(j["Estado Caja"]) ? `<div>📦 Caja: ${formatEstado(j["Estado Caja"])}</div>` : ''}
+                            ${formatEstado(j["Estado Inserto"]) ? `<div>📂 Inserto: ${formatEstado(j["Estado Inserto"])}</div>` : ''}
+                            ${formatEstado(j["Estado Portada"]) ? `<div>🖼️ Portada: ${formatEstado(j["Estado Portada"])}</div>` : ''}
+                            ${formatEstado(j["Estado Manual"]) ? `<div>📖 Manual: ${formatEstado(j["Estado Manual"])}</div>` : ''}
                             ${formatEstado(j["Estado Juego"]) ? `<div>💾 Juego: ${formatEstado(j["Estado Juego"])}</div>` : ''}
+                            ${formatEstado(j["Estado Spinecard"]) ? `<div>🔖 Obi: ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
+                            ${formatEstado(j["Estado Extras"]) ? `<div>🎁 Extras: ${formatEstado(j["Estado Extras"])}</div>` : ''}
                         </div>
                         <div class="price-tag">Tasación: ${j["Tasación Actual"] || "S/T"}</div>
                     </div>`;
