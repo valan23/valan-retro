@@ -55,14 +55,14 @@ const BRANDS_CONFIG = {
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU7IaxX65IH0Ph-KEl06nrFvuyL2w6oBt7vxaJ96XDLjsO9CDpzYVwl3VDIvx5IG20KXSb6XhF7buX/pub?gid=600973717&single=true&output=csv";
 
 const REGION_COLORS = {
-    "JAP": { bg: "rgba(255, 0, 0, 0.2)", text: "#ff4d4d", border: "rgba(255, 0, 0, 0.5)" },
-    "ESP": { bg: "rgba(255, 255, 0, 0.2)", text: "#ffff00", border: "rgba(255, 255, 0, 0.5)" },
-    "EUR": { bg: "rgba(0, 0, 255, 0.2)", text: "#4d4dff", border: "rgba(0, 0, 255, 0.5)" },
-    "PAL": { bg: "rgba(0, 0, 255, 0.2)", text: "#4d4dff", border: "rgba(0, 0, 255, 0.5)" },
-    "USA": { bg: "rgba(255, 0, 0, 0.2)", text: "#ff4d4d", border: "rgba(255, 0, 0, 0.5)" },
-    "UK":  { bg: "rgba(128, 0, 128, 0.2)", text: "#e066ff", border: "rgba(128, 0, 128, 0.5)" },
-    "ITA": { bg: "rgba(144, 238, 144, 0.2)", text: "#90ee90", border: "rgba(144, 238, 144, 0.5)" },
-    "AUS": { bg: "rgba(0, 100, 0, 0.2)", text: "#006400", border: "rgba(0, 100, 0, 0.5)" },
-    "ALE": { bg: "rgba(255, 165, 0, 0.2)", text: "#ffa500", border: "rgba(255, 165, 0, 0.5)" },
-    "GER": { bg: "rgba(255, 165, 0, 0.2)", text: "#ffa500", border: "rgba(255, 165, 0, 0.5)" }
+    "JAP": { bg: "rgba(255, 0, 0, 0.2)", text: "#ffffff", border: "rgba(255, 0, 0, 0.5)" },
+    "ESP": { bg: "rgba(255, 255, 0, 0.2)", text: "#ffffff", border: "rgba(255, 255, 0, 0.5)" },
+    "EUR": { bg: "rgba(0, 0, 255, 0.2)", text: "#ffffff", border: "rgba(0, 0, 255, 0.5)" },
+    "PAL": { bg: "rgba(0, 0, 255, 0.2)", text: "#ffffff", border: "rgba(0, 0, 255, 0.5)" },
+    "USA": { bg: "rgba(255, 0, 0, 0.2)", text: "#ffffff", border: "rgba(255, 0, 0, 0.5)" },
+    "UK":  { bg: "rgba(128, 0, 128, 0.2)", text: "#ffffff", border: "rgba(128, 0, 128, 0.5)" },
+    "ITA": { bg: "rgba(144, 238, 144, 0.2)", text: "#ffffff", border: "rgba(144, 238, 144, 0.5)" },
+    "AUS": { bg: "rgba(0, 100, 0, 0.2)", text: "#ffffff", border: "rgba(0, 100, 0, 0.5)" },
+    "ALE": { bg: "rgba(255, 165, 0, 0.2)", text: "#ffffff", border: "rgba(255, 165, 0, 0.5)" },
+    "GER": { bg: "rgba(255, 165, 0, 0.2)", text: "#ffffff", border: "rgba(255, 165, 0, 0.5)" }
 };
