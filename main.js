@@ -83,20 +83,29 @@ function renderGames(games) {
                 </div>
             </div>
 
-            <div style=" height: 60px; display: flex; align-items: center; overflow: hidden; margin-bottom: 5px; border-left: 2px solid #555; padding-left: 12px;">
+            <div style="
+                height: 64px; /* Aumentamos ligeramente de 60 a 64 */
+                display: flex; 
+                align-items: center; 
+                overflow: hidden; 
+                margin-bottom: 5px; 
+                border-left: 2px solid #555;
+                padding-left: 12px;
+                padding-bottom: 4px; /* Espacio extra para que no se corten las letras como la 'g' o 'y' */
+            ">
                 <span class="game-title" style="
                     margin: 0; 
-                    line-height: 1.2; 
+                    line-height: 1.3; /* Un poco más de espacio entre líneas para evitar recortes */
                     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
-                    font-weight: 600; /* Peso intermedio: ni muy fino ni muy gordo */
+                    font-weight: 600; 
                     font-size: 1.05em; 
-                    letter-spacing: 0.3px; /* Un poco de aire entre letras para elegancia */
+                    letter-spacing: 0.3px; 
                     color: #eeeeee;
                     display: -webkit-box;
                     -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
-                    text-transform: none; /* Quitamos las mayúsculas forzadas para mayor sutileza */
+                    text-transform: none;
                 ">
                     ${j["Nombre Juego"]}
                 </span>
