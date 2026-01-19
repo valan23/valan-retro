@@ -153,17 +153,9 @@ header {
 
 /* Estilo base para todos los selectores (Marcas y Consolas) */
 .brand-icon, .filter-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    
-    /* Definimos un ancho fijo mínimo para que no se toquen */
-    width: 100px; 
-    padding: 5px;
-    text-align: center;
+    position: relative; /* Para que el brillo de fondo se posicione bien */
+    opacity: 1; /* Subimos la opacidad para que se vea el icono */
+    z-index: 1;
 }
 
 /* Ajuste de las imágenes para que todas midan lo mismo */
@@ -171,12 +163,9 @@ header {
 .brand-logo-img, .btn-console-icon {
     height: 35px;
     width: auto;
-    max-width: 90px;
-    margin-bottom: 10px;
-    object-fit: contain;
-    /* Los aclaramos un poco más para que se intuyan incluso apagados */
-    filter: grayscale(1) brightness(1.2) opacity(0.5); 
-    transition: all 0.3s ease;
+    filter: grayscale(0.8) brightness(0.8); /* Menos agresivo que antes */
+    transition: all 0.4s ease;
+    z-index: 2;
 }
 
 /* Texto debajo del icono */
@@ -206,12 +195,19 @@ header {
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
-/* Brillos de neón personalizados por marca para el logo */
-.brand-icon.sega.active .brand-logo-img { filter: drop-shadow(0 0 10px #00569e) grayscale(0) brightness(1.2); }
-.brand-icon.nintendo.active .brand-logo-img { filter: drop-shadow(0 0 10px #e60012) grayscale(0) brightness(1.2); }
-.brand-icon.sony.active .brand-logo-img { filter: drop-shadow(0 0 10px #003087) grayscale(0) brightness(1.2); }
-.brand-icon.microsoft.active .brand-logo-img { filter: drop-shadow(0 0 10px #107c10) grayscale(0) brightness(1.2); }
-.brand-icon.otros.active .brand-logo-img { filter: drop-shadow(0 0 10px #9b9b9b) grayscale(0) brightness(1.2); }
+/* Brillo de fondo base para identificar la marca incluso apagado */
+.brand-icon.sega, .filter-btn.sega { background: radial-gradient(circle, rgba(0, 86, 158, 0.15) 0%, transparent 70%); }
+.brand-icon.nintendo, .filter-btn.nintendo { background: radial-gradient(circle, rgba(230, 0, 18, 0.15) 0%, transparent 70%); }
+.brand-icon.sony, .filter-btn.sony { background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); }
+.brand-icon.microsoft, .filter-btn.microsoft { background: radial-gradient(circle, rgba(16, 124, 16, 0.15) 0%, transparent 70%); }
+.brand-icon.otros, .filter-btn.otros { background: radial-gradient(circle, rgba(155, 155, 155, 0.1) 0%, transparent 70%); }
+
+/* CUANDO ESTÁN ACTIVOS: El brillo se intensifica */
+.brand-icon.sega.active, .filter-btn.sega.active { background: radial-gradient(circle, rgba(0, 86, 158, 0.4) 0%, transparent 70%); }
+.brand-icon.nintendo.active, .filter-btn.nintendo.active { background: radial-gradient(circle, rgba(230, 0, 18, 0.4) 0%, transparent 70%); }
+.brand-icon.sony.active, .filter-btn.sony.active { background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%); }
+.brand-icon.microsoft.active, .filter-btn.microsoft.active { background: radial-gradient(circle, rgba(16, 124, 16, 0.4) 0%, transparent 70%); }
+.brand-icon.otros.active, .filter-btn.otros.active { background: radial-gradient(circle, rgba(155, 155, 155, 0.1) 0%, transparent 70%); }
 
 /* Estilo especial para el icono de la casita (TODAS) */
 .brand-icon i {
@@ -219,9 +215,12 @@ header {
     color: #444;
     transition: 0.3s;
 }
-.brand-icon.active i {
-    color: var(--accent);
-    text-shadow: 0 0 10px var(--accent);
+
+/* Perfilado para que el logo negro resalte sobre el aura de color */
+.brand-icon.active .brand-logo-img, 
+.filter-btn.active .btn-console-icon {
+    filter: grayscale(0) brightness(1.2) drop-shadow(0 0 3px rgba(255,255,255,0.8));
+    transform: scale(1.1);
 }
 
 /* Contenedor de consolas para que se vea como una línea limpia */
