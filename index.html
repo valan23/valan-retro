@@ -235,24 +235,28 @@
 
                     html += `
                     <div class="card">
-                        <div class="grade-badge" style="background-color: ${colorB}">${notaG}</div>
-                        <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                        <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin-bottom: 8px;">
                             <span class="platform-tag">${j["Plataforma"]}</span>
                             <span class="year-tag">${j["Año"] || ""}</span>
-                        </div>
-                        <span class="game-title">${j["Nombre Juego"]}</span>
-                        <div class="meta-row">
-                            <div style="font-size: 0.75em; color: #888;">${j["Edición"] ? j["Edición"] : ''}</div>
-                            <div class="region-badge-container">
+                            <div class="region-badge-container" style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; display: flex; align-items: center; gap: 4px;">
                                 ${getFlag(j["Región"])} 
-                                <span>${j["Región"] || "N/A"}</span>
+                                <span style="font-size: 0.7em; font-weight: bold;">${j["Región"] || "N/A"}</span>
                             </div>
+                            <span class="grade-tag" style="background-color: ${colorB}; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.75em; margin-left: auto;">
+                                ${notaG}
+                            </span>
                         </div>
+
+                        <span class="game-title" style="display: block; margin-bottom: 2px;">${j["Nombre Juego"]}</span>
+                
+                        ${isValid(j["Edición"]) ? `<div style="font-size: 0.75em; color: #888; margin-bottom: 8px;">${j["Edición"]}</div>` : ''}
+
                         <div style="font-size: 0.75em; margin-bottom: 10px; font-weight: 600;">
                             <span style="color: ${completitud.toLowerCase().includes('completo') ? '#00ff88' : '#ffaa00'}">
                                 ● ${completitud}
                             </span>
                         </div>
+
                         <div class="details-grid">
                             ${isValid(j["Estado Caja"]) ? `<div><span>📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
                             ${isValid(j["Estado Inserto"]) ? `<div><span>📂Inserto:</span> ${formatEstado(j["Estado Inserto"])}</div>` : ''}
@@ -262,6 +266,7 @@
                             ${isValid(j["Estado Spinecard"]) ? `<div><span>🔖Obi:</span> ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
                             ${isValid(j["Estado Extras"]) ? `<div><span>🎁Extras:</span> ${formatEstado(j["Estado Extras"])}</div>` : ''}
                         </div>
+
                         <div class="price-tag">${j["Tasación Actual"] || "S/T"}</div>
                     </div>`;
                 });
