@@ -128,11 +128,23 @@ border: 1px solid #333; background: #1a1a20; color: white; display: block; margi
     background: #25252d; /* Más oscuro que el fondo para que resalte */
     border-radius: 12px; 
     padding: 18px; 
+    padding-bottom: 50px;
     border: 1px solid #454552; 
     position: relative; 
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
+}
+
+/* Contenedor para agrupar completitud y tasación abajo */
+.card-footer {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card:hover {
