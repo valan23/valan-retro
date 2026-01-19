@@ -38,17 +38,34 @@ const BRANDS_CONFIG = {
     "SONY": { 
         logo: "images/icons/PLAYSTATION_logo.png", 
         class: "sony", 
-        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"]
+        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"],
+        icons: {
+            "PlayStation": "images/icons/psx.png",
+            "PlayStation 2": "images/icons/ps2.png",
+            "PlayStation Vita": "images/icons/psvita.png",
+            "PlayStation 4": "images/icons/ps4.png",
+            "PlayStation 5": "images/icons/ps5.png"
+        }
     },
     "MICROSOFT": { 
         logo: "images/icons/MICROSOFT_logo.png", 
         class: "microsoft", 
-        platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"]
+        platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"],
+        icons: {
+            "Xbox 360": "images/icons/x360.png",
+            "Xbox One": "images/icons/xone.png",
+            "Xbox Series X/S": "images/icons/xsx.png",
+        }
     },
     "OTROS": { 
         logo: "images/icons/OTROS_logo.png", 
         class: "otros", 
-        platforms: ["PC Engine", "3DO", "WonderSwan Color"]
+        platforms: ["PC Engine", "3DO", "WonderSwan Color"],
+        icons: {
+            "PC Engine": "images/icons/pce.png",
+            "3DO": "images/icons/3do.png",
+            "WonderSwan Color": "images/icons/wsc.png",
+        }
     }
 };
 
