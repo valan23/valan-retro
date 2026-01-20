@@ -22,22 +22,25 @@ function createFilters(games) {
 
     const container = document.getElementById('platform-filters');
     
-    let html = `<div class="brand-selector" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">`;
+    // Ajuste de gap y alineación para evitar solapamiento
+    let html = `<div class="brand-selector" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 5px 0;">`;
 
+    // --- BOTÓN TODAS ---
     html += `
         <div class="brand-icon active" onclick="showBrand('TODAS', this)" 
-             style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px;">
-            <i class="fa-solid fa-house" style="font-size: 1.5em; min-width: 30px; text-align: center;"></i>
-            <span style="font-weight: 600; font-size: 1em;">TODAS</span>
+             style="display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; flex-shrink: 0; border-radius: 8px; background: rgba(255,255,255,0.05);">
+            <i class="fa-solid fa-house" style="font-size: 1.2em; min-width: 25px; text-align: center;"></i>
+            <span style="font-weight: 600; font-size: 0.9em;">TODAS</span>
         </div>`;
 
+    // --- BOTONES DE MARCAS ---
     for (const [brandName, data] of Object.entries(BRANDS_CONFIG)) {
         html += `
             <div class="brand-icon ${data.class}" onclick="showBrand('${brandName}', this)" 
-                 style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px;">
+                 style="display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 6px 10px; flex-shrink: 0; border-radius: 8px;">
                 <img src="${data.logo}" alt="" class="brand-logo-img" 
-                     style="height: 25px; width: auto; max-width: 100px; object-fit: contain;">
-                <span style="font-weight: 600; font-size: 1em;">${brandName}</span>
+                     style="height: 20px; width: auto; max-width: 80px; object-fit: contain; flex-shrink: 0;">
+                <span style="font-weight: 600; font-size: 0.9em;">${brandName}</span>
             </div>`;
     }
     
