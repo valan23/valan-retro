@@ -108,7 +108,13 @@ function renderGames(games) {
 
             <div style="display: flex; align-items: center; height: 64px; margin-bottom: 5px; overflow: hidden;">
             <img src="${fotoUrl}" 
-                 style="width: 48px; height: 64px; object-fit: cover; border-radius: 3px; background: #222;"
+                 style="
+                    width: 48px; 
+                    height: 64px; 
+                    object-fit: contain; /* Cambiado de cover a contain */
+                    background: #1a1a1a; /* Fondo oscuro para los huecos que queden libres */
+                    border-radius: 3px;
+                 "
                  onerror="if (this.src.indexOf('default.webp') === -1) { this.src='images/covers/default.webp'; } else { this.onerror=null; this.src=''; this.style.background='#333'; }">
                 
                 <div style="height: 100%; display: flex; align-items: center; border-left: 2px solid #555; padding-left: 12px; margin-left: 12px; flex: 1;">
