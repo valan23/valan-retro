@@ -1,5 +1,5 @@
 /**
- * wishlist_games.js - Renderizado idéntico a la colección con estilos de región
+ * wishlist_games.js - Renderizado con Badge de Prioridad
  */
 
 function renderWishlist(games) {
@@ -15,10 +15,7 @@ function renderWishlist(games) {
         return;
     }
 
-    const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
-
     container.innerHTML = games.map(j => {
-        // Mapeo para las carpetas de imágenes
         const platformMap = {
             "NES": "fc", "FAMICOM": "fc", "NINTENDO": "fc",
             "SUPER NINTENDO": "sfc", "SNES": "sfc"
@@ -27,18 +24,26 @@ function renderWishlist(games) {
         const plataformaCSV = j["Plataforma"] ? j["Plataforma"].toUpperCase() : "";
         const carpetaSistema = platformMap[plataformaCSV] || plataformaCSV.toLowerCase().replace(/\s+/g, '');
 
+        const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
         const fotoUrl = isValid(j["Portada"]) 
             ? `images/covers/${carpetaSistema}/${j["Portada"]}` 
             : `images/covers/default.webp`;
 
-        // Estilo de Región (usando la función de games.js o main.js)
         const style = getRegionStyle(j["Región"]);
-        const wishColor = "#00f2ff"; // Color Cyan para Deseados
+        const wishColor = "#00f2ff"; 
+        
+        // Lógica de Prioridad
+        const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
+        const textoPrioridad = (j["Prioridad"] || "Media").toUpperCase();
 
         return `
         <div class="card" style="position: relative; display: flex; flex-direction: column; min-height: 250px; padding-bottom: 20px;">
             
-            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; padding-right: 10px;">
+            <div class="grade-badge" style="background-color: ${colorPrioridad}; font-size: 0.65em; line-height: 1.1; text-align: center; display: flex; align-items: center; justify-content: center; padding: 4px;">
+                ${textoPrioridad}
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; padding-right: 45px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <div class="platform-icon-card">${getPlatformIcon(j["Plataforma"])}</div>
                     <span class="year-tag">${j["Año"] || ""}</span>
@@ -70,6 +75,3 @@ function renderWishlist(games) {
         </div>`;
     }).join('');
 }
-
-// Nota: Asegúrate de que las funciones auxiliares (getRegionStyle, etc.) 
-// estén en main.js para que ambos archivos puedan usarlas.
