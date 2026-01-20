@@ -17,7 +17,9 @@
             <div class="logo-container">
                 <img src="images/main_logo.png" alt="VALAN RETRO" class="main-logo">
             </div>
+            
             <input type="text" id="searchInput" placeholder="Buscar por título..." onkeyup="filterGames()">
+            
             <div class="main-tabs">
                 <button class="tab-btn active" onclick="switchSection('videojuegos', this)">
                     <i class="fa-solid fa-gamepad"></i> Videojuegos
@@ -26,21 +28,19 @@
                     <i class="fa-solid fa-heart"></i> Juegos Deseados
                 </button>
             </div>
-
-            <div id="section-videojuegos" class="section-content active">
-                <div id="platform-filters" class="filter-container"></div>
-                <div id="game-grid" class="grid"></div>
-            </div>
-
-            <div id="section-deseados" class="section-content">
-                <div class="filter-container" style="text-align: center; padding: 40px;">
-                    <p>Próximamente: Lista de deseos de la hoja "DeseadosJuegos"</p>
-                </div>
-                <div id="wishlist-grid" class="grid"></div>
-            </div>
-            <div id="platform-filters" class="filter-container"></div>
         </header>
-        <div id="game-grid" class="grid"></div>
+
+        <div id="section-videojuegos" class="section-content active">
+            <div id="platform-filters" class="filter-container"></div>
+            <div id="game-grid" class="grid"></div>
+        </div>
+
+        <div id="section-deseados" class="section-content">
+            <h2 style="text-align: center; color: #00f2ff; margin-bottom: 20px; font-family: 'Segoe UI';">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Mi Lista de Deseos
+            </h2>
+            <div id="wishlist-grid" class="grid"></div>
+        </div>
     </div>
 
     <script src="js/config.js"></script>
