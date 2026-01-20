@@ -188,3 +188,15 @@ function getPlatformIcon(platformName) {
     }
     return `<span class="platform-tag">${platformName}</span>`;
 }
+
+function getColorForPrioridad(prioridad) {
+    const p = (prioridad || "").toUpperCase().trim();
+    switch (p) {
+        case 'MUY ALTA': return '#ff4d4d'; // Rojo vibrante
+        case 'ALTA':     return '#ff944d'; // Naranja
+        case 'MEDIA':    return '#ffdb4d'; // Amarillo/Dorado
+        case 'BAJA':     return '#4dff88'; // Verde claro
+        case 'MUY BAJA': return '#4db8ff'; // Azul claro
+        default:         return '#333';    // Gris por defecto
+    }
+}
