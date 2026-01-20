@@ -77,21 +77,24 @@ function createFilters(games, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
+    // Identificamos si estamos en videojuegos o deseados para crear IDs únicos
+    const prefix = containerId === 'platform-filters' ? 'main' : 'wish';
+
     let html = `<div class="brand-selector" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">`;
 
+    // Botón TODAS
     html += `
-        <div class="brand-icon active" onclick="showBrand('TODAS', this)" 
+        <div class="brand-icon active" onclick="showBrand('TODAS', this, '${prefix}')" 
              style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px;">
             <i class="fa-solid fa-house" style="font-size: 1.5em; min-width: 30px; text-align: center;"></i>
             <span style="font-weight: 600; font-size: 1em;">TODAS</span>
         </div>`;
 
     for (const [brandName, data] of Object.entries(BRANDS_CONFIG)) {
-        // Solo mostramos la marca si esa marca tiene juegos en la lista actual
         const hasGamesInBrand = data.platforms.some(p => counts[p] > 0);
         if (hasGamesInBrand) {
             html += `
-                <div class="brand-icon ${data.class}" onclick="showBrand('${brandName}', this)" 
+                <div class="brand-icon ${data.class}" onclick="showBrand('${brandName}', this, '${prefix}')" 
                      style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 8px 12px;">
                     <img src="${data.logo}" alt="" class="brand-logo-img" 
                          style="height: 25px; width: auto; max-width: 100px; object-fit: contain;">
@@ -102,7 +105,8 @@ function createFilters(games, containerId) {
     html += `</div>`; 
 
     for (const [brandName, data] of Object.entries(BRANDS_CONFIG)) {
-        html += `<div id="group-${brandName}" class="platform-subgroup">`;
+        // ID único combinando el prefijo y la marca
+        html += `<div id="group-${prefix}-${brandName}" class="platform-subgroup">`;
         data.platforms.forEach(p => {
             if (counts[p]) {
                 const icon = data.icons?.[p] ? `<img src="${data.icons[p]}" class="btn-console-icon">` : '';
