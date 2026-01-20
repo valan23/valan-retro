@@ -1,5 +1,5 @@
 /**
- * wishlist_games.js - Especialista en renderizar la lista de deseos
+ * wishlist_games.js - Renderizado con Región incluida
  */
 
 function renderWishlist(games) {
@@ -10,7 +10,7 @@ function renderWishlist(games) {
         container.innerHTML = `
             <div style="grid-column: 1/-1; text-align:center; padding: 50px; color: #888;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3em; margin-bottom: 15px; opacity: 0.3;"></i>
-                <p>No hay juegos en tu lista de deseos.</p>
+                <p>No hay juegos en tu lista de deseos con estos filtros.</p>
             </div>`;
         return;
     }
@@ -18,7 +18,7 @@ function renderWishlist(games) {
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
     container.innerHTML = games.map(j => {
-        // Mapeo para las carpetas de imágenes (Igual que en games.js)
+        // Mapeo para las carpetas de imágenes
         const platformMap = {
             "NES": "fc", "FAMICOM": "fc", "NINTENDO": "fc",
             "SUPER NINTENDO": "sfc", "SNES": "sfc"
@@ -31,16 +31,20 @@ function renderWishlist(games) {
             ? `images/covers/${carpetaSistema}/${j["Portada"]}` 
             : `images/covers/default.webp`;
 
-        // Usamos el color de acento de los deseados para la decoración
         const wishColor = "#00f2ff"; 
 
         return `
         <div class="card" style="position: relative; display: flex; flex-direction: column; min-height: 250px;">
             
-            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; padding-right: 10px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <div class="platform-icon-card">${getPlatformIcon(j["Plataforma"])}</div>
-                    <span class="year-tag">${j["Año"] || ""}</span>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="platform-icon-card">${getPlatformIcon(j["Plataforma"])}</div>
+                        <span class="year-tag">${j["Año"] || ""}</span>
+                    </div>
+                </div>
+                <div style="font-size: 1.2em; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));">
+                    ${getFlag(j["Región"])}
                 </div>
             </div>
 
