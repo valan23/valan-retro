@@ -102,20 +102,20 @@ function renderGames(games) {
                 </div>
             </div>
 
-            <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 12px; min-height: 110px;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; min-height: 110px;">
                 
-                <div style="width: 85px; display: flex; justify-content: center; flex-shrink: 0;"> 
+                <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; max-width: 85px;"> 
                     <img src="${fotoUrl}" 
                          style="
-                            width: 100%; 
+                            max-width: 85px; 
                             max-height: 110px; 
+                            width: auto; 
                             height: auto; 
                             object-fit: contain; 
                             border-radius: 4px;
                             filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
-                            background: #111; /* Fondo muy sutil para cuando cargue */
                          "
-                         onerror="if (this.src.indexOf('default.webp') === -1) { this.src='images/covers/default.webp'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                         onerror="if (this.src.indexOf('default.webp') === -1) { this.src='images/covers/default.webp'; } else { this.onerror=null; this.src=''; }">
                 </div>
                 
                 <div style="
@@ -124,8 +124,7 @@ function renderGames(games) {
                     align-items: center; 
                     border-left: 2px solid #555; 
                     padding-left: 15px; 
-                    min-height: 80px; /* Asegura que el título tenga espacio si la foto es baja */
-                    align-self: stretch;
+                    min-height: 90px;
                 ">
                     <span class="game-title" style="
                         margin: 0; 
@@ -135,7 +134,7 @@ function renderGames(games) {
                         font-size: 1.1em; 
                         color: #fff;
                         display: -webkit-box;
-                        -webkit-line-clamp: 4; /* Permitimos una línea más de título */
+                        -webkit-line-clamp: 4;
                         -webkit-box-orient: vertical;
                         overflow: hidden;
                         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -153,6 +152,7 @@ function renderGames(games) {
 
             <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; letter-spacing: 0.3px; line-height: 1.4; flex-grow: 1;">
                 ${isValid(j["Estado Caja"]) ? `<div><span style="color: #aaa;">📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
+                ${isValid(j["Estado Inserto"]) ? `<div><span style="color: #aaa;">📂Inserto:</span> ${formatEstado(j["Estado Inserto"])}</div>` : ''}
                 ${isValid(j["Estado Manual"]) ? `<div><span style="color: #aaa;">📖Manual:</span> ${formatEstado(j["Estado Manual"])}</div>` : ''}
                 ${isValid(j["Estado Juego"]) ? `<div><span style="color: #aaa;">💾Juego:</span> ${formatEstado(j["Estado Juego"])}</div>` : ''}
                 ${isValid(j["Estado Portada"]) ? `<div><span style="color: #aaa;">🖼️Port.:</span> ${formatEstado(j["Estado Portada"])}</div>` : ''}
@@ -172,6 +172,7 @@ function renderGames(games) {
     }).join('');
 }
 
+// --- Helpers (Filtros y Estilos se mantienen igual) ---
 function showBrand(brand, element) {
     document.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
