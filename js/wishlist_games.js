@@ -15,34 +15,32 @@ function renderWishlist(games) {
         return;
     }
 
+    const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
+
     container.innerHTML = games.map(j => {
-        // 1. Mapeo con nombres tal cual los piensas, pero buscaremos en él sin importar mayúsculas
+        // 1. Mapeo idéntico a games.js
         const platformMap = {
             "Famicom": "fc",
             "Famicom Disk System": "fds",
             "Super Famicom": "sfc",
         };
         
-        // 2. Cogemos el valor del Excel y lo limpiamos
         const valorExcel = j["Plataforma"] ? j["Plataforma"].trim() : "";
         
-        // 3. BUSCADOR INTELIGENTE: 
-        // Buscamos en el mapa si existe una llave que, en mayúsculas, coincida con el Excel en mayúsculas
         const carpetaSistema = Object.keys(platformMap).find(
             key => key.toUpperCase() === valorExcel.toUpperCase()
         ) ? platformMap[Object.keys(platformMap).find(key => key.toUpperCase() === valorExcel.toUpperCase())] 
           : valorExcel.toLowerCase().replace(/\s+/g, '');
 
-        // 4. Construcción de la URL
         const nombrePortada = j["Portada"] ? j["Portada"].trim() : "";
         const fotoUrl = isValid(nombrePortada) 
             ? `images/covers/${carpetaSistema}/${nombrePortada}` 
             : `images/covers/default.webp`;
 
         const style = getRegionStyle(j["Región"]);
-        const wishColor = "#00f2ff"; 
         
-        // Lógica de Prioridad
+        // Colores y Prioridad
+        const wishColor = "#00f2ff"; 
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
         const textoPrioridad = (j["Prioridad"] || "Media").toUpperCase();
 
@@ -72,10 +70,16 @@ function renderWishlist(games) {
                          onerror="if (this.src.indexOf('default.webp') === -1) { this.src='images/covers/default.webp'; } else { this.onerror=null; this.src=''; }">
                 </div>
                 
-                <div style="flex: 1; display: flex; align-items: center; border-left: 2px solid ${wishColor}; padding-left: 15px; min-height: 90px;">
-                    <span class="game-title" style="margin: 0; line-height: 1.25; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.1em; color: #fff; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; border-left: 2px solid #555; padding-left: 15px; min-height: 90px;">
+                    <span class="game-title" style="margin: 0; line-height: 1.2; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.1em; color: #fff; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
                         ${j["Nombre Juego"]}
                     </span>
+                    
+                    ${isValid(j["Nombre Japones"]) ? `
+                        <span style="display: block; font-family: 'MS Mincho', 'Sawarabi Mincho', serif; font-size: 0.8em; color: #aaa; margin-top: 4px; line-height: 1.2;">
+                            ${j["Nombre Japones"]}
+                        </span>
+                    ` : ''}
                 </div>
             </div>
 
