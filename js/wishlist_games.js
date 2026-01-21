@@ -17,8 +17,14 @@ function renderWishlist(games) {
 
     container.innerHTML = games.map(j => {
         const platformMap = {
-            "NES": "fc", "FAMICOM": "fc", "NINTENDO": "fc",
-            "SUPER NINTENDO": "sfc", "SNES": "sfc"
+            "NES": "fc",
+            "FAMICOM": "fc",
+            "NINTENDO": "fc",
+            "FAMICOM DISK SYSTEM": "fds",
+            "FAMICOM DISK": "fds",
+            "FDS": "fds",
+            "SUPER NINTENDO": "sfc",
+            "SNES": "sfc"
         };
         
         const plataformaCSV = j["Plataforma"] ? j["Plataforma"].toUpperCase() : "";
