@@ -19,6 +19,9 @@ function renderGames(games) {
             "NES": "fc",
             "FAMICOM": "fc",
             "NINTENDO": "fc",
+            "FAMICOM DISK SYSTEM": "fds",
+            "FAMICOM DISK": "fds",
+            "FDS": "fds",
             "SUPER NINTENDO": "sfc",
             "SNES": "sfc"
         };
