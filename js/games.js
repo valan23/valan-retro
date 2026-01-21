@@ -93,10 +93,10 @@ function renderGames(games) {
             </div>
 
             <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
-                
+    
                 <div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;">
                     <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.75em; text-transform: uppercase; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px;">
-                        <span style="font-size: 1.1em; color: #ffd700;">★</span> 
+                        <span style="font-size: 1.1em;">💎</span> 
                         <span>ESTADO:</span>
                         <span style="color: ${getColorForNota(j["Estado General"])};">
                             ${(j["Estado General"] && j["Estado General"] !== "PEND") ? j["Estado General"] + "/10" : "?"}
@@ -104,11 +104,16 @@ function renderGames(games) {
                     </div>
 
                     ${j["Estado General"] && !isNaN(j["Estado General"]) ? `
-                        <div style="width: 60px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                            <div style="width: ${j["Estado General"] * 10}%; height: 100%; background-color: ${getColorForNota(j["Estado General"])}; shadow: 0 0 5px ${getColorForNota(j["Estado General"])};"></div>
+                        <div style="width: 60px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-top: 2px;">
+                            <div style="width: ${j["Estado General"] * 10}%; height: 100%; background-color: ${getColorForNota(j["Estado General"])};"></div>
                         </div>
                     ` : ''}
                 </div>
+
+                <div class="price-tag" style="position: static; margin: 0; font-weight: bold;">
+                    ${j["Tasación Actual"] || "S/T"}
+                </div>
+            </div>
 
                 <div class="price-tag" style="position: static; margin: 0; font-weight: bold;">
                     ${j["Tasación Actual"] || "S/T"}
@@ -135,7 +140,10 @@ function formatEstado(valor) {
     const v = valor.toUpperCase().trim();
     if (v === "FALTA") return `<span style="color: #ff4d4d; font-weight: bold;">FALTA</span>`;
     if (v === "?" || v === "PEND") return `<span style="color: #ffff00; font-weight: bold;">?</span>`;
-    return `<span style="color: #00ff88; font-weight: bold;">${v}/10</span>`;
+    // Si es un número, usamos la escala de colores dinámica
+    const num = parseFloat(v);
+    const colorDinamico = !isNaN(num) ? getColorForNota(num) : "#00ff88"; // Fallback a verde si no es número
+    return `<span style="color: ${colorDinamico}; font-weight: bold;">${v}/10</span>`;
 }
 
 function getRegionStyle(region) {
