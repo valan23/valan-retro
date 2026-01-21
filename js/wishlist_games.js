@@ -18,7 +18,7 @@ function renderWishlist(games) {
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
     container.innerHTML = games.map(j => {
-        // 1. Mapeo idéntico a games.js
+        // 1. Mapeo
         const platformMap = {
             "Famicom": "fc",
             "Famicom Disk System": "fds",
@@ -26,7 +26,6 @@ function renderWishlist(games) {
         };
         
         const valorExcel = j["Plataforma"] ? j["Plataforma"].trim() : "";
-        
         const carpetaSistema = Object.keys(platformMap).find(
             key => key.toUpperCase() === valorExcel.toUpperCase()
         ) ? platformMap[Object.keys(platformMap).find(key => key.toUpperCase() === valorExcel.toUpperCase())] 
@@ -38,20 +37,23 @@ function renderWishlist(games) {
             : `images/covers/default.webp`;
 
         const style = getRegionStyle(j["Región"]);
-        
-        // Colores y Prioridad
         const wishColor = "#00f2ff"; 
+        
+        // Lógica de Prioridad
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
-        const textoPrioridad = (j["Prioridad"] || "Media").toUpperCase();
+        const textoPrioridad = (j["Prioridad"] || "MEDIA").toUpperCase();
 
         return `
-        <div class="card" style="position: relative; display: flex; flex-direction: column; min-height: 250px; padding-bottom: 20px;">
+        <div class="card" style="position: relative; display: flex; flex-direction: column; min-height: 250px; padding-bottom: 20px; overflow: hidden;">
             
-            <div class="grade-badge" style="background-color: ${colorPrioridad}; font-size: 0.65em; line-height: 1.1; text-align: center; display: flex; align-items: center; justify-content: center; padding: 4px;">
+            <div style="position: absolute; top: 0; right: 0; background-color: ${colorPrioridad}; 
+                        color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; 
+                        border-bottom-left-radius: 8px; box-shadow: -2px 2px 5px rgba(0,0,0,0.3); 
+                        z-index: 10; white-space: nowrap; min-width: 60px; text-align: center;">
                 ${textoPrioridad}
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; padding-right: 45px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; padding-right: 80px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <div class="platform-icon-card">${getPlatformIcon(j["Plataforma"])}</div>
                     <span class="year-tag">${j["Año"] || ""}</span>
@@ -71,12 +73,12 @@ function renderWishlist(games) {
                 </div>
                 
                 <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; border-left: 2px solid #555; padding-left: 15px; min-height: 90px;">
-                    <span class="game-title" style="margin: 0; line-height: 1.2; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.1em; color: #fff; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                    <span class="game-title" style="margin: 0; line-height: 1.2; font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 1.1em; color: #fff; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
                         ${j["Nombre Juego"]}
                     </span>
                     
                     ${isValid(j["Nombre Japones"]) ? `
-                        <span style="display: block; font-family: 'MS Mincho', 'Sawarabi Mincho', serif; font-size: 0.8em; color: #aaa; margin-top: 4px; line-height: 1.2;">
+                        <span style="display: block; font-family: 'MS Mincho', 'Sawarabi Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 4px;">
                             ${j["Nombre Japones"]}
                         </span>
                     ` : ''}
