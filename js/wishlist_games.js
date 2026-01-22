@@ -63,41 +63,47 @@ function renderWishlist(games) {
             </div>
 
             <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 12px; min-height: 55px; display: flex; flex-direction: column; justify-content: center;">
-                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #F7E2B7;">
+                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C;">
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
-            <div class="wishlist-prices-table" style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: flex; flex-direction: column; gap: 2px;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.6; min-height: 110px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const colorDestaque = "#9500ff";
+                    const accentColor = "#9500ff"; // Púrpura
 
                     return `
-                    <div style="display: grid; grid-template-columns: 20px 1fr 85px; align-items: center; padding: 4px 0; border-left: ${esElMasBarato ? `3px solid ${colorDestaque}` : '3px solid transparent'}; padding-left: 8px;">
-                        <div style="display: flex; justify-content: center; align-items: center; color: ${colorDestaque};">${esElMasBarato ? '❗' : ''}</div>
-                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">${p.nombre}:</div>
-                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-size: ${esElMasBarato ? '1.1em' : '1em'};">${p.valor}</div>
+                    <div style="display: grid; grid-template-columns: 18px 1fr 75px; align-items: center; width: 100%; border-left: ${esElMasBarato ? `3px solid ${accentColor}` : '3px solid transparent'}; padding-left: 6px; margin-left: -4px;">
+                        
+                        <div style="color: ${accentColor}; font-size: 0.9em; display: flex; justify-content: center;">
+                            ${esElMasBarato ? '❗' : ''}
+                        </div>
+
+                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">
+                            ${p.nombre}:
+                        </div>
+
+                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap;">
+                            ${p.valor}
+                        </div>
                     </div>`;
                 }).join('')}
             </div>
 
             <div style="position: absolute; bottom: 12px; left: 15px; right: 15px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                
                 <div style="font-size: 0.65em; color: #777; font-style: italic; display: flex; align-items: center; gap: 4px;">
                     <i class="fa-regular fa-calendar-check" style="opacity: 0.6;"></i>
                     ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
                 </div>
                 
                 ${isValid(j["Link"]) ? `
-                    <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: rgba(149, 0, 255, 0.2); border: 1px solid #9500ff; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 0.7em; font-weight: bold; transition: all 0.2s ease;" onmouseover="this.style.background='#9500ff'" onmouseout="this.style.background='rgba(149, 0, 255, 0.2)'">
+                    <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: rgba(149, 0, 255, 0.2); border: 1px solid #9500ff; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 0.7em; font-weight: bold; transition: all 0.2s ease;">
                         <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.9em;"></i> MEJOR PRECIO
                     </a>
-                ` : `
-                    <span style="font-size: 0.65em; color: #444; font-style: italic;">Sin enlace</span>
-                `}
+                ` : '<span style="font-size: 0.65em; color: #444; font-style: italic;">Sin enlace</span>'}
             </div>
         </div>`;
     }).join('');
-P}
+}
