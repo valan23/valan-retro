@@ -30,7 +30,6 @@ function renderWishlist(games) {
         const style = getRegionStyle(j["Región"]);
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
 
-        // --- LÓGICA DE PRECIOS ---
         const listaPrecios = [
             { nombre: 'Nuevo', valor: j["Precio Nuevo"], eur: obtenerValorEnEuros(j["Precio Nuevo"]), color: '#D4BD66' },
             { nombre: 'Wallapop', valor: j["Precio Wallapop"], eur: obtenerValorEnEuros(j["Precio Wallapop"]), color: '#2E9E7F' },
@@ -43,7 +42,7 @@ function renderWishlist(games) {
         const precioMinimoEur = Math.min(...preciosValidos.map(p => p.eur));
 
         return `
-        <div class="card" style="position: relative; padding-bottom: 50px; display: flex; flex-direction: column; overflow: hidden; min-height: 420px;">
+        <div class="card" style="position: relative; padding-bottom: 65px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px;">
             
             <div style="position: absolute; top: 0; right: 0; background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
                 ${(j["Prioridad"] || "MEDIA").toUpperCase()}
@@ -70,33 +69,30 @@ function renderWishlist(games) {
                 ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
-            <div class="wishlist-prices-table" style="width: 100%; margin-top: 5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: flex; flex-direction: column; gap: 2px;">
+            <div class="wishlist-prices-table" style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: flex; flex-direction: column; gap: 2px;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const colorDestaque = "#9500ff"; // Púrpura idéntico al menú (--accent)
+                    const colorDestaque = "#9500ff";
 
                     return `
-                    <div style="display: grid; grid-template-columns: 20px 1fr 85px; align-items: center; 
-                                padding: 4px 0; border-left: ${esElMasBarato ? `3px solid ${colorDestaque}` : '3px solid transparent'}; 
-                                padding-left: 8px; transition: none;">
-                        
-                        <div style="display: flex; justify-content: center; align-items: center; color: ${colorDestaque};">
-                            ${esElMasBarato ? '❗' : ''}
-                        </div>
-
-                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">
-                            ${p.nombre}:
-                        </div>
-
-                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-size: ${esElMasBarato ? '1.1em' : '1em'};">
-                            ${p.valor}
-                        </div>
+                    <div style="display: grid; grid-template-columns: 20px 1fr 85px; align-items: center; padding: 4px 0; border-left: ${esElMasBarato ? `3px solid ${colorDestaque}` : '3px solid transparent'}; padding-left: 8px;">
+                        <div style="display: flex; justify-content: center; align-items: center; color: ${colorDestaque};">${esElMasBarato ? '❗' : ''}</div>
+                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">${p.nombre}:</div>
+                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-size: ${esElMasBarato ? '1.1em' : '1em'};">${p.valor}</div>
                     </div>`;
                 }).join('')}
             </div>
 
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: flex-end; position: absolute; bottom: 12px; left: 15px; right: 15px;">
-                <i class="fa-solid fa-heart" style="color: #00f2ff; font-size: 0.9em; opacity: 0.6;"></i>
+            <div style="position: absolute; bottom: 12px; left: 15px; right: 15px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                <i class="fa-solid fa-heart" style="color: #9500ff; font-size: 0.9em; opacity: 0.4;"></i>
+                
+                ${isValid(j["Link"]) ? `
+                    <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: rgba(149, 0, 255, 0.2); border: 1px solid #9500ff; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 0.7em; font-weight: bold; transition: all 0.2s ease;" onmouseover="this.style.background='#9500ff'" onmouseout="this.style.background='rgba(149, 0, 255, 0.2)'">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> VER OFERTA
+                    </a>
+                ` : `
+                    <span style="font-size: 0.65em; color: #555; font-style: italic;">Sin enlace</span>
+                `}
             </div>
         </div>`;
     }).join('');
