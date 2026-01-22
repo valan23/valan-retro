@@ -80,19 +80,27 @@ function renderWishlist(games) {
                 }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; overflow: hidden;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 4px; overflow: hidden;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     const accentColor = "#9500ff";
+                    
+                    // Estilo dinámico: si es el más barato, aplicamos sombreado púrpura, si no, transparente
+                    const bgStyle = esElMasBarato 
+                        ? `background: linear-gradient(90deg, rgba(149, 0, 255, 0.15) 0%, rgba(149, 0, 255, 0.05) 100%); box-shadow: inset 0 0 8px rgba(149, 0, 255, 0.1); border-radius: 4px;` 
+                        : `background: transparent;`;
+
                     return `
-                    <div style="display: grid; grid-template-columns: 18px 1fr 75px; align-items: center; width: 100%; border-left: ${esElMasBarato ? `3px solid ${accentColor}` : '3px solid transparent'}; padding-left: 6px; margin-left: -4px;">
-                        <div style="color: ${accentColor}; font-size: 0.9em; display: flex; justify-content: center;">
+                    <div style="display: grid; grid-template-columns: 20px 1fr auto; align-items: center; width: 100%; ${bgStyle} padding: 2px 8px; margin-left: -4px;">
+                        <div style="font-size: 0.9em; display: flex; justify-content: center; filter: drop-shadow(0 0 2px ${esElMasBarato ? accentColor : 'transparent'});">
                             ${esElMasBarato ? '❗' : ''}
                         </div>
-                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">
+                        
+                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 10px;">
                             ${p.nombre}:
                         </div>
-                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap;">
+                        
+                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums;">
                             ${p.valor}
                         </div>
                     </div>`;
