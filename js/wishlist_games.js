@@ -29,7 +29,6 @@ function renderWishlist(games) {
         const style = getRegionStyle(j["Región"]);
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
 
-        // --- LÓGICA DE PRECIOS ACTUALIZADA ---
         const listaPrecios = [
             { nombre: 'Nuevo', valor: j["Precio Nuevo"], eur: obtenerValorEnEuros(j["Precio Nuevo"]), color: '#D4BD66' },
             { nombre: 'Wallapop', valor: j["Precio Wallapop"], eur: obtenerValorEnEuros(j["Precio Wallapop"]), color: '#2E9E7F' },
@@ -51,7 +50,7 @@ function renderWishlist(games) {
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding-left: 5px;">
                 <div class="platform-icon-card" style="font-size: 1.2em;">${getPlatformIcon(j["Plataforma"])}</div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <span class="year-tag" style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee;">${j["Año"] || "????"}</span>
+                    <span class="year-tag" style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; margin-left:0;">${j["Año"] || "????"}</span>
                     <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
                         ${getFlag(j["Región"])} <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">${j["Región"] || "N/A"}</span>
                     </div>
@@ -62,35 +61,24 @@ function renderWishlist(games) {
                 <img src="${fotoUrl}" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px; filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.6));">
             </div>
 
-            <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 15px; min-height: 55px;">
-                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #F7E2B7;">
+            <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 15px; min-height: 55px; display: flex; flex-direction: column; justify-content: center;">
+                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #F7E2B7; margin:0;">
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
-            <div style="width: 100%; margin-top: 5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; pointer-events: none;">
+            <div class="wishlist-prices-table" style="width: 100%; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: block !important;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     const bgHighlight = esElMasBarato ? 'rgba(255, 215, 0, 0.15)' : 'transparent';
                     const textPriceColor = esElMasBarato ? '#FFD700' : '#eee';
 
                     return `
-                    <div style="display: grid; grid-template-columns: 25px 1fr 85px; align-items: center; 
-                                padding: 4px 8px; background: ${bgHighlight}; border-radius: 4px; 
-                                margin-bottom: 2px; border: ${esElMasBarato ? '1px solid rgba(255, 215, 0, 0.2)' : '1px solid transparent'};">
-                        
-                        <div style="display: flex; justify-content: center; align-items: center; font-size: 0.9em;">
-                            ${esElMasBarato ? '❗' : ''}
-                        </div>
-
-                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            ${p.nombre}
-                        </div>
-
-                        <div style="color: ${textPriceColor}; font-weight: ${esElMasBarato ? '800' : '500'}; text-align: right; white-space: nowrap;">
-                            ${p.valor}
-                        </div>
+                    <div style="display: grid !important; grid-template-columns: 20px 1fr 85px !important; align-items: center; padding: 4px 8px; background: ${bgHighlight}; border-radius: 4px; margin-bottom: 2px; pointer-events: none;">
+                        <div style="display: flex; justify-content: center; align-items: center;">${esElMasBarato ? '❗' : ''}</div>
+                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.nombre}</div>
+                        <div style="color: ${textPriceColor}; font-weight: ${esElMasBarato ? '800' : '500'}; text-align: right; white-space: nowrap;">${p.valor}</div>
                     </div>`;
                 }).join('')}
             </div>
