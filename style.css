@@ -304,13 +304,12 @@ border: 1px solid #333; background: #1a1a20; color: white; display: block; margi
 /* Parche para evitar conflictos en Wishlist */
 .wishlist-prices-table {
     display: block !important;
-    background: transparent !important;
-    padding: 0 !important;
+    background: none !important;
+    border: none !important;
 }
 
 .wishlist-prices-table div {
-    display: grid !important;
-    justify-content: stretch !important;
+    background: none !important; /* Fuerza a eliminar cualquier rastro de fondo */
 }
 
 @keyframes fadeIn {
