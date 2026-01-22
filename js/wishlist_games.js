@@ -81,7 +81,7 @@ function renderWishlist(games) {
                 }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; overflow: hidden;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.4; flex-grow: 1; align-content: start; letter-spacing: 0.2px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px;">
             ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     const accentColor = "#9500ff";
