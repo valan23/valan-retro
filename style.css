@@ -301,6 +301,18 @@ border: 1px solid #333; background: #1a1a20; color: white; display: block; margi
     align-self: flex-end;
 }
 
+/* Parche para evitar conflictos en Wishlist */
+.wishlist-prices-table {
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.wishlist-prices-table div {
+    display: grid !important;
+    justify-content: stretch !important;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
