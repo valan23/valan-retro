@@ -73,11 +73,11 @@ function renderWishlist(games) {
             </div>
 
             <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; min-height: 95px; align-content: start; color: #fff;">
-                ${isValid(j["Precio Oficial"]) ? `<div><span style="color: #aaa;">🏪 Oficial:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Oficial"]}</span></div>` : ''}
-                ${isValid(j["Precio Wallapop"]) ? `<div><span style="color: #aaa;">📦 Wallapop:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Wallapop"]}</span></div>` : ''}
-                ${isValid(j["Precio Ebay"]) ? `<div><span style="color: #aaa;">🌎 Ebay:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Ebay"]}</span></div>` : ''}
-                ${isValid(j["Precio Surugaya"]) ? `<div><span style="color: #aaa;">🇯🇵 Surugaya:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Surugaya"]}</span></div>` : ''}
-                ${isValid(j["Precio Mercari"]) ? `<div><span style="color: #aaa;">📦 Mercari:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Mercari"]}</span></div>` : ''}
+                ${isValid(j["Precio Oficial"]) ? `<div><span style="color: #ADADAD;">Oficial:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Oficial"]}</span></div>` : ''}
+                ${isValid(j["Precio Wallapop"]) ? `<div><span style="color: #2E9E7F;">Wallapop:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Wallapop"]}</span></div>` : ''}
+                ${isValid(j["Precio Ebay"]) ? `<div><span style="color: #D4B65D;">Ebay:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Ebay"]}</span></div>` : ''}
+                ${isValid(j["Precio Surugaya"]) ? `<div><span style="color: #16217A;">Surugaya:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Surugaya"]}</span></div>` : ''}
+                ${isValid(j["Precio Mercari"]) ? `<div><span style="color: #B02E2E;">Mercari:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Mercari"]}</span></div>` : ''}
             </div>
 
             <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: flex-end; position: absolute; bottom: 12px; left: 15px; right: 15px;">
