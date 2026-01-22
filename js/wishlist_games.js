@@ -80,15 +80,15 @@ function renderWishlist(games) {
                 }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 105px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 10px; display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); gap: 6px 12px; align-content: start; overflow: hidden;">
-                ${preciosValidos.map(p => {
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 80px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 10px; display: grid !important; grid-template-columns: 1fr 1fr; gap: X 6px; row-gap: 2px; align-content: start; overflow: hidden;">
+                ${preciosValidos.slice(0, 6).map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     const bgStyle = esElMasBarato 
                         ? `background: linear-gradient(135deg, rgba(149, 0, 255, 0.25) 0%, rgba(149, 0, 255, 0.05) 100%); border-radius: 4px;` 
                         : `background: transparent;`;
 
                     return `
-                    <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 1px 6px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 1px 4px; border-bottom: 1px solid rgba(255,255,255,0.05);">
                         <span style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%;">
                             ${p.nombre}
                         </span>
