@@ -84,16 +84,20 @@ function renderWishlist(games) {
             </div>
 
             <div style="position: absolute; bottom: 12px; left: 15px; right: 15px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <i class="fa-solid fa-heart" style="color: #9500ff; font-size: 0.9em; opacity: 0.4;"></i>
+                
+                <div style="font-size: 0.65em; color: #777; font-style: italic; display: flex; align-items: center; gap: 4px;">
+                    <i class="fa-regular fa-calendar-check" style="opacity: 0.6;"></i>
+                    ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
+                </div>
                 
                 ${isValid(j["Link"]) ? `
                     <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: rgba(149, 0, 255, 0.2); border: 1px solid #9500ff; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 0.7em; font-weight: bold; transition: all 0.2s ease;" onmouseover="this.style.background='#9500ff'" onmouseout="this.style.background='rgba(149, 0, 255, 0.2)'">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> VER OFERTA
+                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.9em;"></i> MEJOR PRECIO
                     </a>
                 ` : `
-                    <span style="font-size: 0.65em; color: #555; font-style: italic;">Sin enlace</span>
+                    <span style="font-size: 0.65em; color: #444; font-style: italic;">Sin enlace</span>
                 `}
             </div>
         </div>`;
     }).join('');
-}
+P}
