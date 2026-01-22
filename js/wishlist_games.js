@@ -73,7 +73,7 @@ function renderWishlist(games) {
             <div class="wishlist-prices-table" style="width: 100%; margin-top: 5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: flex; flex-direction: column; gap: 2px;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const colorDestaque = "#FFD700"; // Amarillo oro
+                    const colorDestaque = "#00f2ff"; // Cian vibrante
 
                     return `
                     <div style="display: grid; grid-template-columns: 20px 1fr 85px; align-items: center; 
