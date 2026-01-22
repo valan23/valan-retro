@@ -65,18 +65,18 @@ function renderGames(games) {
                 }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 140px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; overflow: hidden;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 105px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 10px; display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); gap: 6px 12px; align-content: start; overflow: hidden;">
                 ${[
                     { label: '📦Caja', val: j["Estado Caja"] },
                     { label: '📂Inserto', val: j["Estado Inserto"] },
                     { label: '📖Manual', val: j["Estado Manual"] },
                     { label: '💾Juego', val: j["Estado Juego"] },
-                    { label: '🖼️Portada.', val: j["Estado Portada"] },
+                    { label: '🖼️Portada', val: j["Estado Portada"] },
                     { label: '🔖Obi', val: j["Estado Spinecard"] },
                     { label: '🎁Extras', val: j["Estado Extras"] }
                 ].filter(item => isValid(item.val)).map(item => `
-                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px;">
-                        <span style="color: #aaa;">${item.label}:</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1px;">
+                        <span style="color: #aaa; white-space: nowrap;">${item.label}:</span>
                         <span style="font-weight: bold;">${formatEstado(item.val)}</span>
                     </div>
                 `).join('')}
