@@ -65,14 +65,21 @@ function renderGames(games) {
                 }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; overflow: hidden;">
-                ${isValid(j["Estado Caja"]) ? `<div><span style="color: #aaa;">📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
-                ${isValid(j["Estado Inserto"]) ? `<div><span style="color: #aaa;">📂Inserto:</span> ${formatEstado(j["Estado Inserto"])}</div>` : ''}
-                ${isValid(j["Estado Manual"]) ? `<div><span style="color: #aaa;">📖Manual:</span> ${formatEstado(j["Estado Manual"])}</div>` : ''}
-                ${isValid(j["Estado Juego"]) ? `<div><span style="color: #aaa;">💾Juego:</span> ${formatEstado(j["Estado Juego"])}</div>` : ''}
-                ${isValid(j["Estado Portada"]) ? `<div><span style="color: #aaa;">🖼️Port.:</span> ${formatEstado(j["Estado Portada"])}</div>` : ''}
-                ${isValid(j["Estado Spinecard"]) ? `<div><span style="color: #aaa;">🔖Obi:</span> ${formatEstado(j["Estado Spinecard"])}</div>` : ''}
-                ${isValid(j["Estado Extras"]) ? `<div><span style="color: #aaa;">🎁Ext.:</span> ${formatEstado(j["Estado Extras"])}</div>` : ''}
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 140px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; overflow: hidden;">
+                ${[
+                    { label: '📦Caja', val: j["Estado Caja"] },
+                    { label: '📂Inserto', val: j["Estado Inserto"] },
+                    { label: '📖Manual', val: j["Estado Manual"] },
+                    { label: '💾Juego', val: j["Estado Juego"] },
+                    { label: '🖼️Portada.', val: j["Estado Portada"] },
+                    { label: '🔖Obi', val: j["Estado Spinecard"] },
+                    { label: '🎁Extras', val: j["Estado Extras"] }
+                ].filter(item => isValid(item.val)).map(item => `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px;">
+                        <span style="color: #aaa;">${item.label}:</span>
+                        <span style="font-weight: bold;">${formatEstado(item.val)}</span>
+                    </div>
+                `).join('')}
             </div>
 
             <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; height: 45px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
