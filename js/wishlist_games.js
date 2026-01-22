@@ -73,7 +73,7 @@ function renderWishlist(games) {
             <div class="wishlist-prices-table" style="width: 100%; margin-top: 5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; display: flex; flex-direction: column; gap: 2px;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const colorDestaque = "#00f2ff"; // Cian vibrante
+                    const colorDestaque = "#9500ff"; // Púrpura idéntico al menú (--accent)
 
                     return `
                     <div style="display: grid; grid-template-columns: 20px 1fr 85px; align-items: center; 
@@ -88,7 +88,7 @@ function renderWishlist(games) {
                             ${p.nombre}:
                         </div>
 
-                        <div style="color: ${esElMasBarato ? colorDestaque : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-size: ${esElMasBarato ? '1.1em' : '1em'};">
+                        <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap; font-size: ${esElMasBarato ? '1.1em' : '1em'};">
                             ${p.valor}
                         </div>
                     </div>`;
