@@ -69,22 +69,23 @@ function renderWishlist(games) {
                 ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
-            <div style="width: calc(100% + 10px); margin: 0 -5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px;">
+            <div style="width: 100%; margin-top: 5px; font-family: 'Segoe UI', sans-serif; font-size: 0.75em; min-height: 110px; pointer-events: none;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    // Color de resaltado: Amarillo suave para el fondo, amarillo brillante para el texto
-                    const bgHighlight = esElMasBarato ? 'rgba(212, 189, 102, 0.15)' : 'transparent';
+                    const bgHighlight = esElMasBarato ? 'rgba(255, 215, 0, 0.15)' : 'transparent';
                     const textPriceColor = esElMasBarato ? '#FFD700' : '#eee';
 
                     return `
-                    <div style="display: grid; grid-template-columns: 20px 1fr 80px; align-items: center; padding: 3px 5px; background: ${bgHighlight}; border-radius: 3px; margin-bottom: 1px;">
+                    <div style="display: grid; grid-template-columns: 25px 1fr 85px; align-items: center; 
+                                padding: 4px 8px; background: ${bgHighlight}; border-radius: 4px; 
+                                margin-bottom: 2px; border: ${esElMasBarato ? '1px solid rgba(255, 215, 0, 0.2)' : '1px solid transparent'};">
                         
-                        <div style="color: #FFD700; font-size: 0.8em; display: flex; justify-content: center;">
+                        <div style="display: flex; justify-content: center; align-items: center; font-size: 0.9em;">
                             ${esElMasBarato ? '❗' : ''}
                         </div>
 
-                        <div style="color: ${p.color}; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">
-                            ${p.nombre}:
+                        <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            ${p.nombre}
                         </div>
 
                         <div style="color: ${textPriceColor}; font-weight: ${esElMasBarato ? '800' : '500'}; text-align: right; white-space: nowrap;">
