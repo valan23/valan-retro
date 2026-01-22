@@ -47,16 +47,15 @@ function renderGames(games) {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding-left: 0;">
-                <div class="platform-icon-card" style="font-size: 1.2em; padding-left: 5px;">
+                <div class="platform-icon-card" style="font-size: 1.2em; height: 24px; display: flex; align-items: center; margin: 0; padding: 0;">
                     ${getPlatformIcon(j["Plataforma"])}
                 </div>
-
-                <div style="display: flex; align-items: center; gap: 8px; padding-left: 0;">
-                    <span class="year-tag" style="margin: 0; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 500;">
+                
+                <div style="display: flex; align-items: center; gap: 8px; height: 22px; margin: 0; padding: 0;">
+                    <span class="year-tag" style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 500; margin: 0; line-height: 1;">
                         ${j["Año"] || "????"}
                     </span>
-                    
-                    <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
+                    <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px; margin: 0; line-height: 1;">
                         ${getFlag(j["Región"])} 
                         <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">
                             ${j["Región"] || "N/A"}
