@@ -1,7 +1,3 @@
-/**
- * games.js - Especialista en renderizar la colección actual
- */
-
 function renderGames(games) {
     const container = document.getElementById('game-grid');
     if (!container) return;
@@ -47,15 +43,16 @@ function renderGames(games) {
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding-left: 0;">
-                <div class="platform-icon-card" style="font-size: 1.2em; height: 24px; display: flex; align-items: center; margin: 0; padding: 0;">
+                <div class="platform-icon-card" style="font-size: 1.2em; padding-left: 5px;">
                     ${getPlatformIcon(j["Plataforma"])}
                 </div>
-                
-                <div style="display: flex; align-items: center; gap: 8px; height: 22px; margin: 0; padding: 0;">
-                    <span class="year-tag" style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 500; margin: 0; line-height: 1;">
+
+                <div style="display: flex; align-items: center; gap: 8px; padding-left: 0;">
+                    <span class="year-tag" style="margin: 0; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 500;">
                         ${j["Año"] || "????"}
                     </span>
-                    <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px; margin: 0; line-height: 1;">
+                    
+                    <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
                         ${getFlag(j["Región"])} 
                         <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">
                             ${j["Región"] || "N/A"}
@@ -82,7 +79,7 @@ function renderGames(games) {
                 ` : ''}
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; overflow: hidden;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.4; flex-grow: 1; align-content: start; letter-spacing: 0.2px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px;">
                 ${isValid(j["Estado Caja"]) ? `<div><span style="color: #aaa;">📦Caja:</span> ${formatEstado(j["Estado Caja"])}</div>` : ''}
                 ${isValid(j["Estado Inserto"]) ? `<div><span style="color: #aaa;">📂Inserto:</span> ${formatEstado(j["Estado Inserto"])}</div>` : ''}
                 ${isValid(j["Estado Manual"]) ? `<div><span style="color: #aaa;">📖Manual:</span> ${formatEstado(j["Estado Manual"])}</div>` : ''}
@@ -111,45 +108,4 @@ function renderGames(games) {
             </div>
         </div>`;
     }).join('');
-}
-/**
- * HELPERS ESPECÍFICOS DE RENDERIZADO
- */
-
-function getColorForNota(valor) {
-    const n = parseFloat(valor);
-    if (isNaN(n)) return '#333';
-    let r = n < 5 ? 255 : Math.round(255 - ((n - 5) * 51));
-    let g = n < 5 ? Math.round(68 + (n * 37.4)) : 255;
-    return `rgb(${r}, ${g}, 68)`;
-}
-
-function formatEstado(valor) {
-    if (!valor || valor.toUpperCase() === "NA") return null;
-    const v = valor.toUpperCase().trim();
-    if (v === "FALTA") return `<span style="color: #ff4d4d; font-weight: bold;">FALTA</span>`;
-    if (v === "?" || v === "PEND") return `<span style="color: #ffff00; font-weight: bold;">?</span>`;
-    // Si es un número, usamos la escala de colores dinámica
-    const num = parseFloat(v);
-    const colorDinamico = !isNaN(num) ? getColorForNota(num) : "#00ff88"; // Fallback a verde si no es número
-    return `<span style="color: ${colorDinamico}; font-weight: bold;">${v}/10</span>`;
-}
-
-function getRegionStyle(region) {
-    if (!region) return { bg: "rgba(255,255,255,0.1)", text: "#ccc", border: "transparent" };
-    const r = region.toUpperCase();
-    for (let key in REGION_COLORS) { if (r.includes(key)) return REGION_COLORS[key]; }
-    return { bg: "rgba(255,255,255,0.1)", text: "#ccc", border: "transparent" };
-}
-
-function getCompletitudStyle(valor) {
-    if (!valor) return "#ccc";
-    const v = valor.toUpperCase();
-    if (v.includes("NUEVO")) return COMPLETITUD_COLORS["NUEVO"].color;
-    if (v.includes("CASI COMPLETO")) return COMPLETITUD_COLORS["CASI COMPLETO"].color;
-    if (v.includes("COMPLETO")) return COMPLETITUD_COLORS["COMPLETO"].color;
-    if (v.includes("INCOMPLETO")) return COMPLETITUD_COLORS["INCOMPLETO"].color;
-    if (v.includes("SUELTO") || v.includes("CARTUCHO")) return COMPLETITUD_COLORS["SUELTO"].color;
-    if (v.includes("REPRO")) return COMPLETITUD_COLORS["REPRO"].color;
-    return "#ccc";
 }
