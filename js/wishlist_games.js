@@ -1,15 +1,16 @@
 /**
- * wishlist_games.js - Renderizado Optimizado con Comparador de Precios
+ * wishlist_games.js - Versión Corregida: Ratio 180 y Sin Solapamientos
  */
 
 function obtenerValorEnEuros(precioStr) {
     if (!precioStr) return Infinity;
+    // Limpiamos el string: quitamos todo lo que no sea número, coma o punto
     const num = parseFloat(precioStr.replace(/[^0-9.,]/g, '').replace(',', '.'));
     if (isNaN(num)) return Infinity;
     
-    // Conversión aproximada (1€ ≈ 160¥) para comparar monedas distintas
+    // Ratio actualizado a 1€ ≈ 180¥
     if (precioStr.includes('¥') || precioStr.toLowerCase().includes('surugaya') || precioStr.toLowerCase().includes('mercari')) {
-        return num / 160; 
+        return num / 180; 
     }
     return num;
 }
@@ -17,11 +18,6 @@ function obtenerValorEnEuros(precioStr) {
 function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
-
-    if (games.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 50px; color: #888;">...</div>`;
-        return;
-    }
 
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
@@ -34,7 +30,7 @@ function renderWishlist(games) {
         const style = getRegionStyle(j["Región"]);
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
 
-        // --- LÓGICA DE PRECIOS (Dentro del map para cada juego) ---
+        // --- LÓGICA DE PRECIOS ---
         const listaPrecios = [
             { nombre: 'Nuevo', valor: j["Precio Oficial"], eur: obtenerValorEnEuros(j["Precio Oficial"]), color: '#D4BD66' },
             { nombre: 'Wallapop', valor: j["Precio Wallapop"], eur: obtenerValorEnEuros(j["Precio Wallapop"]), color: '#2E9E7F' },
@@ -43,7 +39,6 @@ function renderWishlist(games) {
             { nombre: 'Mercari', valor: j["Precio Mercari"], eur: obtenerValorEnEuros(j["Precio Mercari"]), color: '#59C0C2' }
         ];
 
-        // Filtramos solo los que tienen valor y buscamos el mínimo
         const preciosValidos = listaPrecios.filter(p => isValid(p.valor));
         const precioMinimoEur = Math.min(...preciosValidos.map(p => p.eur));
 
@@ -79,13 +74,19 @@ function renderWishlist(games) {
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     return `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 6px; margin: 0 -6px; border-radius: 4px; background: ${esElMasBarato ? 'rgba(0, 255, 136, 0.08)' : 'transparent'};">
-                        <span style="color: ${p.color}; font-weight: bold; display: flex; align-items: center; gap: 4px;">
-                            ${esElMasBarato ? '<i class="fa-solid fa-tag" style="font-size: 0.8em;"></i>' : ''} ${p.nombre}:
-                        </span> 
-                        <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: ${esElMasBarato ? '700' : '500'};">
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                                padding: 2px 8px; margin: 1px -8px; border-radius: 4px;
+                                background: ${esElMasBarato ? 'rgba(0, 255, 136, 0.12)' : 'transparent'};
+                                min-height: 24px;">
+                        
+                        <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                            ${esElMasBarato ? '<span style="color: #00ff88; font-size: 0.9em; width: 12px;">❗</span>' : '<span style="width: 12px;"></span>'}
+                            <span style="color: ${p.color}; font-weight: bold;">${p.nombre}:</span>
+                        </div>
+
+                        <div style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: ${esElMasBarato ? '800' : '500'}; text-align: right; flex-grow: 1; padding-left: 10px;">
                             ${p.valor}
-                        </span>
+                        </div>
                     </div>`;
                 }).join('')}
             </div>
