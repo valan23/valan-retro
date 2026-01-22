@@ -71,15 +71,18 @@ function renderWishlist(games) {
                 <img src="${fotoUrl}" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px; filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.6));">
             </div>
 
-            <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 12px; min-height: 55px; display: flex; flex-direction: column; justify-content: center;">
-                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C; letter-spacing: 0.2px;">
+            <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 12px; height: 65px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
+                <div class="game-title" style="line-height: 1.2; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C; letter-spacing: 0.2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                     ${j["Nombre Juego"]}
                 </div>
-                ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px; opacity: 0.9;">${j["Nombre Japones"]}</div>` : ''}
+                ${isValid(j["Nombre Japones"]) ? 
+                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 4px; opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${j["Nombre Japones"]}</div>` 
+                    : `<div style="height: 14px;"></div>` // Espacio fantasma si no hay nombre japonés
+                }
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.6; margin-bottom: 0; flex-grow: 1; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px;">
-                ${preciosValidos.map(p => {
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; height: 140px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; overflow: hidden;">
+            ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
                     const accentColor = "#9500ff";
 
