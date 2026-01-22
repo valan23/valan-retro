@@ -30,10 +30,12 @@ function renderWishlist(games) {
         const style = getRegionStyle(j["Región"]);
         const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
 
+        // --- LÓGICA DE PRECIOS INCLUYENDO CEX ---
         const listaPrecios = [
             { nombre: 'Nuevo', valor: j["Precio Nuevo"], eur: obtenerValorEnEuros(j["Precio Nuevo"]), color: '#D4BD66' },
+            { nombre: 'CeX', valor: j["Precio Cex"], eur: obtenerValorEnEuros(j["Precio Cex"]), color: '#ff0000' }, // Rojo corporativo CeX
             { nombre: 'Wallapop', valor: j["Precio Wallapop"], eur: obtenerValorEnEuros(j["Precio Wallapop"]), color: '#2E9E7F' },
-            { nombre: 'eBay', valor: j["Precio Ebay"], eur: obtenerValorEnEuros(j["Precio Ebay"]), color: '#e53238' },
+            { nombre: 'eBay', valor: j["Precio Ebay"], eur: obtenerValorEnEuros(j["Precio Ebay"]), color: '#0064d2' },
             { nombre: 'Surugaya', valor: j["Precio Surugaya"], eur: obtenerValorEnEuros(j["Precio Surugaya"]), color: '#5da9ff' },
             { nombre: 'Mercari', valor: j["Precio Mercari"], eur: obtenerValorEnEuros(j["Precio Mercari"]), color: '#59C0C2' }
         ];
@@ -63,28 +65,25 @@ function renderWishlist(games) {
             </div>
 
             <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 12px; min-height: 55px; display: flex; flex-direction: column; justify-content: center;">
-                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C;">
+                <div class="game-title" style="line-height: 1.3; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C; letter-spacing: 0.2px;">
                     ${j["Nombre Juego"]}
                 </div>
-                ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px;">${j["Nombre Japones"]}</div>` : ''}
+                ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 8px; opacity: 0.9;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.6; min-height: 110px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px;">
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.6; min-height: 120px; align-content: start; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; display: flex !important; flex-direction: column; gap: 2px; letter-spacing: 0.2px;">
                 ${preciosValidos.map(p => {
                     const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const accentColor = "#9500ff"; // Púrpura
+                    const accentColor = "#9500ff";
 
                     return `
                     <div style="display: grid; grid-template-columns: 18px 1fr 75px; align-items: center; width: 100%; border-left: ${esElMasBarato ? `3px solid ${accentColor}` : '3px solid transparent'}; padding-left: 6px; margin-left: -4px;">
-                        
                         <div style="color: ${accentColor}; font-size: 0.9em; display: flex; justify-content: center;">
                             ${esElMasBarato ? '❗' : ''}
                         </div>
-
                         <div style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px;">
                             ${p.nombre}:
                         </div>
-
                         <div style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right; white-space: nowrap;">
                             ${p.valor}
                         </div>
