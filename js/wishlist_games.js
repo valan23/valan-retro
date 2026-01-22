@@ -72,12 +72,36 @@ function renderWishlist(games) {
                 ` : ''}
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.5; min-height: 95px; align-content: start; color: #fff;">
-                ${isValid(j["Precio Oficial"]) ? `<div><span style="color: #ADADAD;">Oficial:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Oficial"]}</span></div>` : ''}
-                ${isValid(j["Precio Wallapop"]) ? `<div><span style="color: #2E9E7F;">Wallapop:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Wallapop"]}</span></div>` : ''}
-                ${isValid(j["Precio Ebay"]) ? `<div><span style="color: #D4B65D;">Ebay:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Ebay"]}</span></div>` : ''}
-                ${isValid(j["Precio Surugaya"]) ? `<div><span style="color: #16217A;">Surugaya:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Surugaya"]}</span></div>` : ''}
-                ${isValid(j["Precio Mercari"]) ? `<div><span style="color: #B02E2E;">Mercari:</span> <span style="font-weight: bold; color: #00ff88;">${j["Precio Mercari"]}</span></div>` : ''}
+            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.8em; line-height: 1.6; min-height: 100px; align-content: start;">
+                ${isValid(j["Precio Oficial"]) ? `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                        <span style="color: #ADADAD; font-weight: 500;">Oficial:</span> 
+                        <span style="font-weight: bold; color: #00ff88;">${j["Precio Oficial"]}</span>
+                    </div>` : ''}
+    
+                ${isValid(j["Precio Wallapop"]) ? `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                        <span style="color: #61cec2; font-weight: bold;">Wallapop:</span> 
+                        <span style="font-weight: bold; color: #00ff88;">${j["Precio Wallapop"]}</span>
+                    </div>` : ''}
+    
+                ${isValid(j["Precio Ebay"]) ? `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                        <span style="color: #e53238; font-weight: bold;">eBay:</span> 
+                        <span style="font-weight: bold; color: #00ff88;">${j["Precio Ebay"]}</span>
+                    </div>` : ''}
+    
+                ${isValid(j["Precio Surugaya"]) ? `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                        <span style="color: #5da9ff; font-weight: bold;">Surugaya:</span> 
+                        <span style="font-weight: bold; color: #00ff88;">${j["Precio Surugaya"]}</span>
+                    </div>` : ''}
+    
+                ${isValid(j["Precio Mercari"]) ? `
+                    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                        <span style="color: #ff4a4a; font-weight: bold;">Mercari:</span> 
+            <span style="font-weight: bold; color: #00ff88;">${j["Precio Mercari"]}</span>
+                    </div>` : ''}
             </div>
 
             <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: flex-end; position: absolute; bottom: 12px; left: 15px; right: 15px;">
