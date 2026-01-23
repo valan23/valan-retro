@@ -46,10 +46,10 @@ function renderWishlist(games) {
         <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
             
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
-                <div class="platform-icon-card" style="font-size: 1.3em; padding: 10px 0 0 12px; opacity: 0.9;">
+                <div class="platform-icon-wrapper" style="padding: 10px 0 0 12px;">
                     ${getPlatformIcon(j["Plataforma"])}
                 </div>
-                <div style="background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
+                <div style="background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px;">
                     ${(j["Prioridad"] || "MEDIA").toUpperCase()}
                 </div>
             </div>
