@@ -30,13 +30,15 @@ function renderGames(games) {
         return `
         <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
     
-            <div class="platform-icon-card" style="position: absolute; top: 8px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px;">
-               ${getPlatformIcon(j["Plataforma"])}
-           </div>
+            <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px; display: flex; align-items: center;">
+                ${getPlatformIcon(j["Plataforma"])}
+            </div>
 
-           <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
-               ${textoBadgeCompletitud}
-           </div>
+            <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
+                ${textoBadgeCompletitud}
+            </div>
+
+            <div style="margin-top: 45px;"></div>
 
             <div style="display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 15px; padding: 0 12px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
@@ -51,6 +53,7 @@ function renderGames(games) {
 
                 <div style="flex-grow: 1;"></div>
 
+                ${j["Estado General"] ? `
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 80px;">
                     <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.62em; text-transform: uppercase; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px;">
                         <span style="opacity: 0.8;">❤️‍🩹 ESTADO</span>
@@ -61,15 +64,15 @@ function renderGames(games) {
                     <div style="width: 75px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
                         <div style="width: ${j["Estado General"] * 10}%; height: 100%; background-color: ${getColorForNota(j["Estado General"])};"></div>
                     </div>
-                </div>
+                </div>` : ''}
             </div>
 
-            <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid #444;">
-                <div class="game-title" style="font-size: 1.15em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
+            <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid #555; margin-right: 12px;">
+                <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? 
-                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #888; margin-top: 2px;">${j["Nombre Japones"]}</div>` 
+                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #888; margin-top: 4px;">${j["Nombre Japones"]}</div>` 
                     : ''}
             </div>
 
@@ -95,18 +98,16 @@ function renderGames(games) {
             </div>
 
             <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-    
                 <div style="font-size: 0.65em; color: #666; font-style: italic;">
                     <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
                 </div>
-
                 <div class="price-tag" style="display: flex; align-items: center; gap: 4px; padding: 5px 10px;">
                     <span style="font-size: 1.1em; filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));">💸</span>
                     <span>${j["Tasación Actual"] || "S/T"}</span>
                 </div>
             </div>
         </div>`;
-    }).join(''); // <--- AQUÍ ESTABA EL ERROR (Faltaba cerrar el map)
+    }).join('');
 }
 
 /**
