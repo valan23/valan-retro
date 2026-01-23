@@ -31,9 +31,11 @@ function renderGames(games) {
         <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
             
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px; padding: 10px 12px 0 12px;">
-                <div class="platform-icon-wrapper">
+    
+                <div class="platform-icon-card">
                     ${getPlatformIcon(j["Plataforma"])}
                 </div>
+    
                 <div style="background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px;">
                     ${textoBadgeCompletitud}
                 </div>
