@@ -66,19 +66,20 @@ header { width: 100%; text-align: center; }
 
 /* --- ESTILO DE BOTONES (GENERAL) --- */
 .brand-icon, .filter-btn {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    cursor: pointer; 
+    cursor: pointer;
     transition: all 0.3s ease;
     
-    width: 80px;  /* Reducimos un poco de 100px a 80px para ganar espacio exterior */
-    height: 85px; 
-    background: transparent !important; 
-    border: none; 
+    width: 75px;        /* Reducido de 80px/100px para que el GAP sea más real */
+    height: 80px;
+    background: transparent !important;
+    border: none;
     padding: 5px;
-    flex: 0 0 auto; /* Evita que se deformen */
+    flex: 0 0 auto;
+    margin: 10px;       /* Margen extra en todas las direcciones */
 }
 
 .brand-logo-img, .btn-console-icon {
@@ -98,30 +99,32 @@ header { width: 100%; text-align: center; }
 
 /* --- MEDIA QUERY: CORRECCIÓN MÓVIL --- */
 @media (max-width: 600px) {
-    .platform-subgroup:not(.show) { display: none !important; }
-
-    /* Forzamos una rejilla con mucho espacio */
-    .brand-selector, .platform-subgroup.show {
-        gap: 30px 20px !important; /* 30px de separación entre filas para que no se pisen verticalmente */
-        padding: 10px !important;
+    /* Forzamos que los contenedores tengan un hueco enorme */
+    .brand-selector, 
+    .platform-subgroup.show {
+        gap: 40px 25px !important; /* 40px de separación entre FILAS, 25px entre ICONOS */
+        padding: 20px 10px !important;
+        justify-content: center !important;
     }
 
     .brand-icon, .filter-btn {
-        width: 60px !important;    /* Botón más estrecho */
-        height: 70px !important;
-        flex: 0 0 60px !important;  /* Bloqueamos el tamaño para que no crezca */
-        margin: 0 5px !important;   /* Margen extra de seguridad */
+        width: 55px !important;    /* Botón mucho más estrecho */
+        height: 65px !important;
+        flex: 0 0 55px !important;  /* Bloqueo estricto de ancho */
+        margin: 0 !important;      /* El espacio lo gestiona el GAP */
     }
 
     .brand-logo-img, .btn-console-icon {
-        height: 18px !important;   /* Logo más pequeño para que sobre "aire" alrededor */
-        margin-bottom: 6px !important;
+        height: 18px !important;   /* Logos pequeños para maximizar el vacío */
+        margin-bottom: 8px !important;
     }
 
     .brand-icon span, .filter-btn span {
         font-size: 7px !important;
-        line-height: 1.1 !important;
-        white-space: normal !important; /* Si el nombre es largo, salta de línea */
+        line-height: 1 !important;
+        display: block !important;
+        width: 100% !important;
+        white-space: normal !important; /* El texto largo baja, no empuja */
         text-align: center !important;
     }
 }
