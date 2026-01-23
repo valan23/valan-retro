@@ -54,13 +54,14 @@ function renderGames(games) {
 
                     <div style="flex-grow: 1;"></div>
 
-                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 65px;">
-                        <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.65em; text-transform: uppercase; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 3px;">
-                            <span style="color: ${getColorForNota(j["Estado General"])};">
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 80px;">
+                        <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.62em; text-transform: uppercase; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px;">
+                            <span style="opacity: 0.9;">❤️‍🩹 ESTADO</span>
+                            <span style="color: ${getColorForNota(j["Estado General"])}; font-size: 1.1em;">
                                 ${(j["Estado General"] && j["Estado General"] !== "PEND") ? j["Estado General"] + "/10" : "?"}
                             </span>
                         </div>
-                        <div style="width: 60px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+                        <div style="width: 75px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
                             <div style="width: ${j["Estado General"] * 10}%; height: 100%; background-color: ${getColorForNota(j["Estado General"])};"></div>
                         </div>
                     </div>
