@@ -30,15 +30,13 @@ function renderGames(games) {
         return `
         <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
     
-            <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
-                ${textoBadgeCompletitud}
-            </div>
+            <div class="platform-icon-card" style="position: absolute; top: 8px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px;">
+               ${getPlatformIcon(j["Plataforma"])}
+           </div>
 
-            <div style="display: flex; align-items: center; width: 100%; margin-bottom: 10px; padding: 10px 12px 0 12px;">
-                <div class="platform-icon-card">
-                    ${getPlatformIcon(j["Plataforma"])}
-                </div>
-            </div>
+           <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
+               ${textoBadgeCompletitud}
+           </div>
 
             <div style="display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 15px; padding: 0 12px;">
                 <div style="display: flex; align-items: center; gap: 6px;">
