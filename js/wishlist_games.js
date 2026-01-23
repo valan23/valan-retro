@@ -19,96 +19,88 @@ function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
 
+    if (games.length === 0) {
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No hay juegos en la lista de deseos.</p>";
+        return;
+    }
+
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
     container.innerHTML = games.map(j => {
+        // Lógica de carpetas para portadas
         const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
         const valorExcel = j["Plataforma"] ? j["Plataforma"].trim() : "";
-        const carpetaSistema = platformMap[valorExcel] || valorExcel.toLowerCase().replace(/\s+/g, '');
-        const fotoUrl = isValid(j["Portada"]) ? `images/covers/${carpetaSistema}/${j["Portada"].trim()}` : `images/covers/default.webp`;
-        
+        const carpetaSistema = Object.keys(platformMap).find(key => key.toUpperCase() === valorExcel.toUpperCase()) 
+            ? platformMap[Object.keys(platformMap).find(key => key.toUpperCase() === valorExcel.toUpperCase())] 
+            : valorExcel.toLowerCase().replace(/\s+/g, '');
+
+        const nombrePortada = j["Portada"] ? j["Portada"].trim() : "";
+        const fotoUrl = isValid(nombrePortada) ? `images/covers/${carpetaSistema}/${nombrePortada}` : `images/covers/default.webp`;
+
+        // Estilos específicos de Wishlist
         const style = getRegionStyle(j["Región"]);
-        const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
-
-        const listaPrecios = [
-            { nombre: 'Nuevo', valor: j["Precio Nuevo"], eur: obtenerValorEnEuros(j["Precio Nuevo"]), color: '#D4BD66' },
-            { nombre: 'CeX', valor: j["Precio Cex"], eur: obtenerValorEnEuros(j["Precio Cex"]), color: '#ff0000' }, 
-            { nombre: 'Wallapop', valor: j["Precio Wallapop"], eur: obtenerValorEnEuros(j["Precio Wallapop"]), color: '#2E9E7F' },
-            { nombre: 'eBay', valor: j["Precio Ebay"], eur: obtenerValorEnEuros(j["Precio Ebay"]), color: '#0064d2' },
-            { nombre: 'Surugaya', valor: j["Precio Surugaya"], eur: obtenerValorEnEuros(j["Precio Surugaya"]), color: '#5da9ff' },
-            { nombre: 'Mercari', valor: j["Precio Mercari"], eur: obtenerValorEnEuros(j["Precio Mercari"]), color: '#59C0C2' }
-        ];
-
-        const preciosValidos = listaPrecios.filter(p => isValid(p.valor));
-        const precioMinimoEur = Math.min(...preciosValidos.map(p => p.eur));
+        const prioridadColor = j["Prioridad"] === "Alta" ? "#ff4d4d" : (j["Prioridad"] === "Media" ? "#ffcc00" : "#00ff88");
 
         return `
-        <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 420px;">
+        <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
             
-            <div style="position: absolute; top: 0; right: 0; background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
-                ${(j["Prioridad"] || "MEDIA").toUpperCase()}
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding-left: 0;">
-                <div class="platform-icon-card" style="font-size: 1.2em; height: 24px; display: flex; align-items: center; margin: 0; padding: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
+                <div class="platform-icon-card" style="font-size: 1.3em; padding: 10px 0 0 12px; opacity: 0.9;">
                     ${getPlatformIcon(j["Plataforma"])}
                 </div>
-                <div style="display: flex; align-items: center; gap: 8px; height: 22px; margin: 0; padding: 0;">
-                    <span class="year-tag" style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 500; margin: 0; line-height: 1;">
-                        ${j["Año"] || "????"}
-                    </span>
-                    <div class="region-badge-container" style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px; margin: 0; line-height: 1;">
-                        ${getFlag(j["Región"])} 
-                        <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">
-                            ${j["Región"] || "N/A"}
-                        </span>
-                    </div>
+                <div style="background-color: ${prioridadColor}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; text-transform: uppercase;">
+                    PRIORIDAD ${j["Prioridad"] || "---"}
                 </div>
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 160px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 15px; padding: 10px;"> 
-                <img src="${fotoUrl}" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px; filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.6));">
+            <div style="display: flex; align-items: center; width: 100%; gap: 10px; margin-bottom: 15px; padding: 0 12px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.7em; color: #eee; font-weight: 600;">
+                        ${j["Año"] || "????"}
+                    </span>
+                    <div style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
+                        ${getFlag(j["Región"])} 
+                        <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">${j["Región"] || "N/A"}</span>
+                    </div>
+                </div>
+
+                <div style="flex-grow: 1;"></div>
+
+                <div style="text-align: right;">
+                    <div style="font-size: 0.6em; color: #888; text-transform: uppercase; font-weight: 800;">Target</div>
+                    <div style="font-size: 0.9em; color: #00ff88; font-weight: bold;">${j["Precio Objetivo"] || "---"}</div>
+                </div>
             </div>
 
-            <div style="border-left: 3px solid #555; padding-left: 12px; margin-bottom: 12px; height: 65px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
-                <div class="game-title" style="line-height: 1.2; font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 1.1em; color: #EFC36C; letter-spacing: 0.2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid #444;">
+                <div class="game-title" style="font-size: 1.15em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? 
-                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #aaa; margin-top: 4px; opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${j["Nombre Japones"]}</div>` 
-                    : `<div style="height: 14px;"></div>`
-                }
+                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #888; margin-top: 2px;">${j["Nombre Japones"]}</div>` 
+                    : ''}
             </div>
 
-            <div class="details-grid" style="font-family: 'Segoe UI', sans-serif; font-size: 0.72em; line-height: 1.5; height: 80px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 10px; display: grid !important; grid-template-columns: 1fr 1fr; gap: 4px 10px; align-content: start; overflow: hidden;">
-                ${preciosValidos.slice(0, 6).map(p => {
-                    const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                    const bgStyle = esElMasBarato 
-                        ? `background: linear-gradient(135deg, rgba(149, 0, 255, 0.25) 0%, rgba(149, 0, 255, 0.05) 100%); border-radius: 4px;` 
-                        : `background: transparent;`;
-
-                    return `
-                    <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 1px 4px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <span style="color: ${p.color}; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%;">
-                            ${p.nombre}
-                        </span>
-                        <span style="color: ${esElMasBarato ? '#d199ff' : '#eee'}; font-weight: ${esElMasBarato ? '900' : '500'}; text-align: right;">
-                            ${p.valor}
-                        </span>
-                    </div>`;
-                }).join('')}
+            <div style="display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 170px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);"> 
+                <img src="${fotoUrl}" style="max-width: 95%; max-height: 95%; object-fit: contain; opacity: 0.7; filter: grayscale(0.3) drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
             </div>
 
-            <div style="position: absolute; bottom: 12px; left: 15px; right: 15px; height: 45px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <div style="font-size: 0.65em; color: #777; font-style: italic; display: flex; align-items: center; gap: 4px;">
-                    <i class="fa-regular fa-calendar-check" style="opacity: 0.6;"></i>
-                    ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
+            <div class="details-grid" style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px; font-size: 0.72em; display: grid; grid-template-columns: 1fr; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <span style="color: #999;">Notas:</span>
+                    <span style="color: #eee;">${j["Notas de búsqueda"] || "Sin notas"}</span>
                 </div>
-                ${isValid(j["Link"]) ? `
-                    <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; display: flex; align-items: center; gap: 6px; background: rgba(149, 0, 255, 0.2); border: 1px solid #9500ff; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 0.7em; font-weight: bold; transition: all 0.2s ease;">
-                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.9em;"></i> MEJOR PRECIO
-                    </a>
-                ` : '<span style="font-size: 0.65em; color: #444; font-style: italic;">Sin enlace</span>'}
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #999;">Estado deseado:</span>
+                    <span style="color: #eee; font-weight: bold;">${j["Estado Deseado"] || "Cualquiera"}</span>
+                </div>
+            </div>
+
+            <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                <div style="font-size: 0.65em; color: #666;">
+                    <i class="fa-solid fa-hourglass-half"></i> Añadido: ${j["Fecha añadido"] || "---"}
+                </div>
+                <div class="price-tag" style="background: #2a2a35; color: #EFC36C;">Wishlist</div>
             </div>
         </div>`;
     }).join('');
