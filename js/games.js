@@ -65,12 +65,12 @@ function renderGames(games) {
                 </div>
             </div>
 
-            <div style="margin: 0 12px 15px 12px; padding: 10px 15px; background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); border-radius: 4px; border-left: 2px solid rgba(255,255,255,0.1);">
-                <div class="game-title" style="font-size: 1.15em; color: #EFC36C; font-weight: 700; line-height: 1.2; letter-spacing: 0.3px;">
+            <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid #444;">
+                <div class="game-title" style="font-size: 1.15em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? 
-                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #888; margin-top: 4px; font-style: italic;">${j["Nombre Japones"]}</div>` 
+                    `<div style="font-family: 'MS Mincho', serif; font-size: 0.85em; color: #888; margin-top: 2px;">${j["Nombre Japones"]}</div>` 
                     : ''}
             </div>
 
