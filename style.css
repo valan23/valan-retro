@@ -49,24 +49,25 @@ header { width: 100%; text-align: center; }
 }
 
 /* --- SELECTOR DE MARCAS Y CONSOLAS (GENERAL PC) --- */
-/* 1. Solo para las COMPAÑÍAS: Espacio extra grande */
+
+/* 1. Solo para las COMPAÑÍAS: Aquí aumentamos la distancia */
 .brand-selector {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
-    gap: 40px 80px; /* 40px arriba/abajo, 80px entre logos de compañías */
+    gap: 50px 120px; /* 50px vertical, 120px horizontal entre compañías */
     width: 100%;
     padding-bottom: 20px;
 }
 
-/* 2. Solo para las CONSOLAS: Espacio normal */
+/* 2. Solo para las CONSOLAS: Espacio normal (Se queda como estaba) */
 .platform-subgroup {
     display: none; 
     flex-wrap: wrap; 
     justify-content: center; 
-    gap: 25px 30px; /* Espaciado que ya tenías y funcionaba bien */
+    gap: 25px 30px; 
     width: 100%;
-    margin-top: 20px; /* Más aire respecto a la fila de marcas */
+    margin-top: 20px;
     padding-top: 25px;
     border-top: 2px solid rgba(255, 255, 255, 0.1);
     animation: fadeIn 0.4s ease;
@@ -83,13 +84,13 @@ header { width: 100%; text-align: center; }
     cursor: pointer;
     transition: all 0.3s ease;
     
-    width: 75px;        /* Reducido de 80px/100px para que el GAP sea más real */
+    width: 75px; 
     height: 80px;
     background: transparent !important;
     border: none;
     padding: 5px;
     flex: 0 0 auto;
-    margin: 10px;       /* Margen extra en todas las direcciones */
+    margin: 10px;
 }
 
 .brand-logo-img, .btn-console-icon {
@@ -107,25 +108,24 @@ header { width: 100%; text-align: center; }
 }
 .brand-icon.active span, .filter-btn.active span { color: #fff; }
 
-/* --- MEDIA QUERY: CORRECCIÓN MÓVIL --- */
+/* --- MEDIA QUERY: CORRECCIÓN MÓVIL (No cambia nada) --- */
 @media (max-width: 600px) {
-    /* Forzamos que los contenedores tengan un hueco enorme */
     .brand-selector, 
     .platform-subgroup.show {
-        gap: 40px 25px !important; /* 40px de separación entre FILAS, 25px entre ICONOS */
+        gap: 40px 25px !important; 
         padding: 20px 10px !important;
         justify-content: center !important;
     }
 
     .brand-icon, .filter-btn {
-        width: 55px !important;    /* Botón mucho más estrecho */
+        width: 55px !important;    
         height: 65px !important;
-        flex: 0 0 55px !important;  /* Bloqueo estricto de ancho */
-        margin: 0 !important;      /* El espacio lo gestiona el GAP */
+        flex: 0 0 55px !important;  
+        margin: 0 !important;      
     }
 
     .brand-logo-img, .btn-console-icon {
-        height: 18px !important;   /* Logos pequeños para maximizar el vacío */
+        height: 18px !important;   
         margin-bottom: 8px !important;
     }
 
@@ -134,7 +134,7 @@ header { width: 100%; text-align: center; }
         line-height: 1 !important;
         display: block !important;
         width: 100% !important;
-        white-space: normal !important; /* El texto largo baja, no empuja */
+        white-space: normal !important; 
         text-align: center !important;
     }
 }
