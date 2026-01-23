@@ -320,23 +320,35 @@ to { opacity: 1; transform: translateY(0); }
 }
 
 /* AJUSTE PARA MÓVIL: Reducimos el ancho para ganar separación horizontal */
+/* --- AJUSTE RADICAL PARA MÓVIL (FUERZA EL TAMAÑO) --- */
 @media (max-width: 600px) {
-    .brand-icon, .filter-btn { 
-        width: 65px;  /* Antes 75px/90px. Al ser más estrecho, hay más hueco entre ellos */
-        height: 70px; 
-        padding: 2px;
+    /* Usamos doble clase o !important para asegurar que el navegador te haga caso */
+    .brand-selector .brand-icon, 
+    .platform-subgroup .filter-btn { 
+        width: 55px !important;  /* Tamaño muy pequeño para forzar espacio */
+        height: 60px !important; 
+        min-width: 55px !important;
+        padding: 0 !important;
+        margin: 0 8px !important; /* Añadimos separación lateral manual */
     }
     
     .brand-logo-img, .btn-console-icon { 
-        height: 22px; /* Logos un poco más pequeños para evitar solape visual */
+        height: 18px !important; /* Logos minúsculos para que no se toquen */
+        width: auto !important;
+        margin-bottom: 4px !important;
     }
 
     .brand-icon span, .filter-btn span {
-        font-size: 8px; /* Texto un poco más pequeño para que no desborde el botón */
+        font-size: 7px !important; /* Texto mínimo */
+        letter-spacing: 0;
+        display: block;
+        width: 100%;
+        text-align: center;
     }
 
-    /* Aseguramos que el gap sea generoso para que no se peguen */
+    /* Aumentamos el hueco entre iconos */
     .brand-selector, .platform-subgroup {
-        gap: 15px !important; 
+        gap: 20px 10px !important; 
+        padding: 10px 0 !important;
     }
 }
