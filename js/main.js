@@ -121,11 +121,11 @@ function createFilters(games, containerId) {
 }
 
 function showBrand(brand, element, prefix) {
-    // Solo quita la clase active de los iconos del contenedor actual
+    // 1. Gestión Visual: Quitar y poner clase active
     element.parentElement.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
     
-    // Oculta todos los subgrupos de la sección actual
+    // 2. Ocultar todos los subgrupos de consolas
     const container = element.closest('.filter-container');
     container.querySelectorAll('.platform-subgroup').forEach(g => g.classList.remove('show'));
     
@@ -133,28 +133,43 @@ function showBrand(brand, element, prefix) {
         currentPlatform = "TODAS"; 
         applyFilters(); 
     } else {
-        // Busca el ID con el prefijo correcto
+        // 3. Mostrar el subgrupo de consolas de la marca
         const targetGroup = document.getElementById(`group-${prefix}-${brand}`);
         if (targetGroup) targetGroup.classList.add('show');
+
+        // 4. LÓGICA DE FILTRADO POR MARCA:
+        // Guardamos en currentPlatform un array con todas las plataformas de esa marca
+        currentPlatform = BRANDS_CONFIG[brand].platforms; 
+        applyFilters();
     }
 }
 
 function filterByPlatform(p, btn) {
-    currentPlatform = p;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    currentPlatform = p; // Aquí p es un string, p.ej: "Mega Drive"
+    // Quitar active de otros botones de consola en el mismo subgrupo
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     applyFilters();
 }
 
 function applyFilters() {
     const q = document.getElementById('searchInput').value.toLowerCase();
-    
-    // Seleccionamos qué datos usar y qué función de dibujo llamar según la pestaña activa
     const targetData = (currentSection === 'videojuegos') ? allGames : wishlistGames;
     const renderFunc = (currentSection === 'videojuegos') ? renderGames : renderWishlist;
 
     const filtered = targetData.filter(j => {
-        const matchesP = (currentPlatform === "TODAS" || j["Plataforma"] === currentPlatform);
+        let matchesP = false;
+
+        if (currentPlatform === "TODAS") {
+            matchesP = true;
+        } else if (Array.isArray(currentPlatform)) {
+            // Si es un array (prensamos una marca), comprobamos si la plataforma del juego está en esa lista
+            matchesP = currentPlatform.includes(j["Plataforma"]);
+        } else {
+            // Si es un string (prensamos una consola específica)
+            matchesP = (j["Plataforma"] === currentPlatform);
+        }
+
         const matchesS = (j["Nombre Juego"] || "").toLowerCase().includes(q);
         return matchesP && matchesS;
     });
