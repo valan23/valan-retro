@@ -49,19 +49,29 @@ header { width: 100%; text-align: center; }
 }
 
 /* --- SELECTOR DE MARCAS Y CONSOLAS (GENERAL PC) --- */
-.brand-selector, .platform-subgroup {
+/* 1. Solo para las COMPAÑÍAS: Espacio extra grande */
+.brand-selector {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
-    gap: 25px 30px; /* Aumentamos el espacio: 25px arriba/abajo, 30px a los lados */
+    gap: 40px 80px; /* 40px arriba/abajo, 80px entre logos de compañías */
     width: 100%;
+    padding-bottom: 20px;
 }
 
+/* 2. Solo para las CONSOLAS: Espacio normal */
 .platform-subgroup {
-    display: none; margin-top: 10px; padding-top: 20px;
+    display: none; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 25px 30px; /* Espaciado que ya tenías y funcionaba bien */
+    width: 100%;
+    margin-top: 20px; /* Más aire respecto a la fila de marcas */
+    padding-top: 25px;
     border-top: 2px solid rgba(255, 255, 255, 0.1);
     animation: fadeIn 0.4s ease;
 }
+
 .platform-subgroup.show { display: flex; }
 
 /* --- ESTILO DE BOTONES (GENERAL) --- */
