@@ -80,22 +80,23 @@ function renderWishlist(games) {
                 <img src="${fotoUrl}" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
             </div>
 
-            <div class="details-grid" style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; font-size: 0.75em; display: flex; flex-direction: column; gap: 3px; height: 110px; overflow-y: auto;">
+            <div class="details-grid" style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; font-size: 0.75em; display: flex; flex-direction: column; gap: 2px;">
                ${preciosValidos.slice(0, 6).map(p => {
                    const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
        
                    const bgStyle = esElMasBarato 
                        ? `background: linear-gradient(90deg, rgba(149, 0, 255, 0.3) 0%, rgba(149, 0, 255, 0.05) 100%); 
                           border: 1px solid rgba(149, 0, 255, 0.5); 
-                          border-radius: 4px;` 
+                          border-radius: 4px; 
+                          margin: 1px 0;` 
                        : `border-bottom: 1px solid rgba(255,255,255,0.03);`;
 
                    return `
-                   <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 3px 8px;">
+                   <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 4px 8px;">
                        <span style="color: ${esElMasBarato ? '#fff' : p.color}; font-weight: ${esElMasBarato ? '800' : '600'}; display: flex; align-items: center; gap: 5px;">
-                           ${esElMasBarato ? '<span style="font-size: 1.1em;">⭐</span>' : ''} ${p.nombre}
+                           ${esElMasBarato ? '<span style="font-size: 1em;">⭐</span>' : ''} ${p.nombre}
                        </span>
-                       <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: 900; font-family: 'Courier New', monospace;">
+                       <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: 900;">
                            ${p.valor}
                        </span>
                    </div>`;
