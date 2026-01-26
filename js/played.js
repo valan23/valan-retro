@@ -6,6 +6,13 @@ function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
+    // --- AÑADE ESTO PARA ARREGLAR EL GRID ---
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "repeat(auto-fill, minmax(280px, 1fr))";
+    container.style.gap = "20px";
+    container.style.padding = "20px 0";
+    // ----------------------------------------
+
     if (games.length === 0) {
         container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Aún no has registrado juegos jugados.</p>";
         return;
