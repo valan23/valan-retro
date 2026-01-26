@@ -1,34 +1,34 @@
 /**
- * wishlist_games.js - Versión Final Optimizada
+ * wishlist_games.js - Versión Corregida (Sin emojis, colores garantizados)
  */
 
 function obtenerValorEnEuros(precioStr) {
     if (!precioStr) return Infinity;
     const num = parseFloat(precioStr.replace(/[^0-9.,]/g, '').replace(',', '.'));
     if (isNaN(num)) return Infinity;
-    
-    // Ratio 1€ ≈ 180¥
     if (precioStr.includes('¥') || precioStr.toLowerCase().includes('surugaya') || precioStr.toLowerCase().includes('mercari')) {
         return num / 180; 
     }
     return num;
 }
 
+// Función de color de prioridad (Sin emojis)
 function getColorForPrioridad(prioridad) {
-    const p = prioridad ? prioridad.toUpperCase() : "";
-    if (p.includes("TOP")) return "#FF4500";       
-    if (p.includes("PREFERIDO")) return "#FFD700"; 
-    if (p.includes("DESEADO")) return "#00D4FF";   
-    return "#555";
+    // Trim quita espacios en blanco accidentales del CSV
+    const p = prioridad ? prioridad.trim().toUpperCase() : "";
+    if (p === "TOP")       return "#FF4500"; // Naranja rojizo
+    if (p === "PREFERIDO") return "#FFD700"; // Dorado
+    if (p === "DESEADO")   return "#00D4FF"; // Cian
+    return "#555"; // Gris si no coincide nada
 }
 
 function getColorForRareza(rareza) {
-    const r = rareza ? rareza.toUpperCase() : "";
-    if (r.includes("LEGENDARIO")) return "#EFC36C"; 
-    if (r.includes("ÉPICO"))      return "#A335EE"; 
-    if (r.includes("RARO"))       return "#0070DD"; 
-    if (r.includes("INUSUAL"))    return "#1EFF00"; 
-    if (r.includes("COMÚN"))      return "#FFFFFF"; 
+    const r = rareza ? rareza.trim().toUpperCase() : "";
+    if (r === "LEGENDARIO") return "#EFC36C"; 
+    if (r === "ÉPICO")      return "#A335EE"; 
+    if (r === "RARO")       return "#0070DD"; 
+    if (r === "INUSUAL")    return "#1EFF00"; 
+    if (r === "COMÚN")      return "#FFFFFF"; 
     return "#888";
 }
 
@@ -59,10 +59,12 @@ function renderWishlist(games) {
         const preciosValidos = listaPrecios.filter(p => isValid(p.valor));
         const precioMinimoEur = preciosValidos.length > 0 ? Math.min(...preciosValidos.map(p => p.eur)) : Infinity;
 
-        // --- LÓGICA DE ESTADOS (Corregido: una sola declaración) ---
-        const colorPrioridad = getColorForPrioridad(j["Prioridad"]);
+        // --- LÓGICA DE ESTADOS ---
+        const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
+        const colorPrioridad = getColorForPrioridad(priorTexto);
+        
         const rarezaMap = { "LEGENDARIO": 100, "ÉPICO": 80, "RARO": 60, "INUSUAL": 40, "COMÚN": 20 };
-        const rarezaTexto = (j["Rareza"] || "COMÚN").toUpperCase();
+        const rarezaTexto = (j["Rareza"] || "COMÚN").trim().toUpperCase();
         const rarezaPorcentaje = rarezaMap[rarezaTexto] || 20;
 
         return `
@@ -72,8 +74,8 @@ function renderWishlist(games) {
                 ${getPlatformIcon(j["Plataforma"])}
             </div>
 
-            <div style="position: absolute; top: 0; right: 0; background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 14px; border-bottom-left-radius: 8px; z-index: 10; display: flex; align-items: center; gap: 4px; box-shadow: -2px 2px 5px rgba(0,0,0,0.4);">
-                ${(j["Prioridad"] || "DESEADO").toUpperCase()}
+            <div style="position: absolute; top: 0; right: 0; background-color: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 14px; border-bottom-left-radius: 8px; z-index: 10; display: flex; align-items: center; box-shadow: -2px 2px 5px rgba(0,0,0,0.4);">
+                ${priorTexto}
             </div>
 
             <div style="margin-top: 45px;"></div>
@@ -121,14 +123,13 @@ function renderWishlist(games) {
                    const bgStyle = esElMasBarato 
                        ? `background: linear-gradient(90deg, rgba(149, 0, 255, 0.3) 0%, rgba(149, 0, 255, 0.05) 100%); 
                           border: 1px solid rgba(149, 0, 255, 0.5); 
-                          border-radius: 4px; 
-                          margin: 1px 0;` 
+                          border-radius: 4px;` 
                        : `border-bottom: 1px solid rgba(255,255,255,0.03);`;
 
                    return `
                    <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 4px 8px;">
                        <span style="color: ${esElMasBarato ? '#fff' : p.color}; font-weight: ${esElMasBarato ? '800' : '600'}; display: flex; align-items: center; gap: 5px;">
-                           ${esElMasBarato ? '<span style="font-size: 1em;">⭐</span>' : ''} ${p.nombre}
+                           ${esElMasBarato ? '⭐ ' : ''} ${p.nombre}
                        </span>
                        <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: 900;">
                            ${p.valor}
