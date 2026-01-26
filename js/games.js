@@ -26,6 +26,12 @@ function renderGames(games) {
         const colorCompletitud = getCompletitudStyle(j["Completitud"]);
         const textoBadgeCompletitud = (j["Completitud"] || "???").toUpperCase();
         const style = getRegionStyle(j["Región"]);
+        
+        // Lógica de Rareza (Idéntica a wishlist_games.js)
+        const rarezaMap = { "LEGENDARIO": 100, "ÉPICO": 80, "RARO": 60, "INUSUAL": 40, "COMÚN": 20 };
+        const rarezaTexto = (j["Rareza"] || "COMÚN").toString().toUpperCase().trim();
+        const rarezaPorcentaje = rarezaMap[rarezaTexto] || 20;
+        const colorRareza = getColorForRareza(rarezaTexto);
 
         return `
         <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 460px; background: #1e1e24; border: 1px solid #3d3d4a;">
@@ -53,18 +59,15 @@ function renderGames(games) {
 
                 <div style="flex-grow: 1;"></div>
 
-                ${j["Estado General"] ? `
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 80px;">
-                    <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.62em; text-transform: uppercase; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px;">
-                        <span style="opacity: 0.8;">❤️‍🩹 ESTADO</span>
-                        <span style="color: ${getColorForNota(j["Estado General"])}; font-size: 1.1em;">
-                            ${(j["Estado General"] && j["Estado General"] !== "PEND") ? j["Estado General"] + "/10" : "?"}
-                        </span>
+                     <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.75em; font-weight: 800; color: ${colorRareza}; display: flex; align-items: center; gap: 4px;">
+                        <span style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">💎</span>
+                        <span style="letter-spacing: 0.5px;">${rarezaTexto}</span>
                     </div>
                     <div style="width: 75px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                        <div style="width: ${j["Estado General"] * 10}%; height: 100%; background-color: ${getColorForNota(j["Estado General"])};"></div>
+                         <div style="width: ${rarezaPorcentaje}%; height: 100%; background-color: ${colorRareza}; box-shadow: 0 0 8px ${colorRareza}cc;"></div>
                     </div>
-                </div>` : ''}
+                </div>
             </div>
 
             <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid #555; margin-right: 12px;">
@@ -149,4 +152,14 @@ function getCompletitudStyle(valor) {
     if (v.includes("SUELTO") || v.includes("CARTUCHO")) return COMPLETITUD_COLORS["SUELTO"].color;
     if (v.includes("REPRO")) return COMPLETITUD_COLORS["REPRO"].color;
     return "#ccc";
+}
+
+function getColorForRareza(rareza) {
+    const r = rareza ? rareza.toString().toUpperCase() : "";
+    if (r.includes("LEGENDARIO")) return "#EFC36C"; 
+    if (r.includes("ÉPICO"))      return "#A335EE"; 
+    if (r.includes("RARO"))       return "#0070DD"; 
+    if (r.includes("INUSUAL"))    return "#1EFF00"; 
+    if (r.includes("COMÚN"))      return "#FFFFFF"; 
+    return "#888";
 }
