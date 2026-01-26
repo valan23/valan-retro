@@ -16,7 +16,7 @@ function obtenerValorEnEuros(precioStr) {
 function getColorForPrioridad(prioridad) {
     // Trim quita espacios en blanco accidentales del CSV
     const p = prioridad ? prioridad.trim().toUpperCase() : "";
-    if (p === "TOP")       return "#FF4500"; // Naranja rojizo
+    if (p === "IMPRESCINDIBLE")       return "#FF4500"; // Naranja rojizo
     if (p === "PREFERIDO") return "#FFD700"; // Dorado
     if (p === "DESEADO")   return "#00D4FF"; // Cian
     return "#555"; // Gris si no coincide nada
