@@ -142,17 +142,29 @@ function updateYearFilters(games) {
     if (!container) return;
 
     const counts = { all: games.length };
+    
     games.forEach(j => {
-        const fecha = j["Ultima Fecha"] || j["Ultima fecha"] || "";
-        const parts = fecha.split('/');
-        const year = parts.length === 3 ? parts[2].trim() : null;
-        if (year && year.length === 4) {
+        // Obtenemos el valor de la columna de fecha (probando ambas variantes de nombre)
+        const fechaRaw = j["Ultima Fecha"] || j["Ultima fecha"] || "";
+        
+        // Convertimos a string por si acaso viene como número/fecha de Excel
+        const fechaString = String(fechaRaw);
+
+        // BUSCADOR DE AÑO: Busca 4 números seguidos (ej: 2024)
+        const match = fechaString.match(/\d{4}/);
+        
+        if (match) {
+            const year = match[0];
             counts[year] = (counts[year] || 0) + 1;
+        } else {
+            console.warn("No se encontró año en:", fechaString, j["Nombre Juego"]);
         }
     });
 
+    // Ordenar años de más reciente a más antiguo
     const years = Object.keys(counts).filter(y => y !== 'all').sort((a, b) => b - a);
 
+    // Generar botones
     let buttonsHTML = `<button class="year-btn active" data-year="all">Todos (${counts.all})</button>`;
     years.forEach(year => {
         buttonsHTML += `<button class="year-btn" data-year="${year}">${year} (${counts[year]})</button>`;
