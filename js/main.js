@@ -14,7 +14,6 @@ let currentSection = 'videojuegos';
  * CARGADOR INDIVIDUAL (Carga bajo demanda)
  */
 async function loadTabData(sectionId) {
-    // Si ya tenemos los datos en el almacén, los devolvemos directamente (Carga instantánea)
     if (dataStore[sectionId]) return dataStore[sectionId];
 
     const urls = {
@@ -27,12 +26,19 @@ async function loadTabData(sectionId) {
         Papa.parse(urls[sectionId], {
             download: true,
             header: true,
-            worker: true, // <--- AÑADE ESTO: Usa un hilo separado para procesar datos
+            worker: true, 
             skipEmptyLines: true,
-            transformHeader: h => h.trim(),
+            // HEMOS QUITADO transformHeader de aquí para evitar el error
             complete: (results) => {
-                const cleanData = results.data.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
-                dataStore[sectionId] = cleanData; // Guardamos en el almacén para la próxima vez
+                // Limpiamos los datos manualmente aquí
+                const cleanData = results.data
+                    .filter(j => {
+                        // Buscamos la llave "Nombre Juego" aunque tenga espacios
+                        const nombre = j["Nombre Juego"] || j["Nombre Juego "];
+                        return nombre && nombre.trim() !== "";
+                    });
+                
+                dataStore[sectionId] = cleanData;
                 resolve(cleanData);
             },
             error: (err) => reject(err)
