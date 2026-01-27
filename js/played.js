@@ -6,10 +6,13 @@ function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // --- 1. ACTUALIZAR FILTROS DE AÑO Y CONTADORES ---
+    // --- 1. ACTUALIZAR FILTROS DE AÑO Y FORMATO ---
     updateYearFilters(games);
+    // Añadimos esta línea:
+    renderFormatFilters(games, 'format-buttons-container-played', 'played');
 
     // --- 2. CONFIGURAR ESTILO DEL GRID ---
+    // (Tu código de estilos del grid sigue aquí igual...)
     container.style.display = "grid";
     container.style.gridTemplateColumns = "repeat(auto-fill, minmax(280px, 1fr))";
     container.style.gap = "20px";
