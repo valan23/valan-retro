@@ -34,8 +34,13 @@ function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
 
+    // --- 1. LLAMADA AL FILTRO DE FORMATO ---
+    // Pasamos los juegos, el ID del contenedor de botones y el prefijo 'wishlist'
+    renderFormatFilters(games, 'format-buttons-container-wishlist', 'wishlist');
+
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
+    // --- 2. RENDERIZADO DE LAS TARJETAS ---
     container.innerHTML = games.map(j => {
         try {
             const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
