@@ -6,12 +6,14 @@ function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // --- AÑADE ESTO PARA ARREGLAR EL GRID ---
+    // --- 1. ACTUALIZAR FILTROS DE AÑO Y CONTADORES ---
+    updateYearFilters(games);
+
+    // --- 2. CONFIGURAR ESTILO DEL GRID ---
     container.style.display = "grid";
     container.style.gridTemplateColumns = "repeat(auto-fill, minmax(280px, 1fr))";
     container.style.gap = "20px";
     container.style.padding = "20px 0";
-    // ----------------------------------------
 
     if (games.length === 0) {
         container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Aún no has registrado juegos jugados.</p>";
@@ -20,6 +22,7 @@ function renderPlayed(games) {
 
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
+    // --- 3. RENDERIZAR TARJETAS ---
     container.innerHTML = games.map(j => {
         try {
             const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
@@ -29,17 +32,14 @@ function renderPlayed(games) {
 
             const style = getRegionStyle(j["Región"]);
             
-            // Lógica de Formato y Edición
             const campoFormato = j["Formato"] || "Físico";
             const esDigital = campoFormato.toString().toUpperCase().includes("DIGITAL");
             const edicionRaw = j["Edición"] || "";
             const esEdicionEspecial = isValid(edicionRaw) && edicionRaw.toUpperCase() !== "ESTÁNDAR";
 
-            // --- LÓGICA DE NOTA (Badge superior) ---
             const nota = j["Nota"] || "—";
             const colorNota = getColorForNota(nota);
 
-            // --- LÓGICA DE PROCESO (Barra de progreso) ---
             const proceso = (j["Proceso Juego"] || "Probado").trim().toUpperCase();
             const procesoMap = { 
                 "COMPLETADO": { p: 100, c: "#00ff88" }, 
@@ -73,9 +73,7 @@ function renderPlayed(games) {
                             <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">${j["Región"] || "N/A"}</span>
                         </div>
                     </div>
-
                     <div style="flex-grow: 1;"></div>
-
                     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 90px;">
                          <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.65em; font-weight: 800; color: ${stat.c}; letter-spacing: 0.5px;">
                             ${proceso}
@@ -143,20 +141,18 @@ function updateYearFilters(games) {
     const container = document.getElementById('year-buttons-container');
     if (!container) return;
 
-    // 1. Contar juegos por año
     const counts = { all: games.length };
     games.forEach(j => {
         const fecha = j["Ultima Fecha"] || j["Ultima fecha"] || "";
-        const year = fecha.split('/').pop().trim(); // Extrae el año (ej: 2024)
+        const parts = fecha.split('/');
+        const year = parts.length === 3 ? parts[2].trim() : null;
         if (year && year.length === 4) {
             counts[year] = (counts[year] || 0) + 1;
         }
     });
 
-    // 2. Obtener años ordenados (de más reciente a más antiguo)
     const years = Object.keys(counts).filter(y => y !== 'all').sort((a, b) => b - a);
 
-    // 3. Generar HTML de los botones
     let buttonsHTML = `<button class="year-btn active" data-year="all">Todos (${counts.all})</button>`;
     years.forEach(year => {
         buttonsHTML += `<button class="year-btn" data-year="${year}">${year} (${counts[year]})</button>`;
@@ -167,8 +163,8 @@ function updateYearFilters(games) {
 
 // Evento para el clic en los botones (Delegación)
 document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('year-btn')) {
-        const btn = e.target;
+    const btn = e.target.closest('.year-btn');
+    if (btn) {
         const selectedYear = btn.getAttribute('data-year');
 
         document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
@@ -177,6 +173,7 @@ document.addEventListener('click', function(e) {
         const cards = document.querySelectorAll('#played-grid .card');
         cards.forEach(card => {
             const cardText = card.textContent || card.innerText;
+            // Si es "all" o si el texto de la card contiene el año seleccionado
             if (selectedYear === 'all' || cardText.includes(selectedYear)) {
                 card.style.display = 'flex';
             } else {
