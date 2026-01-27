@@ -367,7 +367,9 @@ header { width: 100%; text-align: center; }
 .format-btn.active {
     background: #efc36c;
     color: #000;
-    box-shadow: 0 0 15px rgba(239, 195, 108, 0.3);
+    font-weight: 800; /* Un poco más de peso */
+    box-shadow: 0 0 20px rgba(239, 195, 108, 0.4);
+    transform: scale(1.05); /* Que resalte el seleccionado */
 }
 
 .format-btn:hover:not(.active) {
