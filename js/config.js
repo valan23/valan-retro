@@ -1,12 +1,6 @@
 /* --- CONFIGURACIÓN DE RUTAS --- */
-// Tu hoja principal (Videojuegos)
 const CSV_URL_JUEGOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU7IaxX65IH0Ph-KEl06nrFvuyL2w6oBt7vxaJ96XDLjsO9CDpzYVwl3VDIvx5IG20KXSb6XhF7buX/pub?gid=600973717&single=true&output=csv";
-
-// TU NUEVA HOJA (Juegos Deseados)
-// Nota: He usado el ID de tu Google Sheets. 
-// IMPORTANTE: Asegúrate de que el gid=XXXXXXXX sea el que corresponde a la pestaña "DeseadosJuegos"
 const CSV_URL_DESEADOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRU7IaxX65IH0Ph-KEl06nrFvuyL2w6oBt7vxaJ96XDLjsO9CDpzYVwl3VDIvx5IG20KXSb6XhF7buX/pub?gid=1483244243&single=true&output=csv";
-
 const CSV_URL_JUGADOS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRU7IaxX65IH0Ph-KEl06nrFvuyL2w6oBt7vxaJ96XDLjsO9CDpzYVwl3VDIvx5IG20KXSb6XhF7buX/pub?gid=827817762&single=true&output=csv';
 
 /* --- CONFIGURACIÓN DE MARCAS Y PLATAFORMAS --- */
@@ -59,16 +53,16 @@ const BRANDS_CONFIG = {
             "PlayStation 5": "images/icons/ps5.png"
         }
     },
-    "MICROSOFT": { 
+    "XBOX": { 
         logo: "images/icons/XBOX_logo.png", 
         class: "xbox", 
         platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"],
         icons: {
             "Xbox 360": "images/icons/x360.png",
             "Xbox One": "images/icons/xone.png",
-            "Xbox Series X/S": "images/icons/xsx.png",
+            "Xbox Series X/S": "images/icons/xsx.png"
         }
-    },,
+    },
     "PC": { 
         logo: "images/icons/PC_logo.png", 
         class: "pc", 
@@ -79,9 +73,9 @@ const BRANDS_CONFIG = {
             "Steam": "images/icons/steam.png",
             "GOG.com": "images/icons/gogcom.png",
             "Battle.net": "images/icons/battlenet.png",
-            "Epic Games": "images/icons/epicgames.png",
+            "Epic Games": "images/icons/epicgames.png"
         }
-    }
+    },
     "OTROS": { 
         logo: "images/icons/OTROS_logo.png", 
         class: "otros", 
@@ -89,7 +83,7 @@ const BRANDS_CONFIG = {
         icons: {
             "PC Engine": "images/icons/pce.png",
             "3DO": "images/icons/3do.png",
-            "WonderSwan Color": "images/icons/wsc.png",
+            "WonderSwan Color": "images/icons/wsc.png"
         }
     }
 };
