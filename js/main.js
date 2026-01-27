@@ -292,3 +292,27 @@ function filterByFormat(format, sectionPrefix) {
         }
     });
 }
+
+/**
+ * Determina la clase de marca (Nintendo, Sega, etc.) basada en la plataforma
+ */
+function getBrandClass(plataformaStr) {
+    const p = (plataformaStr || "").toUpperCase();
+    
+    if (p.includes("NINTENDO") || p.includes("FAMICOM") || p.includes("GAME BOY") || 
+        p.includes("WII") || p.includes("NES") || p.includes("SFC") || p.includes("64")) {
+        return "nintendo";
+    }
+    if (p.includes("SEGA") || p.includes("MASTER") || p.includes("MEGA") || 
+        p.includes("SATURN") || p.includes("DREAMCAST") || p.includes("GENESIS")) {
+        return "sega";
+    }
+    if (p.includes("PLAYSTATION") || p.includes("PS1") || p.includes("PS2") || 
+        p.includes("PS3") || p.includes("PSX") || p.includes("PSP") || p.includes("VITA")) {
+        return "sony";
+    }
+    if (p.includes("XBOX")) {
+        return "xbox";
+    }
+    return "pc"; // Clase por defecto
+}
