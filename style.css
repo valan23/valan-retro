@@ -112,19 +112,39 @@ header { width: 100%; text-align: center; }
     margin: 10px;
 }
 
+/* AQUÍ EL CAMBIO: El degradado circular detrás del logo */
 .brand-logo-img, .btn-console-icon {
-    height: 35px; width: auto; max-width: 80px; object-fit: contain;
-    margin-bottom: 8px; filter: brightness(0.9) opacity(0.8); transition: all 0.3s ease;
+    height: 35px; 
+    width: auto; 
+    max-width: 80px; 
+    object-fit: contain;
+    margin-bottom: 8px; 
+    
+    /* Efecto Aura: Degradado suave blanco/crema */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+    padding: 8px; /* Espacio para que el brillo respire */
+    border-radius: 50%;
+    
+    /* Mejora de visibilidad */
+    filter: brightness(1) drop-shadow(0 0 2px rgba(255,255,255,0.3)); 
+    transition: all 0.3s ease;
 }
 
 .brand-icon span, .filter-btn span {
     font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase;
 }
 
-.brand-icon.active .brand-logo-img, .filter-btn.active .btn-console-icon {
-    filter: brightness(1.2) drop-shadow(0 0 5px rgba(255,255,255,0.2));
+/* Efecto cuando el botón está activo o pasas el ratón */
+.brand-icon.active .brand-logo-img, 
+.filter-btn.active .btn-console-icon,
+.brand-icon:hover .brand-logo-img,
+.filter-btn:hover .btn-console-icon {
+    /* El aura brilla más en el hover/active */
+    background: radial-gradient(circle, rgba(239, 195, 108, 0.25) 0%, rgba(239, 195, 108, 0) 70%);
+    filter: brightness(1.2) drop-shadow(0 0 8px rgba(255,255,255,0.5));
     transform: scale(1.1);
 }
+
 .brand-icon.active span, .filter-btn.active span { color: #fff; }
 
 .brand-icon.active, .filter-btn.active {
