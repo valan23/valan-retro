@@ -161,24 +161,28 @@ function updateYearFilters(games) {
     container.innerHTML = buttonsHTML;
 }
 
-// Evento para el clic en los botones (Delegación)
-document.addEventListener('click', function(e) {
-    const btn = e.target.closest('.year-btn');
-    if (btn) {
-        const selectedYear = btn.getAttribute('data-year');
+// Aseguramos que el código de escucha espere a que el HTML exista
+document.addEventListener('DOMContentLoaded', () => {
+    
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.year-btn');
+        if (btn) {
+            const selectedYear = btn.getAttribute('data-year');
 
-        document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+            // 1. Gestionar clases visuales
+            document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-        const cards = document.querySelectorAll('#played-grid .card');
-        cards.forEach(card => {
-            const cardText = card.textContent || card.innerText;
-            // Si es "all" o si el texto de la card contiene el año seleccionado
-            if (selectedYear === 'all' || cardText.includes(selectedYear)) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+            // 2. Filtrar cards
+            const cards = document.querySelectorAll('#played-grid .card');
+            cards.forEach(card => {
+                const cardText = card.textContent || card.innerText;
+                if (selectedYear === 'all' || cardText.includes(selectedYear)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    });
 });
