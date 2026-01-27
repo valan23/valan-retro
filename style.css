@@ -232,10 +232,31 @@ header { width: 100%; text-align: center; }
     width: 100%;
 }
 
-.card { 
-    background: radial-gradient(circle at top left, rgba(45, 45, 55, 1) 0%, rgba(25, 25, 30, 1) 100%);
-    border: 1px solid rgba(239, 195, 108, 0.1);
-    display: flex; flex-direction: column;
+/* Base de la tarjeta */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 480px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Gradiente base (Gris oscuro/Negro) */
+    background: linear-gradient(135deg, #1e1e24 0%, #0b0b0e 100%);
+}
+
+/* Variantes por Compañía (Gradientes Diagonales) */
+.card.nintendo { background: linear-gradient(135deg, rgba(230, 0, 18, 0.15) 0%, #0b0b0e 60%); border-left: 3px solid #e60012; }
+.card.sega     { background: linear-gradient(135deg, rgba(0, 137, 209, 0.15) 0%, #0b0b0e 60%); border-left: 3px solid #0089d1; }
+.card.sony     { background: linear-gradient(135deg, rgba(0, 48, 135, 0.2) 0%, #0b0b0e 60%); border-left: 3px solid #003087; }
+.card.xbox     { background: linear-gradient(135deg, rgba(16, 124, 16, 0.15) 0%, #0b0b0e 60%); border-left: 3px solid #107c10; }
+.card.pc       { background: linear-gradient(135deg, rgba(149, 0, 255, 0.1) 0%, #0b0b0e 60%); border-left: 3px solid #9500ff; }
+
+/* Efecto Hover */
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .card-footer {
