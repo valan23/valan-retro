@@ -136,3 +136,36 @@ function renderPlayed(games) {
         }
     }).join('');
 }
+
+// --- LÓGICA DE FILTRADO POR AÑO PARA EL DIARIO ---
+document.addEventListener('click', function(e) {
+    // Verificamos si lo que se pulsó es un botón de año
+    if (e.target && e.target.classList.contains('year-btn')) {
+        const btn = e.target;
+        const selectedYear = btn.getAttribute('data-year');
+
+        // 1. Actualizar estado visual de los botones
+        document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // 2. Filtrar las tarjetas
+        const cards = document.querySelectorAll('#played-grid .card');
+        
+        cards.forEach(card => {
+            if (selectedYear === 'all') {
+                card.style.display = 'flex'; // Mostrar todos
+                return;
+            }
+
+            // Buscamos la fecha en el footer de la card
+            // El script busca el año (ej: "2024") dentro de todo el texto de la tarjeta
+            const cardText = card.textContent || card.innerText;
+            
+            if (cardText.includes(selectedYear)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+});
