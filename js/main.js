@@ -1,56 +1,73 @@
-// main.js - El Director de Orquesta
-let allGames = [];
-let wishlistGames = [];
-let playedGames = []; 
+// main.js - El Director de Orquesta Optimizado
+
+// 1. Almacén central de datos (Caché)
+let dataStore = {
+    'videojuegos': null,
+    'deseados': null,
+    'jugados': null
+};
+
 let currentPlatform = "TODAS";
 let currentSection = 'videojuegos';
 
 /**
- * INICIALIZACIÓN (Esperamos a que el DOM esté listo)
+ * CARGADOR INDIVIDUAL (Carga bajo demanda)
  */
-async function init() {
-    const loadCSV = (url) => {
-        return new Promise((resolve, reject) => {
-            Papa.parse(url, {
-                download: true, 
-                header: true, 
-                skipEmptyLines: true,
-                transformHeader: h => h.trim(),
-                complete: (results) => resolve(results.data),
-                error: (err) => reject(err)
-            });
-        });
+async function loadTabData(sectionId) {
+    // Si ya tenemos los datos en el almacén, los devolvemos directamente (Carga instantánea)
+    if (dataStore[sectionId]) return dataStore[sectionId];
+
+    const urls = {
+        'videojuegos': CSV_URL_JUEGOS,
+        'deseados': CSV_URL_DESEADOS,
+        'jugados': CSV_URL_JUGADOS
     };
 
+    return new Promise((resolve, reject) => {
+        Papa.parse(urls[sectionId], {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            transformHeader: h => h.trim(),
+            complete: (results) => {
+                const cleanData = results.data.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
+                dataStore[sectionId] = cleanData; // Guardamos en el almacén para la próxima vez
+                resolve(cleanData);
+            },
+            error: (err) => reject(err)
+        });
+    });
+}
+
+/**
+ * INICIALIZACIÓN (Carga solo la pestaña activa inicialmente)
+ */
+async function init() {
     try {
-        const [dataJuegos, dataDeseados, dataJugados] = await Promise.all([
-            loadCSV(CSV_URL_JUEGOS),
-            loadCSV(CSV_URL_DESEADOS),
-            loadCSV(CSV_URL_JUGADOS) 
-        ]);
+        // Cargamos solo Videojuegos al entrar para ganar velocidad
+        const games = await loadTabData('videojuegos');
+        
+        createFilters(games, 'platform-filters');
+        renderGames(games);
 
-        allGames = dataJuegos.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
-        wishlistGames = dataDeseados.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
-        playedGames = dataJugados.filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== ""); 
-
-        // Renderizado inicial según la sección activa
-        if (currentSection === 'videojuegos') {
-            createFilters(allGames, 'platform-filters');
-            renderGames(allGames);
-        }
+        // OPCIONAL: Carga las otras pestañas en silencio después de 3 segundos
+        // Esto hace que cuando el usuario haga clic en Diario, ya esté cargado
+        setTimeout(() => {
+            loadTabData('deseados');
+            loadTabData('jugados');
+        }, 3000);
 
     } catch (error) {
-        console.error("Error crítico al cargar las hojas de Google Sheets:", error);
+        console.error("Error crítico en la carga inicial:", error);
     }
 }
 
-// Arrancamos cuando la ventana esté lista
 window.onload = init;
 
 /**
- * LÓGICA DE NAVEGACIÓN
+ * LÓGICA DE NAVEGACIÓN (Actualizada para carga inteligente)
  */
-function switchSection(sectionId, btn) {
+async function switchSection(sectionId, btn) {
     currentSection = sectionId;
     currentPlatform = "TODAS"; 
 
@@ -61,20 +78,27 @@ function switchSection(sectionId, btn) {
     const targetSection = document.getElementById('section-' + sectionId);
     if (targetSection) targetSection.classList.add('active');
     
-    if(sectionId === 'videojuegos') {
-        createFilters(allGames, 'platform-filters');
-        renderGames(allGames); 
-    } else if(sectionId === 'deseados') {
-        createFilters(wishlistGames, 'platform-filters-wishlist');
-        renderWishlist(wishlistGames); 
-    } else if(sectionId === 'jugados') {
-        createFilters(playedGames, 'platform-filters-played');
-        renderPlayed(playedGames); 
+    try {
+        // Pedimos los datos (si ya están en dataStore, será instantáneo)
+        const data = await loadTabData(sectionId);
+        
+        if(sectionId === 'videojuegos') {
+            createFilters(data, 'platform-filters');
+            renderGames(data); 
+        } else if(sectionId === 'deseados') {
+            createFilters(data, 'platform-filters-wishlist');
+            renderWishlist(data); 
+        } else if(sectionId === 'jugados') {
+            createFilters(data, 'platform-filters-played');
+            renderPlayed(data); 
+        }
+    } catch (error) {
+        console.error(`Error al cargar la sección ${sectionId}:`, error);
     }
 }
 
 /**
- * LÓGICA DE FILTRADO (Dinamizada)
+ * LÓGICA DE FILTRADO (Usa el dataStore)
  */
 function createFilters(games, containerId) {
     const counts = games.reduce((acc, game) => {
@@ -156,18 +180,13 @@ function applyFilters() {
     const searchInput = document.getElementById('searchInput');
     const q = searchInput ? searchInput.value.toLowerCase() : "";
     
-    let targetData, renderFunc;
+    // Obtenemos los datos actuales desde el Almacén Central
+    const targetData = dataStore[currentSection];
+    let renderFunc;
 
-    if (currentSection === 'videojuegos') {
-        targetData = allGames;
-        renderFunc = renderGames;
-    } else if (currentSection === 'deseados') {
-        targetData = wishlistGames;
-        renderFunc = renderWishlist;
-    } else if (currentSection === 'jugados') {
-        targetData = playedGames;
-        renderFunc = renderPlayed;
-    }
+    if (currentSection === 'videojuegos') renderFunc = renderGames;
+    else if (currentSection === 'deseados') renderFunc = renderWishlist;
+    else if (currentSection === 'jugados') renderFunc = renderPlayed;
 
     if (!targetData || !renderFunc) return;
 
@@ -190,7 +209,7 @@ function applyFilters() {
 function filterGames() { applyFilters(); }
 
 /**
- * HELPERS COMPARTIDOS
+ * HELPERS
  */
 function getFlag(region) {
     if (!region) return '<span class="fi fi-xx"></span>';
