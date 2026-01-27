@@ -26,22 +26,26 @@ async function loadTabData(sectionId) {
         Papa.parse(urls[sectionId], {
             download: true,
             header: true,
-            worker: true, 
+            worker: false, // Lo ponemos en false para máxima compatibilidad en iPhone/Vivaldi
             skipEmptyLines: true,
-            // HEMOS QUITADO transformHeader de aquí para evitar el error
             complete: (results) => {
-                // Limpiamos los datos manualmente aquí
-                const cleanData = results.data
-                    .filter(j => {
-                        // Buscamos la llave "Nombre Juego" aunque tenga espacios
-                        const nombre = j["Nombre Juego"] || j["Nombre Juego "];
-                        return nombre && nombre.trim() !== "";
-                    });
-                
+                // Filtramos y limpiamos los nombres de las columnas manualmente
+                // Esto soluciona el problema de los espacios en blanco sin usar funciones pesadas
+                const cleanData = results.data.map(row => {
+                    const newRow = {};
+                    for (let key in row) {
+                        newRow[key.trim()] = row[key];
+                    }
+                    return newRow;
+                }).filter(j => j["Nombre Juego"] && j["Nombre Juego"].trim() !== "");
+
                 dataStore[sectionId] = cleanData;
                 resolve(cleanData);
             },
-            error: (err) => reject(err)
+            error: (err) => {
+                console.error("Error en PapaParse:", err);
+                reject(err);
+            }
         });
     });
 }
