@@ -1,5 +1,5 @@
 /**
- * wishlist_games.js - Versión Actualizada con Formato y Ediciones
+ * wishlist_games.js - Versión con Gradientes Dinámicos por Marca
  */
 
 function obtenerValorEnEuros(precioStr) {
@@ -24,7 +24,7 @@ function getColorForRareza(rareza) {
     const r = rareza ? rareza.toString().toUpperCase() : "";
     if (r.includes("LEGENDARIO")) return "#EFC36C"; 
     if (r.includes("ÉPICO"))      return "#A335EE"; 
-    if (r.includes("RARO"))       return "#0070DD"; 
+    if (r.includes("RARO"))        return "#0070DD"; 
     if (r.includes("INUSUAL"))    return "#1EFF00"; 
     if (r.includes("COMÚN"))      return "#FFFFFF"; 
     return "#888";
@@ -34,13 +34,10 @@ function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
 
-    // --- 1. LLAMADA AL FILTRO DE FORMATO ---
-    // Pasamos los juegos, el ID del contenedor de botones y el prefijo 'wishlist'
     renderFormatFilters(games, 'format-buttons-container-wishlist', 'wishlist');
 
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
-    // --- 2. RENDERIZADO DE LAS TARJETAS ---
     container.innerHTML = games.map(j => {
         try {
             const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
@@ -50,7 +47,9 @@ function renderWishlist(games) {
 
             const style = getRegionStyle(j["Región"]);
             
-            // --- LÓGICA DE FORMATO Y EDICIÓN ---
+            // --- LÓGICA GLOBAL DE MARCA (Llamada a main.js) ---
+            const brandClass = getBrandClass(valorExcel);
+            
             const campoFormato = j["Formato"] || "Físico";
             const esDigital = campoFormato.toString().toUpperCase().includes("DIGITAL");
             
@@ -76,8 +75,9 @@ function renderWishlist(games) {
             const rarezaTexto = (j["Rareza"] || "COMÚN").trim().toUpperCase();
             const rarezaPorcentaje = { "LEGENDARIO": 100, "ÉPICO": 80, "RARO": 60, "INUSUAL": 40, "COMÚN": 20 }[rarezaTexto] || 20;
 
+            // Se quitan los inline styles de 'background' y 'border' para que el CSS actúe
             return `
-            <div class="card" style="position: relative; padding-bottom: 55px; display: flex; flex-direction: column; overflow: hidden; min-height: 480px; background: #1e1e24; border: 1px solid #3d3d4a;">
+            <div class="card ${brandClass} ${esDigital ? 'digital-variant' : ''}">
                 
                 <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px; display: flex; align-items: center;">
                     ${getPlatformIcon(j["Plataforma"])}
@@ -113,7 +113,7 @@ function renderWishlist(games) {
                     </div>
                 </div>
 
-                <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 2px solid ${esDigital ? '#00d4ff' : '#555'}; margin-right: 12px;">
+                <div style="margin-bottom: 12px; padding: 5px 0 5px 12px; border-left: 3px solid ${esDigital ? '#00d4ff' : 'rgba(255,255,255,0.1)'}; margin-right: 12px;">
                     <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                         ${j["Nombre Juego"]}
                     </div>
@@ -136,28 +136,28 @@ function renderWishlist(games) {
                         ${esDigital ? '<i class="fa-solid fa-cloud"></i> DIGITAL' : '<i class="fa-solid fa-compact-disc"></i> FÍSICO'}
                     </div>
 
-                    <img src="${fotoUrl}" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5)); ${esDigital ? 'opacity: 0.7;' : ''}">
+                    <img src="${fotoUrl}" loading="lazy" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5)); ${esDigital ? 'opacity: 0.7;' : ''}">
                 </div>
 
                 <div class="details-grid" style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; font-size: 0.75em; display: flex; flex-direction: column; gap: 2px;">
-                   ${preciosValidos.slice(0, 6).map(p => {
-                       const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
-                       const bgStyle = esElMasBarato 
-                           ? `background: linear-gradient(90deg, rgba(149, 0, 255, 0.3) 0%, rgba(149, 0, 255, 0.05) 100%); 
-                              border: 1px solid rgba(149, 0, 255, 0.5); 
-                              border-radius: 4px;` 
-                           : `border-bottom: 1px solid rgba(255,255,255,0.03);`;
+                    ${preciosValidos.slice(0, 6).map(p => {
+                        const esElMasBarato = p.eur === precioMinimoEur && p.eur !== Infinity;
+                        const bgStyle = esElMasBarato 
+                            ? `background: linear-gradient(90deg, rgba(149, 0, 255, 0.3) 0%, rgba(149, 0, 255, 0.05) 100%); 
+                               border: 1px solid rgba(149, 0, 255, 0.5); 
+                               border-radius: 4px;` 
+                            : `border-bottom: 1px solid rgba(255,255,255,0.03);`;
 
-                       return `
-                       <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 4px 8px;">
-                           <span style="color: ${esElMasBarato ? '#fff' : p.color}; font-weight: ${esEdicionEspecial && p.nombre === 'Nuevo' ? '900' : (esElMasBarato ? '800' : '600')}; display: flex; align-items: center; gap: 5px;">
-                               ${esElMasBarato ? '⭐ ' : ''} ${p.nombre}
-                           </span>
-                           <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: 900;">
-                               ${p.valor}
-                           </span>
-                       </div>`;
-                   }).join('')}
+                        return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; ${bgStyle} padding: 4px 8px;">
+                            <span style="color: ${esElMasBarato ? '#fff' : p.color}; font-weight: ${esEdicionEspecial && p.nombre === 'Nuevo' ? '900' : (esElMasBarato ? '800' : '600')}; display: flex; align-items: center; gap: 5px;">
+                                ${esElMasBarato ? '⭐ ' : ''} ${p.nombre}
+                            </span>
+                            <span style="color: ${esElMasBarato ? '#00ff88' : '#eee'}; font-weight: 900;">
+                                ${p.valor}
+                            </span>
+                        </div>`;
+                    }).join('')}
                 </div>
 
                 <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
