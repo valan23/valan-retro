@@ -262,7 +262,7 @@ function renderFormatFilters(games, containerId, sectionPrefix) {
             <i class="fa-solid fa-layer-group"></i> Todos (${counts.all})
         </button>
         <button class="format-btn" data-format="fisico">
-            <i class="fa-solid fa-disc-drive"></i> Físico (${counts.fisico})
+            <i class="fa-solid fa-floppy-disk"></i> Físico (${counts.fisico})
         </button>
         <button class="format-btn" data-format="digital">
             <i class="fa-solid fa-cloud-download"></i> Digital (${counts.digital})
