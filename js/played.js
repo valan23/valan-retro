@@ -137,31 +137,47 @@ function renderPlayed(games) {
     }).join('');
 }
 
-// --- LÓGICA DE FILTRADO POR AÑO PARA EL DIARIO ---
+// --- LÓGICA DE CONTADORES Y FILTRADO POR AÑO ---
+
+function updateYearFilters(games) {
+    const container = document.getElementById('year-buttons-container');
+    if (!container) return;
+
+    // 1. Contar juegos por año
+    const counts = { all: games.length };
+    games.forEach(j => {
+        const fecha = j["Ultima Fecha"] || j["Ultima fecha"] || "";
+        const year = fecha.split('/').pop().trim(); // Extrae el año (ej: 2024)
+        if (year && year.length === 4) {
+            counts[year] = (counts[year] || 0) + 1;
+        }
+    });
+
+    // 2. Obtener años ordenados (de más reciente a más antiguo)
+    const years = Object.keys(counts).filter(y => y !== 'all').sort((a, b) => b - a);
+
+    // 3. Generar HTML de los botones
+    let buttonsHTML = `<button class="year-btn active" data-year="all">Todos (${counts.all})</button>`;
+    years.forEach(year => {
+        buttonsHTML += `<button class="year-btn" data-year="${year}">${year} (${counts[year]})</button>`;
+    });
+
+    container.innerHTML = buttonsHTML;
+}
+
+// Evento para el clic en los botones (Delegación)
 document.addEventListener('click', function(e) {
-    // Verificamos si lo que se pulsó es un botón de año
     if (e.target && e.target.classList.contains('year-btn')) {
         const btn = e.target;
         const selectedYear = btn.getAttribute('data-year');
 
-        // 1. Actualizar estado visual de los botones
         document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // 2. Filtrar las tarjetas
         const cards = document.querySelectorAll('#played-grid .card');
-        
         cards.forEach(card => {
-            if (selectedYear === 'all') {
-                card.style.display = 'flex'; // Mostrar todos
-                return;
-            }
-
-            // Buscamos la fecha en el footer de la card
-            // El script busca el año (ej: "2024") dentro de todo el texto de la tarjeta
             const cardText = card.textContent || card.innerText;
-            
-            if (cardText.includes(selectedYear)) {
+            if (selectedYear === 'all' || cardText.includes(selectedYear)) {
                 card.style.display = 'flex';
             } else {
                 card.style.display = 'none';
