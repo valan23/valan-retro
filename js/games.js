@@ -6,6 +6,10 @@ function renderGames(games) {
     const container = document.getElementById('game-grid');
     if (!container) return;
 
+    // --- 1. LLAMADA AL FILTRO DE FORMATO (Añadido aquí) ---
+    // Esto calculará los contadores sobre la lista completa de juegos
+    renderFormatFilters(games, 'format-buttons-container-games', 'game');
+
     // Limpieza total antes de empezar
     container.innerHTML = "";
 
@@ -14,14 +18,13 @@ function renderGames(games) {
         return;
     }
 
-    // 1. Renderizamos el primer lote inmediatamente (24 juegos para llenar la pantalla inicial)
+    // 1. Renderizamos el primer lote inmediatamente (24 juegos)
     const firstBatch = games.slice(0, 24);
     const firstHtml = firstBatch.map(j => createCardHTML(j)).join('');
     container.innerHTML = firstHtml;
 
-    // 2. El resto se renderiza progresivamente para no congelar el iPhone
+    // 2. El resto se renderiza progresivamente
     if (games.length > 24) {
-        // Usamos un pequeño delay para que el navegador respire
         setTimeout(() => {
             const remainingBatch = games.slice(24);
             const remainingHtml = remainingBatch.map(j => createCardHTML(j)).join('');
