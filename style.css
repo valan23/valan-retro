@@ -101,46 +101,50 @@ header { width: 100%; text-align: center; }
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease-in-out;
     
-    width: 75px; 
-    height: 80px;
-    background: transparent !important;
-    border: none;
-    padding: 5px;
-    flex: 0 0 auto;
-    margin: 10px;
+    width: 85px; 
+    height: 85px;
+    /* Una base sólida que separa el logo del fondo negro de la web */
+    background: #25252d !important; 
+    border: 1px solid #3d3d4a;
+    border-radius: 12px;
+    padding: 10px;
+    margin: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
 /* --- ESTILO DE BOTONES (LIMPIO Y PROFESIONAL) --- */
 .brand-logo-img, .btn-console-icon {
-    height: 35px; 
+    height: 32px; 
     width: auto; 
-    max-width: 80px; 
+    max-width: 70px; 
     object-fit: contain;
-    margin-bottom: 8px; 
-    
-    /* Convertimos cualquier logo a BLANCO mediante filtros */
-    filter: brightness(0) invert(1); 
-    opacity: 0.6; /* Un poco grisáceo para que no deslumbre */
-    transition: all 0.3s ease;
+    margin-bottom: 6px;
+    /* Quitamos filtros raros, dejamos el logo natural */
+    filter: none !important; 
 }
 
 .brand-icon span, .filter-btn span {
-    font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase;
+    font-size: 9px; 
+    font-weight: 800; 
+    color: #aaa; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Cuando el botón está activo o pasas el ratón */
-.brand-icon.active .brand-logo-img, 
-.filter-btn.active .btn-console-icon,
-.brand-icon:hover .brand-logo-img,
-.filter-btn:hover .btn-console-icon {
-    opacity: 1; /* Se vuelve blanco puro */
-    filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.5));
-    transform: translateY(-2px); /* Un pequeño salto hacia arriba */
+/* EFECTO AL SELECCIONAR O PASAR EL RATÓN */
+.brand-icon.active, .filter-btn.active,
+.brand-icon:hover, .filter-btn:hover {
+    background: #353540 !important; /* Se aclara la ficha */
+    border-color: var(--accent);    /* El borde brilla con tu color (morado/dorado) */
+    transform: translateY(-3px);    /* Se eleva un poco */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
 }
 
-.brand-icon.active span, .filter-btn.active span { color: #fff; }
+.brand-icon.active span, .filter-btn.active span {
+    color: #fff;
+}
 
 .brand-icon.active, .filter-btn.active {
     background: transparent !important; /* Quitamos el fondo morado */
