@@ -27,6 +27,7 @@ async function loadTabData(sectionId) {
         Papa.parse(urls[sectionId], {
             download: true,
             header: true,
+            worker: true, // <--- AÑADE ESTO: Usa un hilo separado para procesar datos
             skipEmptyLines: true,
             transformHeader: h => h.trim(),
             complete: (results) => {
@@ -52,10 +53,12 @@ async function init() {
 
         // OPCIONAL: Carga las otras pestañas en silencio después de 3 segundos
         // Esto hace que cuando el usuario haga clic en Diario, ya esté cargado
-        setTimeout(() => {
-            loadTabData('deseados');
-            loadTabData('jugados');
-        }, 3000);
+        /*
+       setTimeout(() => {
+           loadTabData('deseados');
+           loadTabData('jugados');
+       }, 3000);
+       */
 
     } catch (error) {
         console.error("Error crítico en la carga inicial:", error);
