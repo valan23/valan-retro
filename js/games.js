@@ -107,12 +107,22 @@ function createCardHTML(j) {
                         { label: '🖼️Portada', val: j["Estado Portada"] },
                         { label: '🔖Obi', val: j["Estado Spinecard"] },
                         { label: '🎁Extras', val: j["Estado Extras"] }
-                    ].filter(item => isValid(item.val)).map(item => `
+                    ].filter(item => isValid(item.val)).map(item => {
+                        // Lógica para detectar si falta el artículo
+                        const valorUpper = item.val.toString().toUpperCase();
+                        const faltaArticulo = valorUpper === "NO" || valorUpper === "FALTA" || valorUpper === "0";
+                        const colorLabel = faltaArticulo ? "#ff4444" : "#999";
+                        
+                        return `
                         <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
-                            <span style="color: #999; font-size: 1em;">${item.label}:</span>
-                            <span style="font-weight: bold; font-size: 1em;">${formatEstado(item.val)}</span>
-                        </div>
-                    `).join('')}
+                            <span style="color: ${colorLabel}; font-size: 1em; font-weight: ${faltaArticulo ? 'bold' : '500'};">
+                                ${item.label}:
+                            </span>
+                            <span style="font-weight: bold; font-size: 1em;">
+                                ${formatEstado(item.val)}
+                            </span>
+                        </div>`;
+                    }).join('')}
                     </div>
                 `}
             </div>
