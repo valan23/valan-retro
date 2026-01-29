@@ -49,6 +49,9 @@ function createCardHTML(j) {
         const edicionRaw = j["Edición"] || "";
         const esEdicionEspecial = isValid(edicionRaw) && edicionRaw.toUpperCase() !== "ESTÁNDAR";
 
+        // COLOR ÚNICO PARA TEXTOS SECUNDARIOS (Gris plata brillante)
+        const secondaryTextColor = "#ced4da";
+
         return `
         <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; padding-bottom: 60px;">
             
@@ -84,10 +87,10 @@ function createCardHTML(j) {
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? 
-                    `<div style="font-size: 0.75em; color: #111; margin-top: 3px; font-family: 'Noto Sans JP', sans-serif; font-weight: 900; text-shadow: 1px 1px 0px rgba(255,255,255,0.8);">${j["Nombre Japones"]}</div>` 
+                    `<div style="font-size: 0.7em; color: ${secondaryTextColor}; margin-top: 3px; font-family: 'Noto Sans JP', sans-serif; opacity: 0.8;">${j["Nombre Japones"]}</div>` 
                     : ''}
                 
-                ${esEdicionEspecial ? `<div style="font-size: 0.7em; color: #333; margin-top: 4px; font-weight: 700; text-shadow: 1px 1px 0px rgba(255,255,255,0.5);"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
+                ${esEdicionEspecial ? `<div style="font-size: 0.7em; color: ${secondaryTextColor}; margin-top: 4px; opacity: 0.7;"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
             </div>
 
             <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 150px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
@@ -121,7 +124,7 @@ function createCardHTML(j) {
             </div>
 
             <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-size: 0.75em; color: #000; font-style: italic; font-weight: 800; text-shadow: 1px 1px 0px rgba(255,255,255,0.6);">
+                <div style="font-size: 0.65em; color: ${secondaryTextColor}; font-style: italic; opacity: 0.8;">
                     <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
                 </div>
                 <div class="price-tag" style="display: flex; align-items: center; gap: 4px;">
