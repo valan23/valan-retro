@@ -1,12 +1,12 @@
 /**
- * played.js - Registro de juegos terminados con Filtros Combinados y Footer Restaurado
+ * played.js - Registro de juegos terminados con Filtros Combinados, Footer y Badges de Formato
  */
 
 // VARIABLES DE ESTADO GLOBAL PARA FILTROS
 let selectedYear = 'all';
 let selectedFormat = 'all';
 
-// 1. Función auxiliar para colores de estado
+// 1. Función auxiliar para colores de estado (Proceso Juego)
 function getColorForProceso(proceso) {
     const p = proceso ? proceso.toString().toUpperCase().trim() : "";
     const colores = {
@@ -25,7 +25,7 @@ function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // --- ORDEN DE FILTROS: FORMATO ANTES QUE AÑO ---
+    // --- ACTIVAR FILTROS ---
     renderFormatFilters(games, 'format-buttons-container-played', 'played');
     updateYearFilters(games);
 
@@ -49,7 +49,7 @@ function renderPlayed(games) {
             const nota = isNaN(notaRaw) ? 0 : notaRaw;
             const colorNota = getColorForNota(nota);
 
-            // Variables de datos (Restauradas)
+            // Variables de datos
             const primeraFecha = j["Primera fecha"] || j["Primera Fecha"] || "---";
             const ultimaFecha = j["Ultima fecha"] || j["Ultima Fecha"] || "---";
             const tiempoJuego = j["Tiempo Juego"] || j["Tiempo juego"] || "--h";
@@ -92,6 +92,11 @@ function renderPlayed(games) {
                 </div>
 
                 <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 160px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
+                    
+                    <div style="position: absolute; top: 8px; right: 8px; padding: 2px 8px; border-radius: 4px; font-size: 0.6em; font-weight: 800; text-transform: uppercase; z-index: 5; background: ${esDigital ? 'rgba(0, 212, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)'}; color: ${esDigital ? '#00d4ff' : '#aaa'}; border: 1px solid ${esDigital ? '#00d4ff' : 'rgba(255,255,255,0.2)'};">
+                        ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 3px;"></i> Digital' : '<i class="fa-solid fa-compact-disc" style="margin-right: 3px;"></i> Físico'}
+                    </div>
+
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5));">
                 </div>
 
@@ -130,7 +135,7 @@ function renderPlayed(games) {
     setupFormatFilterEvents();
 }
 
-// --- FUNCIONES DE FILTRADO (Combinadas) ---
+// --- LÓGICA DE FILTRADO COMBINADO ---
 
 function applyCombinedFilters() {
     const cards = document.querySelectorAll('#played-grid .card');
