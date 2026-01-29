@@ -1,31 +1,14 @@
 /**
- * played.js - Registro de juegos terminados con Stickers de Formato y Filtros Combinados
+ * played.js - Corregido
  */
 
-// VARIABLES DE ESTADO GLOBAL PARA FILTROS
 let selectedYear = 'all';
 let selectedFormat = 'all';
 
-// 1. Función auxiliar para colores de estado (Proceso Juego)
-function getColorForProceso(proceso) {
-    const p = proceso ? proceso.toString().toUpperCase().trim() : "";
-    const colores = {
-        "COMPLETADO": { border: "#00ff88", bg: "rgba(0, 255, 136, 0.15)", text: "#00ff88" },
-        "EN PROCESO": { border: "#00d4ff", bg: "rgba(0, 212, 255, 0.15)", text: "#00d4ff" },
-        "JUGADO":     { border: "#FFD700", bg: "rgba(255, 215, 0, 0.15)", text: "#FFD700" },
-        "ABANDONADO": { border: "#ff4444", bg: "rgba(255, 68, 68, 0.15)", text: "#ff4444" },
-        "PROBADO":    { border: "#a335ee", bg: "rgba(163, 53, 238, 0.15)", text: "#a335ee" },
-        "SIN JUGAR":  { border: "#888888", bg: "rgba(136, 136, 136, 0.15)", text: "#888888" }
-    };
-    return colores[p] || { border: "#EFC36C", bg: "rgba(239, 195, 108, 0.15)", text: "#EFC36C" };
-}
-
-// 2. Función Principal de Renderizado
 function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // --- ACTIVAR FILTROS ---
     renderFormatFilters(games, 'format-buttons-container-played', 'played');
     updateYearFilters(games);
 
@@ -33,15 +16,21 @@ function renderPlayed(games) {
 
     container.innerHTML = games.map(j => {
         try {
+            // Asegúrate de que platformMap cubra todos tus casos
             const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
             const valorExcel = j["Plataforma"] ? j["Plataforma"].trim() : "";
-            const carpetaSistema = platformMap[valorExcel] || valorExcel.toLowerCase().replace(/\s+/g, '');
+            
+            // Fix: Búsqueda más segura de la carpeta
+            const keyMatch = Object.keys(platformMap).find(k => k.toUpperCase() === valorExcel.toUpperCase());
+            const carpetaSistema = keyMatch ? platformMap[keyMatch] : valorExcel.toLowerCase().replace(/\s+/g, '');
             
             const nombrePortada = j["Portada"] ? j["Portada"].trim() : "";
             const fotoUrl = isValid(nombrePortada) ? `images/covers/${carpetaSistema}/${nombrePortada}` : `images/covers/default.webp`;
 
-            const brandClass = getBrandClass(valorExcel);
-            const style = getRegionStyle(j["Región"]);
+            // Nota: Estas funciones deben existir globalmente
+            const brandClass = typeof getBrandClass === 'function' ? getBrandClass(valorExcel) : "";
+            const style = typeof getRegionStyle === 'function' ? getRegionStyle(j["Región"]) : {bg:'gray', border:'none', text:'white'};
+            
             const campoFormato = j["Formato"] || "Físico";
             const esDigital = campoFormato.toString().toUpperCase().includes("DIGITAL");
 
@@ -49,18 +38,16 @@ function renderPlayed(games) {
             const nota = isNaN(notaRaw) ? 0 : notaRaw;
             const colorNota = getColorForNota(nota);
 
-            // Variables de datos
             const primeraFecha = j["Primera fecha"] || j["Primera Fecha"] || "---";
             const ultimaFecha = j["Ultima fecha"] || j["Ultima Fecha"] || "---";
-            const tiempoJuego = j["Tiempo Juego"] || j["Tiempo juego"] || "--h";
+            const tiempoJuego = j["Tiempo Juego"] || j["Tiempo juego"] || "--";
             const procesoJuego = j["Proceso Juego"] || j["Proceso juego"] || "---";
             const colorStatus = getColorForProceso(procesoJuego);
 
             return `
             <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}">
-                
                 <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
-                    ${getPlatformIcon(j["Plataforma"])}
+                    ${typeof getPlatformIcon === 'function' ? getPlatformIcon(j["Plataforma"]) : ''}
                 </div>
 
                 <div style="position: absolute; top: 0; right: 0; background-color: ${colorNota}; color: #000; font-weight: 900; font-size: 0.85em; padding: 6px 15px; border-bottom-left-radius: 8px; z-index: 10; box-shadow: -2px 2px 8px rgba(0,0,0,0.4);">
@@ -75,7 +62,7 @@ function renderPlayed(games) {
                             ${j["Año"] || "????"}
                         </span>
                         <div style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
-                            ${getFlag(j["Región"])} 
+                            ${typeof getFlag === 'function' ? getFlag(j["Región"]) : ''} 
                             <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">${j["Región"] || "N/A"}</span>
                         </div>
                     </div>
@@ -92,18 +79,16 @@ function renderPlayed(games) {
                 </div>
 
                 <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 160px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);"> 
-                    
                     <div style="position: absolute; bottom: 8px; left: 8px; padding: 4px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-transform: uppercase; z-index: 5; background: ${esDigital ? '#00d4ff' : '#e67e22'}; color: ${esDigital ? '#000' : '#fff'}; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); display: flex; align-items: center; opacity: 0.95;">
                         ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 5px;"></i> Digital' : '<i class="fa-solid fa-floppy-disk" style="margin-right: 5px;"></i> Físico'}
                     </div>
-
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5));">
                 </div>
 
                 <div style="margin: 0 12px 15px 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 12px; flex-grow: 1; border: 1px solid rgba(255,255,255,0.03);">
                     <div style="font-size: 0.75em; color: #ccc; line-height: 1.5; font-style: italic;">
                         <i class="fa-solid fa-quote-left" style="font-size: 0.7em; color: #EFC36C; margin-right: 5px; opacity: 0.5;"></i>
-                        ${j["Comentario"] || "Sin comentarios disponibles."}
+                        ${j["Comentario"] || "Sin comentarios."}
                     </div>
                 </div>
 
@@ -112,16 +97,14 @@ function renderPlayed(games) {
                         <span style="font-size: 0.55em; color: #777; text-transform: uppercase;">Inicio</span>
                         <span style="font-size: 0.7em; color: #aaa; font-weight: 600;">${primeraFecha}</span>
                     </div>
-                    
                     <div style="display: flex; flex-direction: column; flex: 1; text-align: center; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);">
                         <span style="font-size: 0.55em; color: #777; text-transform: uppercase;">Fin</span>
                         <span style="font-size: 0.7em; color: #EFC36C; font-weight: 700;">${ultimaFecha}</span>
                     </div>
-
                     <div style="display: flex; flex-direction: column; flex: 1; text-align: right;">
                         <span style="font-size: 0.55em; color: #777; text-transform: uppercase;">Tiempo</span>
                         <span style="font-size: 0.7em; color: #00ff88; font-weight: 800; display: flex; align-items: center; justify-content: flex-end; gap: 3px;">
-                            <i class="fa-regular fa-clock" style="font-size: 0.9em;"></i> ${tiempoJuego} h
+                            <i class="fa-regular fa-clock" style="font-size: 0.9em;"></i> ${tiempoJuego}h
                         </span>
                     </div>
                 </div>
