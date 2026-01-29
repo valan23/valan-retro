@@ -2,14 +2,19 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    background: radial-gradient(circle at center, #1a1a1d 0%, #0f0f12 100%);
-    color: #d1d1d1; /* Un blanco roto, menos agresivo que el puro */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+    background: radial-gradient(circle at center, #1e1e22 0%, #0d0d0f 100%);
+    color: #b0b0b5; /* Blanco roto para evitar fatiga */
+    padding: 10px;
+    overflow-x: hidden;
+    line-height: 1.5;
 }
 
 :root { 
-    --accent: #9500ff; 
-    --bg: #0b0b0e; 
-    --card: #16161a; 
+    --accent: #efc36c; 
+    --bg-dark: #0d0d0f;
+    --glass-light: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
@@ -20,84 +25,54 @@ header { width: 100%; text-align: center; }
 .main-logo { 
     width: 100%; 
     height: auto; 
-    filter: drop-shadow(0 0 12px rgba(239, 195, 108, 0.2)); 
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.5)); 
 }
 
 #searchInput { 
     width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 25px; 
-    border: 1px solid #333; background: #1a1a20; color: white; display: block; margin: 15px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    background: rgba(255, 255, 255, 0.05); 
+    color: white; display: block; margin: 15px auto;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
 }
 
 #searchInput:focus {
     outline: none;
-    border-color: #efc36c;
-    box-shadow: 0 0 15px rgba(239, 195, 108, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(239, 195, 108, 0.1);
 }
 
 /* --- SECCIONES PRINCIPALES (TABS) --- */
 .main-tabs { 
-    display: flex; 
-    justify-content: center; 
-    gap: 15px; 
-    margin: 30px 0; 
-    flex-wrap: wrap; 
+    display: flex; justify-content: center; gap: 15px; margin: 30px 0; flex-wrap: wrap; 
 }
 
 .tab-btn {
-    background: rgba(255, 255, 255, 0.03); /* Fondo tipo cristal muy suave */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px; /* Un poco redondeadas para que se sientan modernas */
+    background: var(--glass-light);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
     color: #888;
     padding: 12px 24px;
-    font-size: 0.95em;
-    font-weight: 600;
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 10px;
 }
 
-/* Efecto al pasar el ratón */
 .tab-btn:hover {
     color: #fff;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.06);
 }
 
-/* ESTADO ACTIVO: Dorado Vibrante */
 .tab-btn.active {
-    background: rgba(239, 195, 108, 0.1) !important; /* Brillo dorado de fondo */
-    color: #efc36c !important;
-    border: 1px solid rgba(239, 195, 108, 0.4) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 
-                inset 0 0 10px rgba(239, 195, 108, 0.1);
-}
-
-/* La línea brillante inferior ahora es un resplandor */
-.tab-btn.active::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 20%;
-    width: 60%;
-    height: 3px;
-    background: #efc36c;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 0 0 10px #efc36c;
-}
-
-.tab-btn i {
-    font-size: 1.2em;
-    transition: transform 0.3s ease;
-}
-
-.tab-btn.active i {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 5px rgba(239, 195, 108, 0.5));
+    background: rgba(239, 195, 108, 0.05) !important;
+    color: var(--accent) !important;
+    border: 1px solid rgba(239, 195, 108, 0.3) !important;
 }
 
 .section-content { display: none; }
@@ -105,367 +80,116 @@ header { width: 100%; text-align: center; }
 
 /* --- CONTENEDOR DE ICONOS (EL ESTANTE) --- */
 .filter-container {
-    background: #08080a !important; /* Más oscuro que el body */
-    border: 1px solid #1c1c21 !important;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); /* Sombra interna para dar profundidad */
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.4);
     padding: 25px !important;
     border-radius: 15px !important;
 }
 
-/* --- SELECTOR DE MARCAS Y CONSOLAS (GENERAL PC) --- */
+/* --- BOTONES DE MARCAS Y CONSOLAS (INTEGRADOS) --- */
+.brand-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px 100px; padding-bottom: 20px; }
+.platform-subgroup { display: none; flex-wrap: wrap; justify-content: center; gap: 20px 25px; margin-top: 20px; padding-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.platform-subgroup.show { display: flex; animation: fadeIn 0.4s ease; }
 
-/* 1. Solo para las COMPAÑÍAS: Aquí aumentamos la distancia */
-.brand-selector {
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 50px 120px; /* 50px vertical, 120px horizontal entre compañías */
-    width: 100%;
-    padding-bottom: 20px;
-}
-
-/* 2. Solo para las CONSOLAS: Espacio normal (Se queda como estaba) */
-.platform-subgroup {
-    display: none; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 25px 30px; 
-    width: 100%;
-    margin-top: 20px;
-    padding-top: 25px;
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
-    animation: fadeIn 0.4s ease;
-}
-
-.platform-subgroup.show { display: flex; }
-
-/* --- NUEVA ESTRUCTURA DE BOTONES INTEGRADOS --- */
 .brand-icon, .filter-btn {
-    /* Fondo que nace del mismo color del body para integrarse */
-    background: rgba(255, 255, 255, 0.03) !important; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.25s ease;
+    min-width: 100px; height: 70px;
+    /* Efecto para rescatar logos oscuros: brillo radial sutil en el centro */
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.01) 100%) !important;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.05), 
-                0 4px 6px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
-    transition: all 0.2s ease;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
 }
 
-/* Logos y Texto en reposo: Apagados */
 .brand-logo-img, .btn-console-icon {
-    height: 25px; 
-    width: auto; 
-    max-width: 75px; 
-    object-fit: contain;
-    margin-bottom: 6px;
-    
-    /* ESTADO REPOSO: Con color, pero suavizado */
-    opacity: 0.55;           /* Subimos un poco para que el color se aprecie */
-    filter: grayscale(0);    /* ELIMINADO EL GRIS: Ahora se ven los colores originales */
+    height: 22px; width: auto; max-width: 70px; object-fit: contain; margin-bottom: 8px;
+    opacity: 0.6; /* Un poco más de transparencia para que no brillen demasiado */
+    filter: brightness(1.1) drop-shadow(0px 1px 2px rgba(0,0,0,0.5)); /* Perfilado para logos negros */
     transition: all 0.3s ease;
-    filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.3));
 }
 
-/* Texto en reposo: Un poco más claro para acompañar al logo con color */
 .brand-icon span, .filter-btn span {
-    font-size: 9.5px; 
-    font-weight: 700; 
-    color: #888;             /* Un gris más claro que el #555 anterior */
-    text-transform: uppercase; 
-    transition: all 0.3s ease;
+    font-size: 8.5px !important;
+    font-weight: 500;
+    color: #777;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
+/* HOVER */
 .brand-icon:hover:not(.active), .filter-btn:hover:not(.active) {
-    border-color: rgba(239, 195, 108, 0.4); /* Iluminamos el borde en dorado suave */
-    /* No cambiamos el background aquí para que sea igual al reposo */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* HOVER (Ratón encima): El color se intensifica */
-.brand-icon:hover .brand-logo-img, 
-.filter-btn:hover .btn-console-icon {
-    opacity: 0.85;
-    filter: none; /* Eliminado el drop-shadow */
-}
-
-/* ESTADO ACTIVO: En lugar de un recuadro amarillo grueso, 
-   usamos un sutil relieve de luz y el texto dorado */
+/* ACTIVO: Elegancia minimalista */
 .brand-icon.active, .filter-btn.active {
-    background: rgba(239, 195, 108, 0.08) !important;
-    border: 1px solid rgba(239, 195, 108, 0.3) !important;
-    box-shadow: inset 0 0 12px rgba(239, 195, 108, 0.05);
-    transform: translateY(1px); /* Efecto de pulsado */
+    background: rgba(239, 195, 108, 0.04) !important;
+    border: 1px solid rgba(239, 195, 108, 0.4) !important;
+    box-shadow: inset 0 0 15px rgba(239, 195, 108, 0.02);
+    transform: translateY(1px);
 }
 
-/* ESTADO SELECCIONADO (ACTIVO): Color vibrante y resplandor dorado */
-.brand-icon.active .brand-logo-img, 
-.filter-btn.active .btn-console-icon {
-    opacity: 1;
-    filter: none; /* Eliminado el drop-shadow */
-}
+.brand-icon.active span, .filter-btn.active span { color: var(--accent); opacity: 1; }
+.brand-icon.active .brand-logo-img, .filter-btn.active .btn-console-icon { opacity: 1; filter: brightness(1); }
 
-.brand-icon.active span, 
-.filter-btn.active span {
-    color: #efc36c;
-    opacity: 1;
-}
-
-/* Para evitar el recuadro morado al hacer clic (focus) */
-.brand-icon:focus, .filter-btn:focus {
-    outline: none !important;
-}
-
-/* --- GRID DE JUEGOS --- */
-.grid {
+/* --- GRID Y TARJETAS --- */
+.grid, #played-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px; margin-top: 30px;
 }
 
-/* Asegura que el grid del diario sea igual al de videojuegos */
-#played-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
-    width: 100%;
-}
-
-/* Base de la tarjeta */
 .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 480px;
-
-    background: linear-gradient(145deg, rgba(40, 40, 45, 0.4) 0%, rgba(20, 20, 25, 0.8) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    
-    backdrop-filter: blur(5px);
+    position: relative; overflow: hidden; min-height: 480px; display: flex; flex-direction: column;
+    background: linear-gradient(145deg, rgba(45, 45, 50, 0.3) 0%, rgba(15, 15, 18, 0.9) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
 }
 
-/* Línea lateral por marca usando Box-Shadow para no afectar el layout */
-/* 1. Nintendo - Rojo Switch/NES */
-.card.nintendo { 
-    box-shadow: inset 6px 0 0 0 #e60012, 0 5px 15px rgba(230, 0, 18, 0.15); 
-}
-
-/* 2. SEGA - Azul Classic SEGA */
-.card.sega { 
-    box-shadow: inset 6px 0 0 0 #0089cf, 0 5px 15px rgba(0, 137, 207, 0.15); 
-}
-
-/* 3. Sony / PlayStation - Azul Royal PS */
-.card.sony, .card.playstation { 
-    box-shadow: inset 6px 0 0 0 #003791, 0 5px 15px rgba(0, 55, 145, 0.15); 
-}
-
-/* 4. Microsoft / Xbox - Verde Velocity */
-.card.xbox { 
-    box-shadow: inset 6px 0 0 0 #107c10, 0 5px 15px rgba(16, 124, 16, 0.15); 
-}
-
-/* 5. PC / Steam - Gris Acero Metálico */
-.card.pc { 
-    box-shadow: inset 6px 0 0 0 #4c5b6a, 0 5px 15px rgba(76, 91, 106, 0.15); 
-}
-
-/* 6. Otros - Púrpura General (Atari, 3DO, etc.) */
-.card.otros { 
-    box-shadow: inset 6px 0 0 0 #9b59b6, 0 5px 15px rgba(155, 89, 182, 0.15); 
-}
-
-.card-footer {
-    position: absolute; bottom: 15px; left: 15px; right: 15px;
-    display: flex; justify-content: space-between; align-items: center;
-}
-
-/* Ajuste de brillo para que la parte clara no moleste al texto del título */
-.game-title {
-    color: #EFC36C;
-    font-weight: 700;
-    /* Esto crea un contorno invisible que protege la lectura */
-    text-shadow: 0 0 10px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.8);
-}
-
-/* Este contenedor obliga al icono a tener un tamaño físico real */
-.platform-icon-card {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 90px;      /* Ancho fijo para que el logo tenga espacio */
-    height: 30px;     /* Altura fija para todos */
-    overflow: hidden;
-}
-
-/* Forzamos a la imagen a ser protagonista */
-.platform-icon-card img {
-    height: 100% !important; /* Obligamos a que use los 30px de alto */
-    width: auto !important;   /* Que el ancho se ajuste solo para no deformar */
-    max-width: 90px;          /* Que no se pase del contenedor */
-    object-fit: contain;
-    filter: brightness(1.1);  /* Opcional: para que resalten más */
-}
+/* Colores laterales suavizados (glow interno) */
+.card.nintendo { box-shadow: inset 4px 0 0 0 #e60012, 0 10px 30px rgba(0,0,0,0.4); }
+.card.sega { box-shadow: inset 4px 0 0 0 #0089cf, 0 10px 30px rgba(0,0,0,0.4); }
+.card.sony, .card.playstation { box-shadow: inset 4px 0 0 0 #003791, 0 10px 30px rgba(0,0,0,0.4); }
+.card.xbox { box-shadow: inset 4px 0 0 0 #107c10, 0 10px 30px rgba(0,0,0,0.4); }
+.card.pc { box-shadow: inset 4px 0 0 0 #4c5b6a, 0 10px 30px rgba(0,0,0,0.4); }
 
 .game-title {
-    font-family: 'Segoe UI', sans-serif; font-weight: 700;
-    text-transform: uppercase; color: #fff;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1.1em;
+    text-transform: uppercase; color: #fff; letter-spacing: 0.5px;
+    margin-bottom: 10px;
 }
 
-.details-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
-    font-size: 0.72em; color: #bbb; background: rgba(0,0,0,0.2);
-    padding: 10px; border-radius: 8px; margin-bottom: 15px;
-}
-
-.price-tag { 
-    text-align: right; font-size: 0.9em; font-weight: 800; color: #00ff88;
-    background: rgba(0, 255, 136, 0.1); padding: 5px 10px; border-radius: 6px;
-}
-
-/* --- FILTROS POR AÑO (DIARIO) --- */
-.year-filter-container {
-    margin: 25px 0 15px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 15px;
-}
-
-.year-label {
-    font-size: 0.75em;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 600;
-}
-
-.year-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.year-btn {
-    background: rgba(20, 20, 25, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #555;
-    padding: 8px 18px;
-    border-radius: 25px; /* Estilo pastilla */
-    cursor: pointer;
-    font-size: 0.85em;
-    font-weight: 700;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.year-btn:hover:not(.active) {
-    background: rgba(230, 198, 138, 0.1);
-    color: #aaa;
-    border-color: rgba(230, 198, 138, 0.3);
-}
-
-/* Estado ACTIVO: Cristal Dorado Transparente */
-.year-btn.active {
-    background: rgba(230, 198, 138, 0.15) !important;
-    border: 2px solid #efc36c !important;
-    color: #efc36c;
-    box-shadow: 0 0 15px rgba(239, 195, 108, 0.25);
-    transform: translateY(-2px);
-}
-
-.format-filter-container {
-    margin: 15px 0;
-    display: flex;
-    justify-content: center;
-}
-
-.format-buttons {
-    display: flex;
-    gap: 12px;
+/* --- FILTROS DE AÑO Y FORMATO (MINIMALISTAS) --- */
+.year-btn, .format-btn {
     background: rgba(255, 255, 255, 0.03);
-    padding: 8px;
-    border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.format-btn {
-    background: transparent;
-    border: none;
     color: #666;
-    padding: 8px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75em;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 0.85em;
-    font-weight: 700;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
-.format-btn i { font-size: 1.1em; }
-
-.format-btn.active {
-    background: #efc36c;
-    color: #000;
-    font-weight: 800; /* Un poco más de peso */
-    box-shadow: 0 0 20px rgba(239, 195, 108, 0.4);
-    transform: scale(1.05); /* Que resalte el seleccionado */
+.year-btn.active, .format-btn.active {
+    background: rgba(239, 195, 108, 0.1) !important;
+    border-color: var(--accent) !important;
+    color: var(--accent);
 }
 
-.format-btn:hover:not(.active) {
-    color: #aaa;
-    background: rgba(255,255,255,0.05);
-}
-
-/* --- MEDIA QUERY: CORRECCIÓN MÓVIL (No cambia nada) --- */
+/* --- MÓVIL --- */
 @media (max-width: 600px) {
-    .main-tabs {
-        gap: 8px;
-    }
-    
-    .tab-btn {
-        padding: 10px 15px;
-        font-size: 0.8em;
-        border-radius: 8px;
-    }
-    
-    .brand-selector, 
-    .platform-subgroup.show {
-        gap: 40px 25px !important; 
-        padding: 20px 10px !important;
-        justify-content: center !important;
-    }
-
-    .brand-icon, .filter-btn {
-        /* Cambiamos el width fijo de 55px por un min-width menor */
-        min-width: 70px !important; 
-        width: auto !important;
-        height: 55px !important; /* Un poco más bajitos en móvil */
-        flex: 0 1 auto !important; /* Permitimos que se ajusten */
-        margin: 4px !important;
-        padding: 5px 10px !important;
-    }
-
-    .brand-logo-img, .btn-console-icon {
-        height: 16px !important; /* Logos más pequeñitos */
-        margin-bottom: 4px !important;
-    }
-
-    .brand-icon span, .filter-btn span {
-        font-size: 7px !important;
-        white-space: nowrap !important; /* Que sigan sin cortarse */
-    }
-    .year-btn {
-        padding: 6px 12px;
-        font-size: 0.75em;
-    }
-    .year-buttons {
-        gap: 6px;
-    }
+    .brand-selector { gap: 20px 15px; }
+    .brand-icon, .filter-btn { min-width: 80px; height: 60px; }
+    .brand-icon span, .filter-btn span { font-size: 7px !important; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; } }
