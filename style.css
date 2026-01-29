@@ -239,37 +239,51 @@ header { width: 100%; text-align: center; }
     flex-direction: column;
     overflow: hidden;
     min-height: 480px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más sutil */
+    transition: all 0.3s ease;
+
+    /* GRADIENTE EQUILIBRADO: 
+       Un blanco muy suave (70% opacidad) que se funde rápido con un gris azulado 
+       y termina en el negro del fondo de tu web */
+    background: linear-gradient(115deg, 
+        rgba(220, 220, 225, 0.7) 0%, 
+        rgba(40, 40, 45, 0.9) 45%, 
+        rgba(11, 11, 14, 1) 100%
+    );
     
-    /* Gradiente: Blanco/Gris claro (izquierda) a Gris oscuro/Negro (derecha) */
-    background: linear-gradient(110deg, #f5f5f7 0%, #3a3a42 55%, #0b0b0e 100%);
-    color: #eee; /* Texto claro para que contraste con la parte oscura */
+    /* Efecto cristal para suavizar el impacto */
+    backdrop-filter: blur(5px); 
 }
 
 /* Línea lateral por marca usando Box-Shadow para no afectar el layout */
-.card.nintendo {
-    box-shadow: inset 6px 0 0 0 #e60012; /* Rojo Nintendo */
+/* 1. Nintendo - Rojo Switch/NES */
+.card.nintendo { 
+    box-shadow: inset 6px 0 0 0 #e60012, 0 5px 15px rgba(230, 0, 18, 0.15); 
 }
 
-.card.sega {
-    box-shadow: inset 6px 0 0 0 #0089cf; /* Azul SEGA */
+/* 2. SEGA - Azul Classic SEGA */
+.card.sega { 
+    box-shadow: inset 6px 0 0 0 #0089cf, 0 5px 15px rgba(0, 137, 207, 0.15); 
 }
 
-.card.sony, .card.playstation {
-    box-shadow: inset 6px 0 0 0 #003791; /* Azul PlayStation */
+/* 3. Sony / PlayStation - Azul Royal PS */
+.card.sony, .card.playstation { 
+    box-shadow: inset 6px 0 0 0 #003791, 0 5px 15px rgba(0, 55, 145, 0.15); 
 }
 
-.card.xbox {
-    box-shadow: inset 6px 0 0 0 #107c10; /* Verde Xbox */
+/* 4. Microsoft / Xbox - Verde Velocity */
+.card.xbox { 
+    box-shadow: inset 6px 0 0 0 #107c10, 0 5px 15px rgba(16, 124, 16, 0.15); 
 }
 
-.card.pc {
-    box-shadow: inset 6px 0 0 0 #4c5b6a; /* Gris metálico "Steam/PC" */
+/* 5. PC / Steam - Gris Acero Metálico */
+.card.pc { 
+    box-shadow: inset 6px 0 0 0 #4c5b6a, 0 5px 15px rgba(76, 91, 106, 0.15); 
 }
 
-.card.otros {
-    box-shadow: inset 6px 0 0 0 #9b59b6; /* Púrpura para otras marcas */
+/* 6. Otros - Púrpura General (Atari, 3DO, etc.) */
+.card.otros { 
+    box-shadow: inset 6px 0 0 0 #9b59b6, 0 5px 15px rgba(155, 89, 182, 0.15); 
 }
 
 /* Efecto Hover */
@@ -285,8 +299,11 @@ header { width: 100%; text-align: center; }
 }
 
 /* Ajuste de brillo para que la parte clara no moleste al texto del título */
-.card .game-title {
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+.game-title {
+    color: #EFC36C;
+    font-weight: 700;
+    /* Esto crea un contorno invisible que protege la lectura */
+    text-shadow: 0 0 10px rgba(0,0,0,0.5), 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 /* Este contenedor obliga al icono a tener un tamaño físico real */
