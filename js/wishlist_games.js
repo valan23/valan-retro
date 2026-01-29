@@ -45,6 +45,9 @@ function renderWishlist(games) {
 
     const isValid = (val) => val && val.trim() !== "" && val.toUpperCase() !== "NA";
 
+    // COLOR ÚNICO PARA TEXTOS SECUNDARIOS (Consistente con games.js)
+    const secondaryTextColor = "#ced4da";
+
     container.innerHTML = games.map(j => {
         try {
             const platformMap = { "Famicom": "fc", "Famicom Disk System": "fds", "Super Famicom": "sfc" };
@@ -115,12 +118,12 @@ function renderWishlist(games) {
                     </div>
                     
                     ${isValid(j["Nombre Japones"]) ? `
-                        <div style="font-size: 0.65em; color: #444; margin-top: 3px; font-family: 'Noto Sans JP', sans-serif; font-weight: 700; text-shadow: 1px 1px 0px rgba(255,255,255,0.5);">
+                        <div style="font-size: 0.7em; color: ${secondaryTextColor}; margin-top: 3px; font-family: 'Noto Sans JP', sans-serif; opacity: 0.8;">
                             ${j["Nombre Japones"]}
                         </div>
                     ` : ''}
 
-                    ${esEdicionEspecial ? `<div style="font-size: 0.7em; color: #555; margin-top: 4px; font-weight: 600; text-shadow: 1px 1px 0px rgba(255,255,255,0.3);"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
+                    ${esEdicionEspecial ? `<div style="font-size: 0.7em; color: ${secondaryTextColor}; margin-top: 4px; opacity: 0.7;"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
                 </div>
 
                 <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 150px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
@@ -143,8 +146,8 @@ function renderWishlist(games) {
                 </div>
 
                 <div style="padding: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-size: 0.6em; color: #222;">
-                        REV: ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : '--/--'}
+                    <div style="font-size: 0.65em; color: ${secondaryTextColor}; font-style: italic; opacity: 0.8;">
+                        <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : '--/--'}
                     </div>
                     ${isValid(j["Link"]) ? `
                        <a href="${j["Link"].trim()}" target="_blank" style="text-decoration: none; background: #9500ff; padding: 4px 10px; border-radius: 4px; color: #fff; font-size: 0.65em; font-weight: bold; text-transform: uppercase;">
