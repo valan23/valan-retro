@@ -98,6 +98,10 @@ function createCardHTML(j) {
                 ${esDigital ? `
                     <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.85em; font-weight: bold;">CONTENIDO DIGITAL</div>
                 ` : `
+                    <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px; flex-grow: 1;">
+                ${esDigital ? `
+                    <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.85em; font-weight: bold;">CONTENIDO DIGITAL</div>
+                ` : `
                     <div class="details-grid" style="display: flex; flex-direction: column; gap: 4px;">
                     ${[
                         { label: '📦Caja', val: j["Estado Caja"] },
@@ -107,22 +111,12 @@ function createCardHTML(j) {
                         { label: '🖼️Portada', val: j["Estado Portada"] },
                         { label: '🔖Obi', val: j["Estado Spinecard"] },
                         { label: '🎁Extras', val: j["Estado Extras"] }
-                    ].filter(item => isValid(item.val)).map(item => {
-                        // Lógica para detectar si falta el artículo
-                        const valorUpper = item.val.toString().toUpperCase();
-                        const faltaArticulo = valorUpper === "NO" || valorUpper === "FALTA" || valorUpper === "0";
-                        const colorLabel = faltaArticulo ? "#ff4444" : "#999";
-                        
-                        return `
+                    ].filter(item => isValid(item.val)).map(item => `
                         <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
-                            <span style="color: ${colorLabel}; font-size: 1em; font-weight: ${faltaArticulo ? 'bold' : '500'};">
-                                ${item.label}:
-                            </span>
-                            <span style="font-weight: bold; font-size: 1em;">
-                                ${formatEstado(item.val)}
-                            </span>
-                        </div>`;
-                    }).join('')}
+                            <span style="color: #999; font-size: 1em;">${item.label}:</span>
+                            <span style="font-weight: bold; font-size: 1em;">${formatEstado(item.val)}</span>
+                        </div>
+                    `).join('')}
                     </div>
                 `}
             </div>
@@ -163,8 +157,18 @@ function getCompletitudStyle(valor) {
 
 function formatEstado(valor) {
     if (!valor || valor.toUpperCase() === "NA") return "";
+    
+    const v = valor.toString().toUpperCase().trim();
+    
+    // Si la palabra es FALTA o NO, la pintamos en rojo chillón
+    if (v === "FALTA" || v === "NO") {
+        return `<span style="color: #ff4444; font-weight: 900; letter-spacing: 1px;">FALTA</span>`;
+    }
+    
     const num = parseFloat(valor);
     if (isNaN(num)) return valor;
+
+    // Color según nota (0 rojo - 120 verde)
     const hue = Math.min(Math.max(num * 12, 0), 120); 
     return `<span style="color: hsl(${hue}, 100%, 50%);">${num}/10</span>`;
 }
