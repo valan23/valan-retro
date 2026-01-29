@@ -111,5 +111,6 @@ const COMPLETITUD_COLORS = {
     "CASI COMPLETO": { color: "#ffff00", label: "CASI COMPLETO" },
     "INCOMPLETO": { color: "#ffaa00", label: "INCOMPLETO" },
     "SUELTO": { color: "#ff4d4d", label: "SUELTO" },
-    "REPRO": { color: "#bbbbbb", label: "REPRO" }
+    "REPRO": { color: "#bbbbbb", label: "REPRO" },
+    "DIGITAL": { color: "#00d4ff", label: "DIGITAL" }
 };
