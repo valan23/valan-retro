@@ -50,7 +50,7 @@ function createCardHTML(j) {
         const esEdicionEspecial = isValid(edicionRaw) && edicionRaw.toUpperCase() !== "ESTÁNDAR";
 
         return `
-        <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}" style="display: flex; flex-direction: column; min-height: 520px; position: relative;">
+        <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; padding-bottom: 60px;">
             
             <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
                 ${typeof getPlatformIcon === 'function' ? getPlatformIcon(j["Plataforma"]) : ''}
@@ -88,11 +88,9 @@ function createCardHTML(j) {
             </div>
 
             <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 150px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
-                
                 <div style="position: absolute; bottom: 8px; left: 8px; padding: 4px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-transform: uppercase; z-index: 5; background: ${esDigital ? '#00d4ff' : '#e67e22'}; color: ${esDigital ? '#000' : '#fff'}; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); display: flex; align-items: center;">
                     ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 4px;"></i> Digital' : '<i class="fa-solid fa-floppy-disk" style="margin-right: 4px;"></i> Físico'}
                 </div>
-
                 <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
             </div>
 
@@ -100,37 +98,37 @@ function createCardHTML(j) {
                 ${esDigital ? `
                     <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.85em; font-weight: bold;">CONTENIDO DIGITAL</div>
                 ` : `
-                    <div class="details-grid" style="display: flex; flex-direction: column; gap: 5px;">
-                        ${[
-                            { label: '📦 Caja', val: j["Estado Caja"] },
-                            { label: '📂 Inserto', val: j["Estado Inserto"] },
-                            { label: '📖 Manual', val: j["Estado Manual"] },
-                            { label: '💾 Juego', val: j["Estado Juego"] },
-                            { label: '🖼️ Portada', val: j["Estado Portada"] },
-                            { label: '🔖 Obi', val: j["Estado Spinecard"] },
-                            { label: '🎁 Extras', val: j["Estado Extras"] }
-                        ].filter(item => isValid(item.val)).map(item => `
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 5px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <span style="color: #bbb; font-size: 1em; font-weight: 500;">${item.label}</span>
-                                <span style="font-weight: 800; font-size: 1em;">${formatEstado(item.val)}</span>
-                            </div>
-                        `).join('')}
+                    <div class="details-grid" style="display: flex; flex-direction: column; gap: 4px;">
+                    ${[
+                        { label: '📦Caja', val: j["Estado Caja"] },
+                        { label: '📂Inserto', val: j["Estado Inserto"] },
+                        { label: '📖Manual', val: j["Estado Manual"] },
+                        { label: '💾Juego', val: j["Estado Juego"] },
+                        { label: '🖼️Portada', val: j["Estado Portada"] },
+                        { label: '🔖Obi', val: j["Estado Spinecard"] },
+                        { label: '🎁Extras', val: j["Estado Extras"] }
+                    ].filter(item => isValid(item.val)).map(item => `
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                            <span style="color: #999; font-size: 1em;">${item.label}:</span>
+                            <span style="font-weight: bold; font-size: 1em;">${formatEstado(item.val)}</span>
+                        </div>
+                    `).join('')}
                     </div>
                 `}
             </div>
 
-            <div style="padding: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-size: 0.6em; color: #555;">
-                    REV: ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : '--/--'}
+            <div class="card-footer" style="position: absolute; bottom: 12px; left: 15px; right: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 0.65em; color: #666; font-style: italic;">
+                    <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
                 </div>
-                <div class="price-tag" style="display: flex; align-items: center; gap: 5px;">
+                <div class="price-tag" style="display: flex; align-items: center; gap: 4px;">
                     <span style="font-size: 1.1em;">💸</span>
-                    <span style="font-weight: 800; color: #eee; font-size: 0.85em;">${j["Tasación Actual"] || "S/T"}</span>
+                    <span style="font-weight: 800; font-size: 0.9em;">${j["Tasación Actual"] || "S/T"}</span>
                 </div>
             </div>
         </div>`;
     } catch (e) {
-        console.error("Error games:", e);
+        console.error("Error renderizando card:", e);
         return "";
     }
 }
