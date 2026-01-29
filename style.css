@@ -243,7 +243,7 @@ header { width: 100%; text-align: center; }
 
     /* GRADIENTE: Ahora con el color 220, 220, 225 solicitado */
     background: linear-gradient(115deg, 
-        rgba(220, 220, 225, 0.7) 0%,  
+        rgba(169, 169, 176, 0.7) 0%,  
         rgba(40, 40, 45, 0.9) 45%, 
         rgba(11, 11, 14, 1) 100%
     );
