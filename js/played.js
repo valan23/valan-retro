@@ -24,7 +24,7 @@ function renderPlayed(games) {
             const campoFormato = j["Formato"] || "Físico";
             const esDigital = campoFormato.toString().toUpperCase().includes("DIGITAL");
 
-            const nota = parseFloat(j["Nota"]) || 0;
+            const nota = parseFloat(j["Nota"]) || "-";
             const colorNota = getColorForNota(nota);
 
             // Variables de datos
