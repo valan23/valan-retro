@@ -96,11 +96,11 @@ function createCardHTML(j) {
                 <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
             </div>
 
-            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; flex-grow: 1;">
+            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 10px; flex-grow: 1;">
                 ${esDigital ? `
-                    <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.75em; font-weight: bold;">CONTENIDO DIGITAL</div>
+                    <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.85em; font-weight: bold;">CONTENIDO DIGITAL</div>
                 ` : `
-                    <div class="details-grid">
+                    <div class="details-grid" style="display: flex; flex-direction: column; gap: 5px;">
                         ${[
                             { label: '📦 Caja', val: j["Estado Caja"] },
                             { label: '📂 Inserto', val: j["Estado Inserto"] },
@@ -110,9 +110,9 @@ function createCardHTML(j) {
                             { label: '🔖 Obi', val: j["Estado Spinecard"] },
                             { label: '🎁 Extras', val: j["Estado Extras"] }
                         ].filter(item => isValid(item.val)).map(item => `
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <span style="color: #999; font-size: 0.85em; font-weight: 700;">${item.label}</span>
-                                <span style="font-weight: 800; font-size: 0.85em;">${formatEstado(item.val)}</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 5px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <span style="color: #bbb; font-size: 1em; font-weight: 500;">${item.label}</span>
+                                <span style="font-weight: 800; font-size: 1em;">${formatEstado(item.val)}</span>
                             </div>
                         `).join('')}
                     </div>
