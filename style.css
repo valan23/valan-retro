@@ -239,20 +239,16 @@ header { width: 100%; text-align: center; }
     flex-direction: column;
     overflow: hidden;
     min-height: 480px;
-    border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más sutil */
-    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
-    /* GRADIENTE EQUILIBRADO: 
-       Un blanco muy suave (70% opacidad) que se funde rápido con un gris azulado 
-       y termina en el negro del fondo de tu web */
+    /* GRADIENTE: Ahora con el color 220, 220, 225 solicitado */
     background: linear-gradient(115deg, 
-        rgba(220, 220, 225, 0.7) 0%, 
+        rgba(220, 220, 225, 0.7) 0%,  
         rgba(40, 40, 45, 0.9) 45%, 
         rgba(11, 11, 14, 1) 100%
     );
     
-    /* Efecto cristal para suavizar el impacto */
-    backdrop-filter: blur(5px); 
+    backdrop-filter: blur(5px);
 }
 
 /* Línea lateral por marca usando Box-Shadow para no afectar el layout */
@@ -284,13 +280,6 @@ header { width: 100%; text-align: center; }
 /* 6. Otros - Púrpura General (Atari, 3DO, etc.) */
 .card.otros { 
     box-shadow: inset 6px 0 0 0 #9b59b6, 0 5px 15px rgba(155, 89, 182, 0.15); 
-}
-
-/* Efecto Hover */
-.card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .card-footer {
