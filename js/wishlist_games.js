@@ -46,8 +46,6 @@ function renderWishlist(games) {
             const fotoUrl = isValid(j["Portada"]) ? `images/covers/${carpetaSistema}/${j["Portada"].trim()}` : `images/covers/default.webp`;
 
             const style = getRegionStyle(j["Región"]);
-            
-            // --- LÓGICA GLOBAL DE MARCA (Llamada a main.js) ---
             const brandClass = getBrandClass(valorExcel);
             
             const campoFormato = j["Formato"] || "Físico";
@@ -75,9 +73,8 @@ function renderWishlist(games) {
             const rarezaTexto = (j["Rareza"] || "COMÚN").trim().toUpperCase();
             const rarezaPorcentaje = { "LEGENDARIO": 100, "ÉPICO": 80, "RARO": 60, "INUSUAL": 40, "COMÚN": 20 }[rarezaTexto] || 20;
 
-            // Se quitan los inline styles de 'background' y 'border' para que el CSS actúe
             return `
-            <div class="card ${brandClass} ${esDigital ? 'digital-variant' : ''}">
+            <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}">
                 
                 <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px; display: flex; align-items: center;">
                     ${getPlatformIcon(j["Plataforma"])}
@@ -136,7 +133,7 @@ function renderWishlist(games) {
                         ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 3px;"></i> Digital' : '<i class="fa-solid fa-floppy-disk" style="margin-right: 3px;"></i> Físico'}
                     </div>
 
-                    <img src="${fotoUrl}" loading="lazy" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5)); ${esDigital ? 'opacity: 0.7;' : ''}">
+                    <img src="${fotoUrl}" loading="lazy" decoding="async" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5)); ${esDigital ? 'opacity: 0.7;' : ''}">
                 </div>
 
                 <div class="details-grid" style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; font-size: 0.75em; display: flex; flex-direction: column; gap: 2px;">
