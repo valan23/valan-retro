@@ -38,12 +38,11 @@ function createCardHTML(j) {
         const carpetaSistema = platformMap[valorPlataforma] || valorPlataforma.toLowerCase().replace(/\s+/g, '');
         const fotoUrl = isValid(j["Portada"]) ? `images/covers/${carpetaSistema}/${j["Portada"].trim()}` : `images/covers/default.webp`;
 
-        const styleRegion = getRegionStyle(j["Región"]);
-        const colorCompletitud = getCompletitudStyle(j["Completitud"]);
+        const styleRegion = typeof getRegionStyle === 'function' ? getRegionStyle(j["Región"]) : {bg: 'rgba(255,255,255,0.1)', text: '#eee', border: 'transparent'};
+        const colorCompletitud = typeof getCompletitudStyle === 'function' ? getCompletitudStyle(j["Completitud"]) : "#555";
         const brandClass = typeof getBrandClass === 'function' ? getBrandClass(valorPlataforma) : "";
         
         const rarezaTexto = (j["Rareza"] || "COMÚN").toString().toUpperCase().trim();
-        const rarezaPorcentaje = { "LEGENDARIO": 100, "ÉPICO": 80, "RARO": 60, "INUSUAL": 40, "COMÚN": 20 }[rarezaTexto] || 20;
         const colorRareza = typeof getColorForRareza === 'function' ? getColorForRareza(rarezaTexto) : "#fff";
 
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
@@ -51,13 +50,13 @@ function createCardHTML(j) {
         const esEdicionEspecial = isValid(edicionRaw) && edicionRaw.toUpperCase() !== "ESTÁNDAR";
 
         return `
-        <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}" style="display: flex; flex-direction: column; min-height: 580px; height: 100%;">
+        <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}" style="display: flex; flex-direction: column; min-height: 520px; position: relative;">
             
             <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
                 ${typeof getPlatformIcon === 'function' ? getPlatformIcon(j["Plataforma"]) : ''}
             </div>
 
-            <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
+            <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 14px; border-bottom-left-radius: 8px; z-index: 10; box-shadow: -2px 2px 5px rgba(0,0,0,0.4);">
                 ${(j["Completitud"] || "???").toUpperCase()}
             </div>
 
@@ -74,14 +73,9 @@ function createCardHTML(j) {
                     </div>
                 </div>
                 <div style="flex-grow: 1;"></div>
-                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
-                     <div style="font-size: 0.75em; font-weight: 800; color: ${colorRareza}; display: flex; align-items: center; gap: 4px;">
-                        <span>💎</span>
-                        <span>${rarezaTexto}</span>
-                    </div>
-                    <div style="width: 75px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                         <div style="width: ${rarezaPorcentaje}%; height: 100%; background-color: ${colorRareza};"></div>
-                    </div>
+                <div style="font-size: 0.7em; font-weight: 800; color: ${colorRareza}; display: flex; align-items: center; gap: 3px;">
+                    <span style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">💎</span>
+                    <span>${rarezaTexto}</span>
                 </div>
             </div>
 
@@ -90,56 +84,53 @@ function createCardHTML(j) {
                     ${j["Nombre Juego"]}
                 </div>
                 ${isValid(j["Nombre Japones"]) ? `<div style="font-size: 0.65em; color: #888; margin-top: 2px; font-family: 'Noto Sans JP', sans-serif;">${j["Nombre Japones"]}</div>` : ''}
-                ${esEdicionEspecial ? `<div style="font-size: 0.75em; color: #aaa; margin-top: 4px;"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
+                ${esEdicionEspecial ? `<div style="font-size: 0.7em; color: #aaa; margin-top: 4px;"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
             </div>
 
-            <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; min-height: 170px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);"> 
-                <div style="position: absolute; bottom: 8px; left: 8px; padding: 4px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-transform: uppercase; z-index: 5; background: ${esDigital ? '#00d4ff' : '#e67e22'}; color: ${esDigital ? '#000' : '#fff'};">
-                    ${esDigital ? '<i class="fa-solid fa-cloud"></i> Digital' : '<i class="fa-solid fa-floppy-disk"></i> Físico'}
-                </div>
-                <img src="${fotoUrl}" loading="lazy" style="max-width: 95%; max-height: 95%; object-fit: contain;">
-            </div>
-
-            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end;">
+            <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 150px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
                 
-                <div class="details-container">
-                    ${esDigital ? `
-                        <div style="margin: 0 12px; background: rgba(0, 212, 255, 0.05); border: 1px dashed rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 15px; text-align: center; color: #00d4ff; font-size: 0.7em; font-weight: bold;">
-                            CONTENIDO DIGITAL
-                        </div>
-                    ` : `
-                        <div class="details-grid" style="margin: 0 12px;">
-                            ${[
-                                { label: '📦Caja', val: j["Estado Caja"] },
-                                { label: '📂Inserto', val: j["Estado Inserto"] },
-                                { label: '📖Manual', val: j["Estado Manual"] },
-                                { label: '💾Juego', val: j["Estado Juego"] },
-                                { label: '🖼️Portada', val: j["Estado Portada"] },
-                                { label: '🔖Obi', val: j["Estado Spinecard"] },
-                                { label: '🎁Extras', val: j["Estado Extras"] }
-                            ].filter(item => isValid(item.val)).map(item => `
-                                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0; align-items: center;">
-                                    <span style="color: #999; font-size: 1em;">${item.label}:</span>
-                                    <span style="font-weight: bold; font-size: 1em;">${formatEstado(item.val)}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `}
+                <div style="position: absolute; bottom: 8px; left: 8px; padding: 4px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-transform: uppercase; z-index: 5; background: ${esDigital ? '#00d4ff' : '#e67e22'}; color: ${esDigital ? '#000' : '#fff'}; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); display: flex; align-items: center;">
+                    ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 4px;"></i> Digital' : '<i class="fa-solid fa-floppy-disk" style="margin-right: 4px;"></i> Físico'}
                 </div>
 
-                <div class="card-footer" style="border-top: 1px solid rgba(255,255,255,0.1); padding: 10px 12px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-size: 0.65em; color: #666; font-style: italic;">
-                        <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Pendiente'}
+                <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
+            </div>
+
+            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; flex-grow: 1;">
+                ${esDigital ? `
+                    <div style="padding: 15px; text-align: center; color: #00d4ff; font-size: 0.75em; font-weight: bold;">CONTENIDO DIGITAL</div>
+                ` : `
+                    <div class="details-grid">
+                        ${[
+                            { label: '📦 Caja', val: j["Estado Caja"] },
+                            { label: '📂 Inserto', val: j["Estado Inserto"] },
+                            { label: '📖 Manual', val: j["Estado Manual"] },
+                            { label: '💾 Juego', val: j["Estado Juego"] },
+                            { label: '🖼️ Portada', val: j["Estado Portada"] },
+                            { label: '🔖 Obi', val: j["Estado Spinecard"] },
+                            { label: '🎁 Extras', val: j["Estado Extras"] }
+                        ].filter(item => isValid(item.val)).map(item => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <span style="color: #999; font-size: 0.85em; font-weight: 700;">${item.label}</span>
+                                <span style="font-weight: 800; font-size: 0.85em;">${formatEstado(item.val)}</span>
+                            </div>
+                        `).join('')}
                     </div>
-                    <div class="price-tag" style="display: flex; align-items: center; gap: 5px;">
-                        <span style="font-size: 1.1em;">💸</span>
-                        <span>${j["Tasación Actual"] || "S/T"}</span>
-                    </div>
+                `}
+            </div>
+
+            <div style="padding: 12px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 0.6em; color: #555;">
+                    REV: ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : '--/--'}
+                </div>
+                <div class="price-tag" style="display: flex; align-items: center; gap: 5px;">
+                    <span style="font-size: 1.1em;">💸</span>
+                    <span style="font-weight: 800; color: #eee; font-size: 0.85em;">${j["Tasación Actual"] || "S/T"}</span>
                 </div>
             </div>
         </div>`;
     } catch (e) {
-        console.error("Error:", e);
+        console.error("Error games:", e);
         return "";
     }
 }
