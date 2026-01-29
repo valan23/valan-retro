@@ -8,7 +8,7 @@ const BRANDS_CONFIG = {
     "NINTENDO": { 
         logo: "images/icons/NINTENDO_logo.png", 
         class: "nintendo", 
-        platforms: ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Switch 2"],
+        platforms: ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Nintendo Switch Online","Switch 2"],
         icons: {
             "Famicom": "images/icons/fc.png",
             "Famicom Disk System": "images/icons/fds.png",
@@ -24,6 +24,7 @@ const BRANDS_CONFIG = {
             "Nintendo 3DS": "images/icons/3ds.png",
             "Wii U": "images/icons/wiiu.png",
             "Switch": "images/icons/switch.png",
+            "Nintendo Switch Online": "images/icons/nso.png",
             "Switch 2": "images/icons/switch2.png"
         }
     },
@@ -44,22 +45,24 @@ const BRANDS_CONFIG = {
     "SONY": { 
         logo: "images/icons/PLAYSTATION_logo.png", 
         class: "sony", 
-        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation 5"],
+        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4",  "PlayStation Plus", "PlayStation 5"],
         icons: {
             "PlayStation": "images/icons/psx.png",
             "PlayStation 2": "images/icons/ps2.png",
             "PlayStation Vita": "images/icons/psvita.png",
             "PlayStation 4": "images/icons/ps4.png",
+            "PlayStation Plus": "images/icons/psplus.png",
             "PlayStation 5": "images/icons/ps5.png"
         }
     },
     "XBOX": { 
         logo: "images/icons/XBOX_logo.png", 
         class: "xbox", 
-        platforms: ["Xbox 360", "Xbox One", "Xbox Series X/S"],
+        platforms: ["Xbox 360", "Xbox One", "Xbox Game Pass", "Xbox Series X/S"],
         icons: {
             "Xbox 360": "images/icons/x360.png",
             "Xbox One": "images/icons/xone.png",
+            "Xbox Game Pass": "images/icons/xboxgamepass.png",
             "Xbox Series X/S": "images/icons/xsx.png"
         }
     },
