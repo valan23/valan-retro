@@ -27,7 +27,7 @@ function renderPlayed(games) {
             const nota = parseFloat(j["Nota"]) || 0;
             const colorNota = getColorForNota(nota);
 
-            // Recuperamos las fechas y el proceso
+            // Variables de datos
             const primeraFecha = j["Primera fecha"] || j["Primera Fecha"] || "---";
             const ultimaFecha = j["Ultima fecha"] || j["Ultima Fecha"] || "---";
             const proceso = j["Proceso"] || "Finalizado";
@@ -56,7 +56,7 @@ function renderPlayed(games) {
                         </div>
                     </div>
                     <div style="flex-grow: 1;"></div>
-                    <div style="background: rgba(239, 195, 108, 0.15); border: 1px solid #EFC36C; color: #EFC36C; font-size: 0.6em; font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="background: rgba(239, 195, 108, 0.15); border: 1px solid #EFC36C; color: #EFC36C; font-size: 0.6em; font-weight: 800; padding: 2px 8px; border-radius: 10px; text-transform: uppercase;">
                         ${proceso}
                     </div>
                 </div>
@@ -67,18 +67,7 @@ function renderPlayed(games) {
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 12px 15px 12px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
-                        <div style="font-size: 0.55em; color: #888; text-transform: uppercase;">Primera Fecha</div>
-                        <div style="font-size: 0.75em; color: #eee; font-weight: 600;">${primeraFecha}</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 0.55em; color: #888; text-transform: uppercase;">Última Fecha</div>
-                        <div style="font-size: 0.75em; color: #eee; font-weight: 600;">${ultimaFecha}</div>
-                    </div>
-                </div>
-
-                <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 155px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
+                <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 170px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;"> 
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain; filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.5));">
                 </div>
 
@@ -89,10 +78,18 @@ function renderPlayed(games) {
                     </div>
                 </div>
 
-                <div class="card-footer" style="padding: 10px 15px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
-                    <span style="font-size: 0.65em; color: #666; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;">
-                        <i class="fa-solid fa-trophy" style="color: #EFC36C; margin-right: 5px;"></i> Logro Desbloqueado
-                    </span>
+                <div class="card-footer" style="padding: 10px 12px; background: rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-size: 0.55em; color: #777; text-transform: uppercase;">Inicio</span>
+                        <span style="font-size: 0.7em; color: #aaa; font-weight: 600;">${primeraFecha}</span>
+                    </div>
+                    <div style="text-align: center; opacity: 0.3; font-size: 0.8em; color: #EFC36C;">
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column; text-align: right;">
+                        <span style="font-size: 0.55em; color: #777; text-transform: uppercase;">Fin</span>
+                        <span style="font-size: 0.7em; color: #EFC36C; font-weight: 700;">${ultimaFecha}</span>
+                    </div>
                 </div>
             </div>`;
         } catch (e) {
@@ -101,7 +98,6 @@ function renderPlayed(games) {
         }
     }).join('');
 }
-
 /**
  * HELPERS DE APOYO (Para evitar que falle el renderizado)
  */
