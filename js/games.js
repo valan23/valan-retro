@@ -58,8 +58,8 @@ function createCardHTML(j) {
 
         return `
         <div class="card ${brandClass} ${esDigital ? 'digital-variant' : 'physical-variant'}">
-            <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10; background: transparent; width: auto; height: 28px; display: flex; align-items: center;">
-                ${getPlatformIcon(j["Plataforma"])}
+            <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
+                ${typeof getPlatformIcon === 'function' ? getPlatformIcon(j["Plataforma"]) : ''}
             </div>
 
             <div style="position: absolute; top: 0; right: 0; background-color: ${colorCompletitud}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 12px; border-bottom-left-radius: 8px; z-index: 10;">
@@ -74,13 +74,13 @@ function createCardHTML(j) {
                         ${j["Año"] || "????"}
                     </span>
                     <div style="display: inline-flex; align-items: center; gap: 4px; background: ${style.bg}; border: 1px solid ${style.border}; padding: 2px 6px; border-radius: 4px;">
-                        ${getFlag(j["Región"])} 
+                        ${typeof getFlag === 'function' ? getFlag(j["Región"]) : ''} 
                         <span style="font-size: 0.7em; font-weight: bold; color: ${style.text};">${j["Región"] || "N/A"}</span>
                     </div>
                 </div>
                 <div style="flex-grow: 1;"></div>
                 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 80px;">
-                     <div style="font-family: 'Segoe UI', sans-serif; font-size: 0.75em; font-weight: 800; color: ${colorRareza}; display: flex; align-items: center; gap: 4px;">
+                     <div style="font-size: 0.75em; font-weight: 800; color: ${colorRareza}; display: flex; align-items: center; gap: 4px;">
                         <span style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));">💎</span>
                         <span style="letter-spacing: 0.5px;">${rarezaTexto}</span>
                     </div>
@@ -95,21 +95,18 @@ function createCardHTML(j) {
                     ${j["Nombre Juego"]}
                 </div>
                 ${esEdicionEspecial ? `<div style="font-size: 0.75em; color: #aaa; margin-top: 4px;"><i class="fa-solid fa-star" style="color: #EFC36C;"></i> ${edicionRaw}</div>` : ''}
-                ${isValid(j["Nombre Japones"]) ? `<div style="font-family: 'MS Mincho', serif; font-size: 0.65em; color: #888; margin-top: 4px;">${j["Nombre Japones"]}</div>` : ''}
             </div>
 
             <div style="position: relative; display: flex; align-items: center; justify-content: center; width: calc(100% - 24px); margin-left: 12px; height: 170px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05);"> 
-                
                 <div style="position: absolute; bottom: 8px; left: 8px; padding: 4px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-transform: uppercase; z-index: 5; background: ${esDigital ? '#00d4ff' : '#e67e22'}; color: ${esDigital ? '#000' : '#fff'}; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); display: flex; align-items: center; opacity: 0.95;">
                     ${esDigital ? '<i class="fa-solid fa-cloud" style="margin-right: 5px;"></i> Digital' : '<i class="fa-solid fa-floppy-disk" style="margin-right: 5px;"></i> Físico'}
                 </div>
-
-                <img src="${fotoUrl}" loading="lazy" decoding="async" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5)); ${esDigital ? 'opacity: 0.7;' : ''}">
+                <img src="${fotoUrl}" loading="lazy" decoding="async" style="max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.5));">
             </div>
 
             ${esDigital ? `
-                <div style="margin: 0 12px; background: rgba(0, 212, 255, 0.05); border: 1px dashed rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 15px; text-align: center; color: #00d4ff; font-size: 0.7em; font-weight: bold;">
-                    BIBLIOTECA VIRTUAL
+                <div style="margin: 0 12px; background: rgba(0, 212, 255, 0.05); border: 1px dashed rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 15px; text-align: center; color: #00d4ff; font-size: 0.7em; font-weight: bold; letter-spacing: 1px;">
+                    CONTENIDO DIGITAL
                 </div>
             ` : `
                 <div class="details-grid">
@@ -122,8 +119,8 @@ function createCardHTML(j) {
                         { label: '🔖Obi', val: j["Estado Spinecard"] },
                         { label: '🎁Extras', val: j["Estado Extras"] }
                     ].filter(item => isValid(item.val)).map(item => `
-                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <span style="color: #999;">${item.label}:</span>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2px 0;">
+                            <span style="color: #999; font-size: 0.9em;">${item.label}:</span>
                             <span style="font-weight: bold;">${formatEstado(item.val)}</span>
                         </div>
                     `).join('')}
@@ -132,7 +129,7 @@ function createCardHTML(j) {
 
             <div class="card-footer">
                 <div style="font-size: 0.65em; color: #666; font-style: italic;">
-                    <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Sin fecha'}
+                    <i class="fa-regular fa-calendar-check"></i> ${isValid(j["Fecha revision"]) ? j["Fecha revision"] : 'Pendiente'}
                 </div>
                 <div class="price-tag">
                     <span style="font-size: 1.1em;">💸</span>
