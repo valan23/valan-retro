@@ -5,25 +5,24 @@ function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
 
-    // Sincronización con los botones de formato de la sección
+    // Sincronización de filtros de formato
     if (typeof renderFormatFilters === 'function') {
-        renderFormatFilters(dataStore['deseados'] || games, 'format-buttons-container-wishlist', 'wishlist');
+        const fullData = (window.dataStore && dataStore['deseados']) ? dataStore['deseados'] : games;
+        renderFormatFilters(fullData, 'format-buttons-container-wishlist', 'wishlist');
     }
 
-    container.innerHTML = "";
-    if (games.length === 0) {
-        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No hay juegos en tu lista de deseos.</p>";
+    if (!games || games.length === 0) {
+        container.innerHTML = "<div style='grid-column:1/-1; text-align:center; padding:50px; color:#888;'>No hay juegos que coincidan con los filtros.</div>";
         return;
     }
 
-    const html = games.map(j => {
+    container.innerHTML = games.map(j => {
         try {
             const plataforma = j["Plataforma"] || "";
             const carpeta = AppUtils.getPlatformFolder(plataforma);
             const fotoUrl = AppUtils.isValid(j["Portada"]) ? `images/covers/${carpeta}/${j["Portada"].trim()}` : `images/covers/default.webp`;
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
             
-            // Procesamiento de precios
             const listaPrecios = [
                 { n: 'Nuevo', v: j["Precio Nuevo"], c: '#D4BD66' },
                 { n: 'CeX', v: j["Precio Cex"], c: '#ff4444' },
@@ -36,9 +35,9 @@ function renderWishlist(games) {
             const precioMin = listaPrecios.length ? Math.min(...listaPrecios.map(p => p.eur)) : Infinity;
 
             return `
-            <div class="card ${getBrandClass(plataforma)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative;">
+            <div class="card ${typeof getBrandClass === 'function' ? getBrandClass(plataforma) : ''}" style="display: flex; flex-direction: column; min-height: 520px; position: relative;">
                 <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
-                    ${getPlatformIcon(plataforma)}
+                    ${typeof getPlatformIcon === 'function' ? getPlatformIcon(plataforma) : ''}
                 </div>
                 <div style="position: absolute; top: 0; right: 0; background: #555; color: #fff; font-weight: 900; font-size: 0.65em; padding: 6px 14px; border-bottom-left-radius: 8px; z-index: 10;">${priorTexto}</div>
                 
@@ -60,12 +59,10 @@ function renderWishlist(games) {
                 </div>
 
                 <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.65em; color: #888;">Actualizado: ${j["Fecha revision"] || '--/--'}</span>
-                    ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.65em; font-weight: bold; text-decoration: none;">VER OFERTA</a>` : ''}
+                    <span style="font-size: 0.65em; color: #888;">Act: ${j["Fecha revision"] || '--/--'}</span>
+                    ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.65em; font-weight: bold; text-decoration: none;">OFERTA</a>` : ''}
                 </div>
             </div>`;
         } catch (e) { return ""; }
     }).join('');
-    
-    container.innerHTML = html;
 }
