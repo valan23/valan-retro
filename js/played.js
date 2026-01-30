@@ -140,14 +140,16 @@ function getColorForNota(n) {
 
 function applyCombinedFilters() {
     const cards = document.querySelectorAll('#played-grid .card');
+    
+    // Usamos display: grid/none para no romper el layout
     cards.forEach(card => {
-        const yearLabel = card.querySelector('.year-label').textContent.trim();
+        const yearLabel = card.querySelector('.year-label')?.textContent.trim() || "";
         const isDigital = card.classList.contains('digital-variant');
 
         const matchesYear = (selectedYear === 'all' || yearLabel.includes(selectedYear));
-        let matchesFormat = true;
-        if (selectedFormat === 'digital') matchesFormat = isDigital;
-        else if (selectedFormat === 'fisico') matchesFormat = !isDigital;
+        let matchesFormat = (selectedFormat === 'all') || 
+                           (selectedFormat === 'digital' && isDigital) || 
+                           (selectedFormat === 'fisico' && !isDigital);
 
         card.style.display = (matchesYear && matchesFormat) ? 'flex' : 'none';
     });
