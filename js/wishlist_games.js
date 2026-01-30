@@ -5,9 +5,9 @@ function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
 
-    // Sincronización de filtros de formato
+    // Sincronización segura con dataStore
     if (typeof renderFormatFilters === 'function') {
-        const fullData = (window.dataStore && dataStore['deseados']) ? dataStore['deseados'] : games;
+        const fullData = (window.dataStore && window.dataStore['deseados']) ? window.dataStore['deseados'] : games;
         renderFormatFilters(fullData, 'format-buttons-container-wishlist', 'wishlist');
     }
 
@@ -18,9 +18,21 @@ function renderWishlist(games) {
 
     container.innerHTML = games.map(j => {
         try {
+            // Verificamos que AppUtils exista antes de usarlo
+            if (typeof AppUtils === 'undefined') {
+                console.error("Error: utils.js no ha cargado correctamente.");
+                return "";
+            }
+
             const plataforma = j["Plataforma"] || "";
             const carpeta = AppUtils.getPlatformFolder(plataforma);
-            const fotoUrl = AppUtils.isValid(j["Portada"]) ? `images/covers/${carpeta}/${j["Portada"].trim()}` : `images/covers/default.webp`;
+            
+            // Limpieza de nombre de portada y validación
+            const portadaNombre = j["Portada"] ? j["Portada"].trim() : "";
+            const fotoUrl = AppUtils.isValid(portadaNombre) 
+                ? `images/covers/${carpeta}/${portadaNombre}` 
+                : `images/covers/default.webp`;
+
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
             
             const listaPrecios = [
@@ -46,7 +58,7 @@ function renderWishlist(games) {
                 </div>
 
                 <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                    <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+                    <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
                 </div>
 
                 <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; flex-grow: 1;">
@@ -63,6 +75,9 @@ function renderWishlist(games) {
                     ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.65em; font-weight: bold; text-decoration: none;">OFERTA</a>` : ''}
                 </div>
             </div>`;
-        } catch (e) { return ""; }
+        } catch (e) { 
+            console.error("Error en card:", e);
+            return ""; 
+        }
     }).join('');
 }
