@@ -132,22 +132,26 @@ function applyFilters() {
     if (!targetData) return;
 
     const filtered = targetData.filter(j => {
+        // 1. Filtro de Plataforma (soporta Selección Única o Array de Marca)
         let matchesP = (currentPlatform === "TODAS") || 
                        (Array.isArray(currentPlatform) ? currentPlatform.includes(j["Plataforma"]) : j["Plataforma"] === currentPlatform);
+        
+        // 2. Filtro de Búsqueda por Texto
         let matchesS = (j["Nombre Juego"] || "").toLowerCase().includes(q);
         
-        // Integración de filtro de formato en el filtrado principal
+        // 3. Filtro de Formato (Físico/Digital)
         let matchesF = true;
-        const isDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
-        if (currentFormat === 'digital') matchesF = isDigital;
-        else if (currentFormat === 'fisico') matchesF = !isDigital;
+        const formatVal = (j["Formato"] || "").toString().toUpperCase();
+        if (currentFormat === 'digital') matchesF = formatVal.includes("DIGITAL");
+        else if (currentFormat === 'fisico') matchesF = !formatVal.includes("DIGITAL");
 
         return matchesP && matchesS && matchesF;
     });
 
-    if (currentSection === 'videojuegos') renderGames(filtered);
-    else if (currentSection === 'deseados') renderWishlist(filtered);
-    else if (currentSection === 'jugados') renderPlayed(filtered);
+    // Renderizado según sección
+    if (currentSection === 'videojuegos' && typeof renderGames === 'function') renderGames(filtered);
+    else if (currentSection === 'deseados' && typeof renderWishlist === 'function') renderWishlist(filtered);
+    else if (currentSection === 'jugados' && typeof renderPlayed === 'function') renderPlayed(filtered);
 }
 
 function filterGames() { applyFilters(); }
