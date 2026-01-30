@@ -51,6 +51,8 @@ async function switchSection(sectionId, btn) {
     
     try {
         const data = await loadTabData(sectionId);
+        
+        // Limpiamos los filtros anteriores antes de crear nuevos
         if(sectionId === 'videojuegos') {
             createFilters(data, 'platform-filters');
             renderGames(data); 
@@ -61,7 +63,7 @@ async function switchSection(sectionId, btn) {
             createFilters(data, 'platform-filters-played');
             renderPlayed(data); 
         }
-    } catch (error) { console.error(`Error en sección ${sectionId}:`, error); }
+    } catch (error) { console.error(error); }
 }
 
 function createFilters(games, containerId) {
