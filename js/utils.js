@@ -31,7 +31,6 @@ const AppUtils = {
 
     obtenerValorEnEuros: (precioStr) => {
         if (!AppUtils.isValid(precioStr)) return Infinity;
-        // Limpiamos el string para quedarnos solo con números y puntos/comas
         const numStr = precioStr.toString().replace(/[^\d,.]/g, '').replace(',', '.');
         const num = parseFloat(numStr);
         if (isNaN(num)) return Infinity;
@@ -40,13 +39,19 @@ const AppUtils = {
         const esTiendaJaponesa = precioStr.includes('¥') || pLow.includes('surugaya') || pLow.includes('mercari');
         
         return esTiendaJaponesa ? (num / TASA_CAMBIO_YEN) : num;
-    }
-    // Añadir esto dentro del objeto AppUtils en utils.js
+    },
+
+    // --- FUNCIONES AÑADIDAS PARA EVITAR EL SYNTAX ERROR ---
     getRarezaColor: (rareza) => {
         const r = (rareza || "").toUpperCase();
-        if (r.includes("MUY RARA")) return "#ff4500";
-        if (r.includes("RARA")) return "#ffa500";
-        return "#aaa";
+        if (r.includes("MUY RARA")) return "#ff4500"; // Naranja rojizo
+        if (r.includes("RARA")) return "#ffa500";     // Naranja
+        if (r.includes("ÉPICA")) return "#bf00ff";    // Púrpura
+        return "#aaa";                                // Gris estándar
     },
-    formatEstado: (estado) => estado // Función simple por si no existe una lógica compleja
+
+    formatEstado: (estado) => {
+        if (!estado) return "-";
+        return estado.toString().toUpperCase();
+    }
 };
