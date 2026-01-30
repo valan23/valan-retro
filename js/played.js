@@ -36,28 +36,29 @@ function renderPlayed(games) {
             const tiempoJuego = j["Tiempo Juego"] || "0";
             const horas = tiempoJuego.toString().replace("h", "").trim();
 
-            // Lógica de colores para Proceso Juego (Etiqueta de color)
+            // Lógica de colores para Proceso Juego
             const proceso = (j["Proceso Juego"] || "Terminado").toUpperCase();
-            let colorProceso = "#2E9E7F"; // Verde esmeralda por defecto
-            if (proceso.includes("PLATINADO") || proceso.includes("100%")) colorProceso = "#00bcd4"; // Cyan
-            if (proceso.includes("CURSO") || proceso.includes("JUGANDO")) colorProceso = "#f39c12"; // Naranja
-            if (proceso.includes("ABANDONADO")) colorProceso = "#e74c3c"; // Rojo
+            let colorProceso = "#2E9E7F"; 
+            if (proceso.includes("PLATINADO") || proceso.includes("100%")) colorProceso = "#00bcd4";
+            if (proceso.includes("CURSO") || proceso.includes("JUGANDO")) colorProceso = "#f39c12";
+            if (proceso.includes("ABANDONADO")) colorProceso = "#e74c3c";
 
             return `
             <div class="card ${getBrandClass(plataforma)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden;">
                 
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to right, rgba(245, 245, 245, 0.15), transparent); pointer-events: none; z-index: 1;"></div>
-
                 <div style="position: absolute; top: 0; right: 0; background: hsl(${hue}, 100%, 40%); color: #fff; font-weight: 900; padding: 8px 15px; border-bottom-left-radius: 12px; z-index: 10; font-size: 1.1em; box-shadow: -2px 2px 10px rgba(0,0,0,0.5);">
                     ${nota.toFixed(1)}
                 </div>
             
-                <div style="position: absolute; top: 12px; left: 12px; z-index: 10; display: flex; flex-direction: column; gap: 8px; align-items: flex-start;">
-                    <div class="platform-icon-card" style="position: static; margin: 0; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));">
-                        ${getPlatformIcon(plataforma)}
+                <div style="position: absolute; top: 0; left: 0; z-index: 10; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; width: 100%;">
+                    
+                    <div style="background: linear-gradient(to right, rgba(255, 255, 245, 0.4), transparent); padding: 12px 0 10px 12px; width: 100%;">
+                        <div class="platform-icon-card" style="position: static; margin: 0; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.8));">
+                            ${getPlatformIcon(plataforma)}
+                        </div>
                     </div>
                     
-                    <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 5px; align-items: center; flex-wrap: wrap; padding-left: 12px;">
                         <div style="background: rgba(0,0,0,0.7); color: #fff; font-size: 0.6em; font-weight: 800; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap;">
                             ${j["Año"] || "????"}
                         </div>
@@ -72,13 +73,13 @@ function renderPlayed(games) {
                     </div>
                 </div>
             
-                <div style="margin-top: 90px; padding: 0 15px; z-index: 2;">
+                <div style="margin-top: 95px; padding: 0 15px; z-index: 2;">
                     <div class="game-title" style="font-size: 1.15em; color: #EFC36C; font-weight: 700; line-height: 1.2; min-height: 2.4em; display: flex; align-items: center; padding: 0;">
                         ${j["Nombre Juego"]}
                     </div>
                 </div>
 
-                <div style="height: 160px; margin: 10px 15px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="height: 160px; margin: 10px 15px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
                 </div>
 
@@ -87,7 +88,6 @@ function renderPlayed(games) {
                 </div>
 
                 <div style="padding: 12px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr auto 1fr; gap: 5px; align-items: center; text-align: center;">
-                    
                     <div style="display: flex; flex-direction: column; align-items: flex-start;">
                         <span style="font-size: 0.55em; color: #666; font-weight: 800; letter-spacing: 0.5px;">INICIO</span>
                         <span style="font-size: 0.7em; color: #aaa; font-weight: 600;">${j["Primera fecha"] || "---"}</span>
@@ -102,7 +102,6 @@ function renderPlayed(games) {
                         <span style="font-size: 0.55em; color: #666; font-weight: 800; letter-spacing: 0.5px;">FINALIZADO</span>
                         <span style="font-size: 0.7em; color: #EFC36C; font-weight: 700;">${j["Ultima fecha"] || "---"}</span>
                     </div>
-
                 </div>
             </div>`;
         } catch (e) { return ""; }
