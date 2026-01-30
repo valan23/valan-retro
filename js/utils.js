@@ -41,4 +41,12 @@ const AppUtils = {
         
         return esTiendaJaponesa ? (num / TASA_CAMBIO_YEN) : num;
     }
+    // Añadir esto dentro del objeto AppUtils en utils.js
+    getRarezaColor: (rareza) => {
+        const r = (rareza || "").toUpperCase();
+        if (r.includes("MUY RARA")) return "#ff4500";
+        if (r.includes("RARA")) return "#ffa500";
+        return "#aaa";
+    },
+    formatEstado: (estado) => estado // Función simple por si no existe una lógica compleja
 };
