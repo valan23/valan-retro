@@ -13,7 +13,7 @@ body {
     --accent: #efc36c;   /* Dorado */
     --purple: #9500ff;   /* Morado */
     --cyan: #00f2ff;     /* Cian */
-    --bg-button: #16161a; /* Gris muy oscuro mate */
+    --bg-button: #16161a; 
 }
 
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
@@ -80,14 +80,17 @@ header { width: 100%; text-align: center; }
     margin: 5px;
 }
 
-/* EFECTO RELIEVE MATE PARA LOGOS */
+/* EFECTO BORDE/PEGATINA RODEANDO EL LOGO */
 .brand-logo-img, .btn-console-icon {
     height: 30px; width: auto; max-width: 85px; object-fit: contain; margin-bottom: 8px;
-    /* Sombra técnica: muy corta (1px 1px) y poco difuminada (2px) para dar relieve */
-    filter: drop-shadow(1px 1px 0px rgba(255,255,255,0.15)) 
-            drop-shadow(-1px -1px 0px rgba(255,255,255,0.15))
-            drop-shadow(0px 2px 3px rgba(0,0,0,0.8));
-    opacity: 0.9;
+    /* Cuatro sombras en las esquinas para rodear todo el icono + sombra base negra */
+    filter: drop-shadow(1.5px 1.5px 0px rgba(200, 200, 200, 0.2)) 
+            drop-shadow(-1.5px -1.5px 0px rgba(200, 200, 200, 0.2))
+            drop-shadow(1.5px -1.5px 0px rgba(200, 200, 200, 0.2))
+            drop-shadow(-1.5px 1.5px 0px rgba(200, 200, 200, 0.2))
+            drop-shadow(0px 3px 3px rgba(0,0,0,0.8));
+    opacity: 0.95;
+    transition: filter 0.3s ease;
 }
 
 .brand-icon span, .filter-btn span {
@@ -96,16 +99,22 @@ header { width: 100%; text-align: center; }
 
 /* Hover y Activo */
 .brand-icon:hover, .filter-btn:hover { border-color: var(--purple); background: #1c1c22 !important; }
+
 .brand-icon.active, .filter-btn.active {
     border: 2px solid var(--accent) !important;
     background: #1e1e26 !important;
-    transform: translateY(2px); /* Efecto de pulsado */
+    transform: translateY(2px);
 }
 .brand-icon.active span, .filter-btn.active span { color: var(--accent); }
+
+/* Perfilado más grueso y claro en estado activo */
 .brand-icon.active .brand-logo-img, .filter-btn.active .btn-console-icon { 
     opacity: 1; 
-    filter: drop-shadow(1px 1px 0px rgba(255,255,255,0.3)) 
-            drop-shadow(0px 3px 4px rgba(0,0,0,0.9));
+    filter: drop-shadow(2px 2px 0px rgba(255, 255, 255, 0.4)) 
+            drop-shadow(-2px -2px 0px rgba(255, 255, 255, 0.4))
+            drop-shadow(2px -2px 0px rgba(255, 255, 255, 0.4))
+            drop-shadow(-2px 2px 0px rgba(255, 255, 255, 0.4))
+            drop-shadow(0px 4px 5px rgba(0,0,0,1));
 }
 
 /* --- GRID DE JUEGOS --- */
@@ -122,7 +131,7 @@ header { width: 100%; text-align: center; }
     border-radius: 12px;
 }
 
-/* Línea lateral de color (Estilo solicitado) */
+/* Líneas laterales de color */
 .card.nintendo { box-shadow: inset 6px 0 0 0 #e60012; }
 .card.sega { box-shadow: inset 6px 0 0 0 #0089cf; }
 .card.sony, .card.playstation { box-shadow: inset 6px 0 0 0 #003791; }
@@ -130,11 +139,12 @@ header { width: 100%; text-align: center; }
 .card.pc { box-shadow: inset 6px 0 0 0 #4c5b6a; }
 .card.otros { box-shadow: inset 6px 0 0 0 var(--purple); }
 
-/* Logo de plataforma en la tarjeta con el mismo relieve */
+/* Perfilado en los iconos de las tarjetas */
 .platform-icon-card img {
     height: 28px !important; width: auto !important;
-    filter: drop-shadow(1px 1px 0px rgba(255,255,255,0.2)) 
-            drop-shadow(0px 2px 3px rgba(0,0,0,0.8));
+    filter: drop-shadow(1.5px 1.5px 0px rgba(255, 255, 255, 0.2)) 
+            drop-shadow(-1.5px -1.5px 0px rgba(255, 255, 255, 0.2))
+            drop-shadow(0px 3px 3px rgba(0,0,0,0.8));
 }
 
 .game-title {
