@@ -1,38 +1,40 @@
 function renderGames(games) {
-    const container = document.getElementById('game-grid'); // <--- ¡QUITA LA 'S' SI LA TIENE!
+    const container = document.getElementById('game-grid');
     if (!container) return;
 
-    // Solo dibujamos los botones de filtro si hay juegos para contar
+    // Sincronización de filtros
     if (typeof renderFormatFilters === 'function') {
-        renderFormatFilters(dataStore['videojuegos'] || games, 'format-buttons-container-games', 'game');
+        // Usamos window.dataStore para asegurar acceso global
+        const fullData = (window.dataStore && window.dataStore['videojuegos']) ? window.dataStore['videojuegos'] : games;
+        renderFormatFilters(fullData, 'format-buttons-container-games', 'game');
     }
 
     container.innerHTML = "";
-    if (games.length === 0) {
-        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No se encontraron juegos.</p>";
+
+    if (!games || games.length === 0) {
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #888;'>No se encontraron juegos con estos filtros.</p>";
         return;
     }
 
-    // Renderizado por lotes para fluidez
-    const renderBatch = (start) => {
-        const batch = games.slice(start, start + 24);
-        const html = batch.map(j => createCardHTML(j)).join('');
-        container.insertAdjacentHTML('beforeend', html);
-        if (start + 24 < games.length) {
-            requestAnimationFrame(() => renderBatch(start + 24));
-        }
-    };
-    renderBatch(0);
+    // Renderizado directo (más fiable para debuguear)
+    const html = games.map(j => createCardHTML(j)).join('');
+    container.innerHTML = html;
 }
 
 function createCardHTML(j) {
     try {
         const plat = j["Plataforma"] || "";
+        // Verificación de seguridad para AppUtils
+        if (typeof AppUtils === 'undefined') return "";
+
         const carpeta = AppUtils.getPlatformFolder(plat);
-        const fotoUrl = AppUtils.isValid(j["Portada"]) ? `images/covers/${carpeta}/${j["Portada"].trim()}` : `images/covers/default.webp`;
+        const portada = j["Portada"] ? j["Portada"].trim() : "";
+        const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
+        
         const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const colorComp = AppUtils.getCompletitudStyle(j["Completitud"]);
-        const colorRareza = AppUtils.getRarezaColor(j["Rareza"]);
+        const colorRareza = typeof AppUtils.getRarezaColor === 'function' ? AppUtils.getRarezaColor(j["Rareza"]) : "#ccc";
+        
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
 
@@ -56,18 +58,21 @@ function createCardHTML(j) {
             </div>
             <div class="cover-container">
                 <div class="format-tag ${esDigital ? 'tag-digital' : 'tag-fisico'}">${esDigital ? 'Digital' : 'Físico'}</div>
-                <img src="${fotoUrl}" loading="lazy">
+                <img src="${fotoUrl}" loading="lazy" onerror="this.src='images/covers/default.webp'">
             </div>
             <div class="status-grid">
                 ${esDigital ? '<div class="digital-notice">CONTENIDO DIGITAL</div>' : 
                     [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Inserto', v: j["Estado Inserto"]}, {l: 'Portada', v: j["Estado Portada"]}, {l: 'Manual', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Extras', v: j["Estado Extras"]}]
                     .filter(i => AppUtils.isValid(i.v)).map(i => `
-                    <div class="status-row"><span>${i.l}</span><b>${AppUtils.formatEstado(i.v)}</b></div>`).join('')}
+                    <div class="status-row"><span>${i.l}</span><b>${typeof AppUtils.formatEstado === 'function' ? AppUtils.formatEstado(i.v) : i.v}</b></div>`).join('')}
             </div>
             <div class="card-footer">
                 <div class="rev-date">${j["Fecha revision"] || 'Sin fecha'}</div>
                 <div class="price-tag">💸 ${j["Tasación Actual"] || "S/T"}</div>
             </div>
         </div>`;
-    } catch (e) { return ""; }
+    } catch (e) { 
+        console.error("Error renderizando carta:", e);
+        return ""; 
+    }
 }
