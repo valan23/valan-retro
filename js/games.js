@@ -1,5 +1,5 @@
 function renderGames(games) {
-    const container = document.getElementById('game-grid');
+    const container = document.getElementById('game-grid'); // <--- ¡QUITA LA 'S' SI LA TIENE!
     if (!container) return;
 
     // Solo dibujamos los botones de filtro si hay juegos para contar
