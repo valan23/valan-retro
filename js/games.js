@@ -2,9 +2,7 @@ function renderGames(games) {
     const container = document.getElementById('game-grid');
     if (!container) return;
 
-    // Sincronización de filtros
     if (typeof renderFormatFilters === 'function') {
-        // Usamos window.dataStore para asegurar acceso global
         const fullData = (window.dataStore && window.dataStore['videojuegos']) ? window.dataStore['videojuegos'] : games;
         renderFormatFilters(fullData, 'format-buttons-container-games', 'game');
     }
@@ -16,17 +14,15 @@ function renderGames(games) {
         return;
     }
 
-    // Renderizado directo (más fiable para debuguear)
     const html = games.map(j => createCardHTML(j)).join('');
     container.innerHTML = html;
 }
 
 function createCardHTML(j) {
     try {
-        const plat = j["Plataforma"] || "";
-        // Verificación de seguridad para AppUtils
         if (typeof AppUtils === 'undefined') return "";
 
+        const plat = j["Plataforma"] || "";
         const carpeta = AppUtils.getPlatformFolder(plat);
         const portada = j["Portada"] ? j["Portada"].trim() : "";
         const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
@@ -38,41 +34,59 @@ function createCardHTML(j) {
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
 
+        // Mimetizamos el estilo de la Wishlist usando flexbox y estilos directos
         return `
-        <div class="card ${getBrandClass(plat)} ${esDigital ? 'digital-variant' : 'physical-variant'}">
-            <div class="platform-icon-card">${getPlatformIcon(plat)}</div>
-            <div class="completitud-badge" style="background-color: ${colorComp};">
+        <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative;">
+            
+            <div class="platform-icon-card" style="position: absolute; top: 12px; left: 12px; z-index: 10;">
+                ${getPlatformIcon(plat)}
+            </div>
+
+            <div style="position: absolute; top: 0; right: 0; background: ${colorComp}; color: #000; font-weight: 900; font-size: 0.65em; padding: 6px 14px; border-bottom-left-radius: 8px; z-index: 10;">
                 ${(j["Completitud"] || "???").toUpperCase()}
             </div>
-            <div class="card-header-info">
-                <span class="year-badge">${j["Año"] || "????"}</span>
-                <div class="region-badge" style="background: ${styleRegion.bg}; border-color: ${styleRegion.border}; color: ${styleRegion.text};">
-                    ${getFlag(j["Región"])} <span>${j["Región"] || "N/A"}</span>
+            
+            <div style="margin-top: 45px; padding: 0 12px;">
+                <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; min-height: 2.4em; display: flex; align-items: center; padding: 0;">
+                    ${j["Nombre Juego"]}
                 </div>
-                <span class="rarity-text" style="color: ${colorRareza};">💎 ${j["Rareza"] || "COMÚN"}</span>
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
+                    <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
+                         ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                    </div>
+                    <span style="font-size: 0.65em; font-weight: 800; color: ${colorRareza};">💎 ${j["Rareza"] || "COMÚN"}</span>
+                </div>
             </div>
-            <div class="title-container">
-                <div class="game-title">${j["Nombre Juego"]}</div>
-                ${AppUtils.isValid(j["Nombre Japones"]) ? `<div class="jp-title">${j["Nombre Japones"]}</div>` : ''}
-                ${esEspecial ? `<div class="edition-text"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : ''}
+
+            <div style="height: 160px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 5px; right: 5px; font-size: 0.6em; padding: 2px 6px; border-radius: 3px; background: ${esDigital ? '#00f2ff33' : '#9500ff33'}; color: ${esDigital ? '#00f2ff' : '#9500ff'}; border: 1px solid currentColor;">
+                    ${esDigital ? 'DIGITAL' : 'FÍSICO'}
+                </div>
+                <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
             </div>
-            <div class="cover-container">
-                <div class="format-tag ${esDigital ? 'tag-digital' : 'tag-fisico'}">${esDigital ? 'Digital' : 'Físico'}</div>
-                <img src="${fotoUrl}" loading="lazy" onerror="this.src='images/covers/default.webp'">
-            </div>
-            <div class="status-grid">
-                ${esDigital ? '<div class="digital-notice">CONTENIDO DIGITAL</div>' : 
+
+            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px; flex-grow: 1; display: flex; flex-direction: column; gap: 2px;">
+                ${esDigital ? 
+                    `<div style="color: #00f2ff; font-size: 0.7em; text-align: center; margin-top: 20px; letter-spacing: 1px; font-weight: bold;">CONTENIDO DIGITAL</div>` : 
                     [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Inserto', v: j["Estado Inserto"]}, {l: 'Portada', v: j["Estado Portada"]}, {l: 'Manual', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Extras', v: j["Estado Extras"]}]
                     .filter(i => AppUtils.isValid(i.v)).map(i => `
-                    <div class="status-row"><span>${i.l}</span><b>${typeof AppUtils.formatEstado === 'function' ? AppUtils.formatEstado(i.v) : i.v}</b></div>`).join('')}
+                        <div style="display: flex; justify-content: space-between; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.03);">
+                            <span style="color: #888; font-size: 0.7em; font-weight: 600;">${i.l}</span>
+                            <span style="color: #eee; font-size: 0.75em; font-weight: 800;">${i.v.toUpperCase()}</span>
+                        </div>
+                    `).join('')
+                }
+                ${esEspecial ? `<div style="color: var(--accent); font-size: 0.65em; margin-top: 5px; font-weight: bold; text-align: center;"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : ''}
             </div>
-            <div class="card-footer">
-                <div class="rev-date">${j["Fecha revision"] || 'Sin fecha'}</div>
-                <div class="price-tag">💸 ${j["Tasación Actual"] || "S/T"}</div>
+
+            <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.65em; color: #555;">Rev: ${j["Fecha revision"] || '--/--'}</span>
+                <div style="color: var(--cyan); font-weight: 900; font-size: 0.85em;">💸 ${j["Tasación Actual"] || "S/T"}</div>
             </div>
         </div>`;
     } catch (e) { 
-        console.error("Error renderizando carta:", e);
+        console.error("Error en card games:", e);
         return ""; 
     }
 }
