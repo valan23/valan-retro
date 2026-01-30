@@ -7,23 +7,24 @@ function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // 1. Filtros de formato (Físico/Digital)
+    // 1. ACTUALIZACIÓN DINÁMICA DE FORMATOS (Físico/Digital)
+    // En lugar de enviarle dataStore['jugados'], le enviamos 'games'
+    // que ya vienen filtrados por Marca/Consola desde main.js
     if (typeof renderFormatFilters === 'function') {
-        const fullSectionData = dataStore['jugados'] || games;
-        renderFormatFilters(fullSectionData, 'format-buttons-container-played', 'played');
+        renderFormatFilters(games, 'format-buttons-container-played', 'played');
     }
 
-    // 2. ACTUALIZACIÓN DINÁMICA: Usamos 'games' (que ya vienen filtrados por consola/marca) 
-    // para recalcular los contadores de los botones de año.
+    // 2. ACTUALIZACIÓN DINÁMICA DE AÑOS
     updateYearButtons(games);
 
-    // 3. Aplicar el filtro de año sobre los juegos ya filtrados por plataforma
+    // 3. Aplicar el filtro de año local
     const filteredByYear = games.filter(j => {
         if (currentPlayedYear === 'all') return true;
         const fecha = j["Ultima fecha"] || j["Año"] || "";
         return String(fecha).includes(currentPlayedYear);
     });
 
+    // 4. Renderizado final
     container.innerHTML = "";
     if (filteredByYear.length === 0) {
         container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #888;'>No hay partidas registradas para este filtro.</p>";
