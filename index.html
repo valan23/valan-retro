@@ -10,6 +10,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .section-content {
+            display: none; /* Oculta todas las secciones por defecto */
+        }
+        .section-content.active {
+            display: block; /* Solo muestra la que tiene la clase active */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -55,7 +64,7 @@
                 <div id="format-buttons-container-played" class="format-buttons"></div>
             </div>
             <div class="year-filter-container">
-                <span class="year-label">Filtrar por año de finalización:</span>
+                <span class="year-label" style="display: block; margin-bottom: 10px; color: #888; font-size: 0.9em;">Filtrar por año de finalización:</span>
                 <div id="year-buttons-container" class="year-buttons"></div>
             </div>
             <div id="played-grid" class="grid"></div>
