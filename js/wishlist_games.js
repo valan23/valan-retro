@@ -80,9 +80,19 @@ function renderWishlist(games) {
                     `).join('')}
                 </div>
 
-                <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.65em; color: #888;">Act: ${j["Fecha revision"] || '--/--'}</span>
-                    ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.65em; font-weight: 900; text-decoration: none; letter-spacing: 0.5px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">OFERTA</a>` : ''}
+                <div style="margin-top: 10px; height: 50px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; justify-content: space-between;">
+                    
+                    <div style="background: ${esDigital ? '#00f2ff' : '#EFC36C'}; color: #000; font-weight: 900; font-size: 0.65em; padding: 0 15px; display: flex; align-items: center; border-top-right-radius: 12px;">
+                        <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="margin-right: 6px;"></i>
+                        ${esDigital ? 'DIGITAL' : 'FÍSICO'}
+                    </div>
+
+                    <div style="padding: 5px 12px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                        ${AppUtils.isValid(j["Link"]) ? 
+                            `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 3px 10px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-decoration: none; margin-bottom: 2px;">OFERTA</a>` : ''
+                        }
+                        <div style="font-size: 0.55em; color: #666; font-weight: bold; text-transform: uppercase;">Act: ${j["Fecha revision"] || '--/--'}</div>
+                    </div>
                 </div>
             </div>`;
         } catch (e) { 
