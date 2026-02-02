@@ -1,3 +1,23 @@
+function renderGames(games) {
+    const container = document.getElementById('game-grid');
+    if (!container) return;
+    
+    if (typeof renderFormatFilters === 'function') {
+        const fullData = (window.dataStore && window.dataStore['videojuegos']) ? window.dataStore['videojuegos'] : games;
+        renderFormatFilters(fullData, 'format-buttons-container-games', 'game');
+    }
+
+    container.innerHTML = "";
+    
+    if (!games || games.length === 0) {
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding: 40px; color: #888;'>No se encontraron juegos con estos filtros.</p>";
+        return;
+    }
+
+    const html = games.map(j => createCardHTML(j)).join('');
+    container.innerHTML = html;
+}
+
 function createCardHTML(j) {
     try {
         if (typeof AppUtils === 'undefined') return "";
