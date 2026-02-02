@@ -83,13 +83,14 @@ function createCardHTML(j) {
 
             <div style="margin-top: 10px; height: 50px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; justify-content: space-between;">
                 
-                <div style="background: ${esDigital ? '#00f2ff' : '#9500ff'}; color: #000; font-weight: 900; font-size: 0.65em; padding: 0 15px; display: flex; align-items: center; border-top-right-radius: 12px;">
+                <div style="background: ${esDigital ? '#00f2ff' : '#EFC36C'}; color: #000; font-weight: 900; font-size: 0.65em; padding: 0 20px; display: flex; align-items: center; border-top-right-radius: 12px; letter-spacing: 0.5px; box-shadow: 2px 0 10px rgba(0,0,0,0.2);">
+                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disc'}" style="margin-right: 6px; font-size: 1.1em;"></i>
                     ${esDigital ? 'DIGITAL' : 'FÍSICO'}
                 </div>
 
                 <div style="padding: 5px 12px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
-                    <div style="color: var(--cyan); font-weight: 900; font-size: 0.9em; line-height: 1;">💸 ${j["Tasación Actual"] || "S/T"}</div>
-                    <div style="font-size: 0.55em; color: #555; margin-top: 2px; font-weight: bold;">REV: ${j["Fecha revision"] || '--/--'}</div>
+                    <div style="color: var(--cyan); font-weight: 900; font-size: 0.9em; line-height: 1; letter-spacing: -0.5px;">💸 ${j["Tasación Actual"] || "S/T"}</div>
+                    <div style="font-size: 0.50em; color: #666; margin-top: 3px; font-weight: bold; text-transform: uppercase;">Rev: ${j["Fecha revision"] || '--/--'}</div>
                 </div>
             </div>
         </div>`;
