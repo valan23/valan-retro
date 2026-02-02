@@ -69,6 +69,8 @@ function createCardHTML(j) {
                 <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; min-height: 2.4em; display: flex; align-items: center; padding: 0;">
                     ${j["Nombre Juego"]}
                 </div>
+                
+                ${esEspecial ? `<div style="color: var(--accent); font-size: 0.65em; margin-top: 5px; font-weight: bold; text-align: center;"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : ''}
                 <div style="display: flex; gap: 8px; align-items: center; margin-top: 5px;">
                     <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                     <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
@@ -92,7 +94,6 @@ function createCardHTML(j) {
                         </div>
                     `).join('')
                 }
-                ${esEspecial ? `<div style="color: var(--accent); font-size: 0.65em; margin-top: 5px; font-weight: bold; text-align: center;"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : ''}
             </div>
 
             <div style="margin-top: 10px; height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; overflow: hidden;">
