@@ -89,22 +89,30 @@ function renderPlayed(games) {
                 "${j["Comentario"] || "Sin comentarios."}"
             </div>
 
-            <div style="padding: 12px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr auto 1fr; gap: 5px; align-items: center; text-align: center;">
-                <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                    <span style="font-size: 0.55em; color: #666; font-weight: 800; letter-spacing: 0.5px;">INICIO</span>
-                    <span style="font-size: 0.7em; color: #aaa; font-weight: 600;">${j["Primera fecha"] || "---"}</span>
-                </div>
+            <div style="height: 50px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; justify-content: space-between;">
+                    
+                    <div style="background: ${esDigital ? '#00f2ff' : '#EFC36C'}; color: #000; font-weight: 900; font-size: 0.65em; padding: 0 15px; display: flex; align-items: center; border-top-right-radius: 12px;">
+                        <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="margin-right: 5px;"></i>
+                        ${esDigital ? 'DIG' : 'FIS'}
+                    </div>
 
-                <div style="background: rgba(46, 158, 127, 0.15); border: 1px solid rgba(46, 158, 127, 0.3); padding: 4px 10px; border-radius: 20px; min-width: 70px;">
-                    <span style="display: block; font-size: 0.55em; color: #2e9e7f; font-weight: 900; letter-spacing: 0.5px;">TIEMPO</span>
-                    <span style="font-size: 0.9em; color: #fff; font-weight: 900;">${horas}<small style="font-size: 0.7em; font-weight: 400; margin-left: 2px;">h</small></span>
-                </div>
+                    <div style="display: flex; gap: 10px; align-items: center; padding: 0 10px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.5em; color: #555; font-weight: 800;">INICIO</div>
+                            <div style="font-size: 0.65em; color: #888; font-weight: 600;">${j["Primera fecha"] || '--/--'}</div>
+                        </div>
+                        <div style="color: #444; font-size: 0.8em;">➔</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 0.5em; color: #555; font-weight: 800;">FIN</div>
+                            <div style="font-size: 0.65em; color: #EFC36C; font-weight: 700;">${j["Ultima fecha"] || '--/--'}</div>
+                        </div>
+                    </div>
 
-                <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                    <span style="font-size: 0.55em; color: #666; font-weight: 800; letter-spacing: 0.5px;">FINALIZADO</span>
-                    <span style="font-size: 0.7em; color: #EFC36C; font-weight: 700;">${j["Ultima fecha"] || "---"}</span>
+                    <div style="background: rgba(46, 158, 127, 0.15); border-left: 1px solid rgba(46, 158, 127, 0.3); padding: 0 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 65px;">
+                        <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">TIME</span>
+                        <span style="font-size: 0.9em; color: #fff; font-weight: 900; line-height: 1;">${horas}<small style="font-size: 0.6em; margin-left: 1px;">h</small></span>
+                    </div>
                 </div>
-            </div>
         </div>`;
     } catch (e) { return ""; }
 }).join('');
