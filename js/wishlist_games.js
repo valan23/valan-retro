@@ -22,7 +22,9 @@ function renderWishlist(games) {
             const fotoUrl = AppUtils.isValid(portadaNombre) 
                 ? `images/covers/${carpeta}/${portadaNombre}` 
                 : `images/covers/default.webp`;
-
+            
+            const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
+            
             // --- LÓGICA DE PRIORIDAD ---
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
             let colorPrioridad = "#333"; // Color por defecto (Gris)
