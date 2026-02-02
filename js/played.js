@@ -36,6 +36,8 @@ function renderPlayed(games) {
         const tiempoJuego = j["Tiempo Juego"] || "0";
         const horas = tiempoJuego.toString().replace("h", "").trim();
 
+        const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
+
         const proceso = (j["Proceso Juego"] || "Terminado").toUpperCase();
         let colorProceso = "#2E9E7F"; 
         if (proceso.includes("COMPLETADO") || proceso.includes("100%")) colorProceso = "#10C809";
