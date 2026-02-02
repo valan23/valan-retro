@@ -165,32 +165,32 @@
         .card.nintendo { 
             box-shadow: inset 6px 0 0 0 #e60012; 
             --brand-color: #e60012; /* Añadimos esta variable */
-            --brand-color-soft: rgba(230, 0, 18, 0.15); 
+            --brand-color-soft: rgba(230, 138, 147, 0.15); 
         }
         .card.sony { 
             box-shadow: inset 6px 0 0 0 #003791; 
             --brand-color: #003791;
-            --brand-color-soft: rgba(0, 55, 145, 0.15); 
+            --brand-color-soft: rgba(138, 183, 255, 0.15); 
         }
         .card.sega { 
             box-shadow: inset 6px 0 0 0 #0089cf; 
             --brand-color: #0089cf;
-            --brand-color-soft: rgba(0, 137, 207, 0.15); 
+            --brand-color-soft: rgba(138, 216, 255, 0.15); 
         }
         .card.xbox { 
             box-shadow: inset 6px 0 0 0 #107c10; 
             --brand-color: #107c10;
-            --brand-color-soft: rgba(16, 124, 16, 0.15); 
+            --brand-color-soft: rgba(151, 242, 151, 0.15); 
         }
         .card.pc { 
             box-shadow: inset 6px 0 0 0 #4c5b6a; 
             --brand-color: #4c5b6a;
-            --brand-color-soft: rgba(76, 91, 106, 0.15); 
+            --brand-color-soft: rgba(187, 196, 206, 0.15); 
         }
         .card.otros { 
             box-shadow: inset 6px 0 0 0 var(--purple); 
             --brand-color: var(--purple);
-            --brand-color-soft: rgba(149, 0, 255, 0.15); 
+            --brand-color-soft: rgba(206, 138, 255, 0.15); 
         }
 
         .icon-gradient-area {
