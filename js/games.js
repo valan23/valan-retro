@@ -30,13 +30,21 @@ function createCardHTML(j) {
         const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const colorComp = AppUtils.getCompletitudStyle(j["Completitud"]);
         
-        // Rareza: Obtenemos el color base para aplicarlo al fondo
-        const rawRarezaColor = typeof AppUtils.getRarezaColor === 'function' ? AppUtils.getRarezaColor(j["Rareza"]) : "#333";
+        // Lógica de Rareza desde utils.js
+        const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
         
+        // Convertidor interno de HEX a RGBA (15% opacidad) para el fondo
+        const getBgRareza = (hex) => {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, 0.15)`;
+        };
+
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
 
-        // Configuración de colores translúcidos para el footer
+        // Estilos de Formato
         const colorTextoFormato = esDigital ? '#00f2ff' : '#EFC36C';
         const bgFormato = esDigital ? 'rgba(0, 242, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
 
@@ -91,9 +99,9 @@ function createCardHTML(j) {
                     <span style="font-size: 0.6em; font-weight: 900; letter-spacing: 0.5px;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
                 
-                <div style="flex: 1; background: ${AppUtils.hexToRgba ? AppUtils.hexToRgba(rawRarezaColor, 0.15) : 'rgba(255,255,255,0.05)'}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                    <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">RAREZA</span>
-                    <span style="font-size: 0.75em; color: #555; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
+                <div style="flex: 1; background: ${getBgRareza(rawRarezaColor)}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <span style="font-size: 0.5em; color: #555; opacity: 0.5; font-weight: 900;">RAREZA</span>
+                    <span style="font-size: 0.75em; color: #fff; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                 </div>
 
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
