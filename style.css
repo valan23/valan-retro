@@ -162,12 +162,41 @@
         }
 
         /* Líneas laterales (Mantenidas) */
-        .card.nintendo { box-shadow: inset 6px 0 0 0 #e60012; }
-        .card.sega { box-shadow: inset 6px 0 0 0 #0089cf; }
-        .card.sony { box-shadow: inset 6px 0 0 0 #003791; }
-        .card.xbox { box-shadow: inset 6px 0 0 0 #107c10; }
-        .card.pc { box-shadow: inset 6px 0 0 0 #4c5b6a; }
-        .card.otros { box-shadow: inset 6px 0 0 0 var(--purple); }
+        .card.nintendo { 
+            box-shadow: inset 6px 0 0 0 #e60012; 
+            --brand-color-soft: rgba(230, 0, 18, 0.2); 
+        }
+        .card.sega { 
+            box-shadow: inset 6px 0 0 0 #0089cf; 
+            --brand-color-soft: rgba(0, 137, 207, 0.2); 
+        }
+        .card.sony { 
+            box-shadow: inset 6px 0 0 0 #003791; 
+            --brand-color-soft: rgba(0, 55, 145, 0.2); 
+        }
+        .card.xbox { 
+            box-shadow: inset 6px 0 0 0 #107c10; 
+            --brand-color-soft: rgba(16, 124, 16, 0.2); 
+        }
+        .card.pc { 
+            box-shadow: inset 6px 0 0 0 #4c5b6a; 
+            --brand-color-soft: rgba(76, 91, 106, 0.2); 
+        }
+        .card.otros { 
+            box-shadow: inset 6px 0 0 0 var(--purple); 
+            --brand-color-soft: rgba(149, 0, 255, 0.2); 
+        }
+
+        /* Clase genérica para el degradado del icono */
+        .icon-gradient-area {
+            flex-grow: 1;
+            margin-left: 6px;
+            /* Usamos la variable definida arriba, con fallback a transparente */
+            background: linear-gradient(to right, var(--brand-color-soft, rgba(255,255,255,0.1)), transparent);
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
 
         /* Icono plataforma en tarjeta con fondo protector */
         .card-platform-box {
@@ -176,6 +205,7 @@
             display: inline-flex; align-items: center; justify-content: center;
             height: 28px; width: auto; margin-left: 15px;
         }
+
         .card-platform-box img { max-height: 18px; width: auto; }
 
         .game-title {
