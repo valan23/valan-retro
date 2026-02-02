@@ -30,17 +30,15 @@ function createCardHTML(j) {
         const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const colorComp = AppUtils.getCompletitudStyle(j["Completitud"]);
         
-        // Rareza: Usamos el color pero con opacidad
-        const rawRarezaColor = typeof AppUtils.getRarezaColor === 'function' ? AppUtils.getRarezaColor(j["Rareza"]) : "#ccc";
+        // Rareza: Obtenemos el color base para aplicarlo al fondo
+        const rawRarezaColor = typeof AppUtils.getRarezaColor === 'function' ? AppUtils.getRarezaColor(j["Rareza"]) : "#333";
         
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
 
-        // Definimos los colores translúcidos para el footer
-        // Digital: Cian con 15% opacidad | Físico: Dorado con 15% opacidad
-        const bgFormato = esDigital ? 'rgba(0, 242, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
-        const borderFormato = esDigital ? 'rgba(0, 242, 255, 0.3)' : 'rgba(239, 195, 108, 0.3)';
+        // Configuración de colores translúcidos para el footer
         const colorTextoFormato = esDigital ? '#00f2ff' : '#EFC36C';
+        const bgFormato = esDigital ? 'rgba(0, 242, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
 
         return `
         <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden;">
@@ -86,22 +84,23 @@ function createCardHTML(j) {
                 ${esEspecial ? `<div style="color: var(--accent); font-size: 0.65em; margin-top: 5px; font-weight: bold; text-align: center;"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : ''}
             </div>
 
-            <div style="margin-top: 10px; height: 50px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; justify-content: space-between;">
+            <div style="margin-top: 10px; height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch;">
                 
-                <div style="background: ${bgFormato}; border-right: 1px solid ${borderFormato}; color: ${colorTextoFormato}; font-weight: 900; font-size: 0.65em; padding: 0 15px; display: flex; align-items: center; letter-spacing: 0.5px;">
-                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="margin-right: 6px; font-size: 1.1em;"></i>
-                    ${esDigital ? 'DIGITAL' : 'FÍSICO'}
+                <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="font-size: 1em; margin-bottom: 2px;"></i>
+                    <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">FORMATO</span>
+                    <span style="font-size: 0.6em; font-weight: 900; letter-spacing: 0.5px;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
                 
-                <div style="background: rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.05); padding: 0 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 70px;">
+                <div style="flex: 1; background: ${AppUtils.hexToRgba ? AppUtils.hexToRgba(rawRarezaColor, 0.15) : 'rgba(255,255,255,0.05)'}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                     <span style="font-size: 0.5em; color: #888; font-weight: 900;">RAREZA</span>
-                    <span style="font-size: 0.75em; color: ${rawRarezaColor}; font-weight: 900; line-height: 1;">💎 ${j["Rareza"] || "COMÚN"}</span>
+                    <span style="font-size: 0.75em; color: #fff; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                 </div>
 
-                <div style="background: rgba(46, 158, 127, 0.15); padding: 0 12px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; min-width: 80px; flex-grow: 1;">
-                    <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">TASACIÓN</span>
-                    <span style="font-size: 0.9em; color: #fff; font-weight: 900; line-height: 1;">💸 ${j["Tasación Actual"] || "S/T"}</span>
-                    <div style="font-size: 0.45em; color: #666; margin-top: 2px; font-weight: bold;">Rev: ${j["Fecha revision"] || '--/--'}</div>
+                <div style="flex: 1; background: rgba(46, 158, 127, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">VALOR APROX</span>
+                    <span style="font-size: 0.85em; color: #fff; font-weight: 900; line-height: 1;">${j["Tasación Actual"] || "S/T"}</span>
+                    <div style="font-size: 0.4em; color: #555; margin-top: 2px; font-weight: bold;">REV: ${j["Fecha revision"] || '--/--'}</div>
                 </div>
             </div>
         </div>`;
