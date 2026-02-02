@@ -60,7 +60,7 @@ function createCardHTML(j) {
                     </div>
                 </div>
 
-                <div style="flex: 0 0 40%; background: ${toRgba(colorCompBase, 0.2)}; color: ${colorCompBase}; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.2); white-space: nowrap; border-left: 1px solid rgba(255,255,255,0.1);">
+                <div style="flex: 0 0 40%; background: ${toRgba(colorCompBase, 0.2)}; color: ${colorCompBase}; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.2); white-space: nowrap; border-top-left-radius: 10px; border-left: 1px solid rgba(255,255,255,0.1);">
                     ${(j["Completitud"] || "???").toUpperCase()}
                 </div>
             </div>
@@ -98,7 +98,7 @@ function createCardHTML(j) {
 
             <div style="margin-top: 10px; height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; overflow: hidden;">
         
-                    <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); margin-left: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 4px;">
+                    <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); margin-left: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 8px;">
                         <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                         <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                     </div>
