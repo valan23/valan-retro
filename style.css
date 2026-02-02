@@ -196,8 +196,7 @@
                3. Se desvanece suavemente al final.
             */
             background: linear-gradient(to right, 
-                rgba(255, 255, 255, 0.15) 0%, 
-                var(--brand-color-soft) 10%, 
+                var(--brand-color-soft) 0%, 
                 var(--brand-color-soft) 60%, 
                 transparent 100%);
             display: flex;
