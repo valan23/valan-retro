@@ -198,10 +198,14 @@
             --brand-color-soft: rgba(218, 168, 255, 0.2); 
         }
 
-        .icon-gradient-area, .card-header-brand {
-            margin-left: 6px !important; /* El mismo ancho que tu box-shadow lateral */
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+        .icon-gradient-area {
+            background: var(--brand-color-soft) !important;
+            display: flex;
+            align-items: center;
+            /* Eliminamos cualquier margen para que el fondo toque el borde izquierdo */
+            margin: 0 !important; 
+            /* El padding-left de 15px asegura que el ICONO no pise la línea de 6px */
+            padding-left: 15px !important; 
         }
 
         .card-footer-item, [style*="background: var(--bgFormato)"] {
