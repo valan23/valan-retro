@@ -164,37 +164,41 @@
         /* Líneas laterales (Mantenidas) */
         .card.nintendo { 
             box-shadow: inset 6px 0 0 0 #e60012; 
-            --brand-color-soft: rgba(255, 200, 200, 0.35); /* Blanco con tinte rojizo */
+            --brand-color-soft: rgba(230, 0, 18, 0.5); 
         }
         .card.sega { 
             box-shadow: inset 6px 0 0 0 #0089cf; 
-            --brand-color-soft: rgba(200, 235, 255, 0.35); /* Blanco con tinte azul sega */
+            --brand-color-soft: rgba(0, 137, 207, 0.45); 
         }
         .card.sony { 
             box-shadow: inset 6px 0 0 0 #003791; 
-            --brand-color-soft: rgba(210, 220, 255, 0.35); /* Blanco con tinte azul sony */
+            --brand-color-soft: rgba(0, 55, 145, 0.5); 
         }
         .card.xbox { 
             box-shadow: inset 6px 0 0 0 #107c10; 
-            --brand-color-soft: rgba(210, 255, 210, 0.35); /* Blanco con tinte verde */
+            --brand-color-soft: rgba(16, 124, 16, 0.5); 
         }
         .card.pc { 
             box-shadow: inset 6px 0 0 0 #4c5b6a; 
-            --brand-color-soft: rgba(230, 235, 240, 0.35); /* Blanco grisáceo */
+            --brand-color-soft: rgba(76, 91, 106, 0.45); 
         }
         .card.otros { 
             box-shadow: inset 6px 0 0 0 var(--purple); 
-            --brand-color-soft: rgba(240, 210, 255, 0.35); /* Blanco con tinte morado */
+            --brand-color-soft: rgba(149, 0, 255, 0.45); 
         }
 
         /* Clase genérica para el degradado del icono */
         .icon-gradient-area {
             flex-grow: 1;
             margin-left: 6px;
-            /* Mezclamos un blanco casi puro que se desvanece al color matizado */
+            /* 1. Empezamos con un blanco muy suave (15%) para dar brillo inicial.
+               2. El color de la marca entra fuerte al 10% y domina hasta el 60%.
+               3. Se desvanece suavemente al final.
+            */
             background: linear-gradient(to right, 
-                rgba(255, 255, 255, 0.6) 0%, 
-                var(--brand-color-soft) 40%, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                var(--brand-color-soft) 10%, 
+                var(--brand-color-soft) 60%, 
                 transparent 100%);
             display: flex;
             align-items: center;
