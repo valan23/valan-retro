@@ -193,6 +193,10 @@
             --brand-color-soft: rgba(149, 0, 255, 0.15); 
         }
 
+        .icon-gradient-area {
+            background: var(--brand-color-soft) !important; /* Fuerza el fondo sólido semitransparente */
+        }
+
         /* Nueva clase común para el área del icono en el header */
         .card-header-brand {
             flex-grow: 1;
