@@ -60,7 +60,7 @@ function createCardHTML(j) {
                         ${getPlatformIcon(plat)}
                     </div>
                 </div>
-                <div style="width: 37.5%; background: ${bgCompletitud}; color: ${colorCompBase}; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.3); white-space: nowrap; border-left: 1px solid ${toRgba(colorCompBase, 0.3)};">
+                <div style="width: 40%; background: ${bgCompletitud}; color: ${colorCompBase}; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.3); white-space: nowrap; border-left: 1px solid ${toRgba(colorCompBase, 0.3)};">
                     ${(j["Completitud"] || "???").toUpperCase()}
                 </div>
             </div>
@@ -103,7 +103,6 @@ function createCardHTML(j) {
                 </div>
                 
                 <div style="flex: 1; background: ${bgRareza}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                    <span style="font-size: 0.5em; color: #fff; opacity: 0.5; font-weight: 900;">RAREZA</span>
                     <span style="font-size: 0.75em; color: ${rawRarezaColor}; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                 </div>
 
