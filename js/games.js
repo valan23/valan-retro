@@ -84,7 +84,7 @@ function createCardHTML(j) {
             <div style="margin-top: 10px; height: 50px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; justify-content: space-between;">
                 
                 <div style="background: ${esDigital ? '#00f2ff' : '#EFC36C'}; color: #000; font-weight: 900; font-size: 0.65em; padding: 0 20px; display: flex; align-items: center; border-top-right-radius: 12px; letter-spacing: 0.5px; box-shadow: 2px 0 10px rgba(0,0,0,0.2);">
-                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disc'}" style="margin-right: 6px; font-size: 1.1em;"></i>
+                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="margin-right: 6px; font-size: 1.1em;"></i>
                     ${esDigital ? 'DIGITAL' : 'FÍSICO'}
                 </div>
 
