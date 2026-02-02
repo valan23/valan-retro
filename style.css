@@ -154,11 +154,16 @@
         }
 
         .card {
-            position: relative; display: flex; flex-direction: column; overflow: hidden;
-            min-height: 480px; background: #121216;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 480px;
+            background: #121216;
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             transition: transform 0.3s ease;
+            z-index: 1;
         }
 
         /* Líneas laterales (Mantenidas) */
@@ -193,8 +198,14 @@
             --brand-color-soft: rgba(218, 168, 255, 0.2); 
         }
 
-        .icon-gradient-area {
-            background: var(--brand-color-soft) !important; /* Fuerza el fondo sólido semitransparente */
+        .icon-gradient-area, .card-header-brand {
+            margin-left: 6px !important; /* El mismo ancho que tu box-shadow lateral */
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .card-footer-item, [style*="background: var(--bgFormato)"] {
+            margin-left: 6px;
         }
 
         /* Nueva clase común para el área del icono en el header */
