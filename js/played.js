@@ -111,7 +111,7 @@ function renderPlayed(games) {
                     </div>
 
                     <div style="background: rgba(46, 158, 127, 0.15); border-left: 1px solid rgba(46, 158, 127, 0.3); padding: 0 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 65px;">
-                        <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">TIME</span>
+                        <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">TIEMPO</span>
                         <span style="font-size: 0.9em; color: #fff; font-weight: 900; line-height: 1;">${horas}<small style="font-size: 0.6em; margin-left: 1px;">h</small></span>
                     </div>
                 </div>
