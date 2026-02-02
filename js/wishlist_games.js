@@ -1,6 +1,3 @@
-/**
- * wishlist_games.js - Gestión de la Lista de Deseos
- */
 function renderWishlist(games) {
     const container = document.getElementById('wishlist-grid');
     if (!container) return;
@@ -26,8 +23,18 @@ function renderWishlist(games) {
                 ? `images/covers/${carpeta}/${portadaNombre}` 
                 : `images/covers/default.webp`;
 
+            // --- LÓGICA DE PRIORIDAD ---
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
+            let colorPrioridad = "#333"; // Color por defecto (Gris)
+
+            if (priorTexto.includes("CRÍTICO")) colorPrioridad = "#D63B18";    // Rojo intenso
+            else if (priorTexto.includes("PRINCIPAL")) colorPrioridad = "#00A3D9";     // Azul/Cian
+            else if (priorTexto.includes("BONUS")) colorPrioridad = "#EFC36C"; // Dorado/Amarillo
             
+            // Si es Principal o Bonus, el texto negro suele leerse mejor que blanco
+            const colorTextoPrior = (priorTexto.includes("PRINCIPAL") || priorTexto.includes("BONUS")) ? "#000" : "#fff";
+            // ---------------------------
+
             const listaPrecios = [
                 { n: 'Nuevo', v: j["Precio Nuevo"], c: '#D4BD66' },
                 { n: 'CeX', v: j["Precio Cex"], c: '#ff4444' },
@@ -48,7 +55,8 @@ function renderWishlist(games) {
                             ${typeof getPlatformIcon === 'function' ? getPlatformIcon(plataforma) : ''}
                         </div>
                     </div>
-                    <div style="background: #333; color: #fff; font-weight: 900; font-size: 0.7em; padding: 0 15px; display: flex; align-items: center; border-bottom-left-radius: 12px; box-shadow: -2px 0 10px rgba(0,0,0,0.3);">
+                    
+                    <div style="background: ${colorPrioridad}; color: ${colorTextoPrior}; font-weight: 900; font-size: 0.7em; padding: 0 15px; display: flex; align-items: center; border-bottom-left-radius: 12px; box-shadow: -2px 0 10px rgba(0,0,0,0.3); transition: all 0.3s ease;">
                         ${priorTexto}
                     </div>
                 </div>
@@ -74,7 +82,7 @@ function renderWishlist(games) {
 
                 <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 0.65em; color: #888;">Act: ${j["Fecha revision"] || '--/--'}</span>
-                    ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.65em; font-weight: 900; text-decoration: none; letter-spacing: 0.5px;">OFERTA</a>` : ''}
+                    ${AppUtils.isValid(j["Link"]) ? `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.65em; font-weight: 900; text-decoration: none; letter-spacing: 0.5px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">OFERTA</a>` : ''}
                 </div>
             </div>`;
         } catch (e) { 
