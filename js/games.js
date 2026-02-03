@@ -46,6 +46,29 @@ function createCardHTML(j) {
         const colorTextoFormato = esDigital ? '#00f2ff' : '#EFC36C';
         const bgFormato = esDigital ? 'rgba(0, 242, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
 
+        const getStatusGradient = (val) => {
+            const v = val ? val.toString().toUpperCase() : "";
+            // Caso Pendiente o Desconocido
+            if (v === "PEND" || v === "?" || v === "S/D") {
+                return "linear-gradient(90deg, rgba(80,80,80,0.2) 0%, rgba(120,120,120,0.2) 100%)";
+            }
+            // Caso Falta o 0
+            if (v === "FALTA" || v === "0") {
+                return "linear-gradient(90deg, rgba(255,0,0,0.2) 0%, rgba(150,0,0,0.1) 100%)";
+            }
+    
+            const num = parseFloat(v);
+            if (!isNaN(num)) {
+                // Interpolar entre Rojo (0) y Verde (10)
+                // Rojo: 255,0,0 | Verde: 0,255,0
+                const r = Math.floor(255 * (1 - num / 10));
+                const g = Math.floor(255 * (num / 10));
+                return `linear-gradient(90deg, rgba(${r},${g},0,0.25) 0%, rgba(${r},${g},0,0.1) 100%)`;
+            }
+            // Por defecto (si es un texto como "EXC", "MINT", etc., puedes poner un color fijo o tratarlo como 10)
+            return "linear-gradient(90deg, rgba(239, 195, 108, 0.15) 0%, rgba(239, 195, 108, 0.05) 100%)";
+        };
+
         // NOTA: El border-radius de la card es 12px. 
         // Usamos margin-left: 6px para respetar el box-shadow lateral de la marca.
 
@@ -77,7 +100,7 @@ function createCardHTML(j) {
                     ${j["Nombre Juego"]}
                 </div>
 
-                <div style="font-size: 0.65em; color: #aaa; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
+                <div style="font-size: 0.7em; color: #222; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
                     ${j["Nombre Japones"] || ""}
                 </div>
 
@@ -93,14 +116,20 @@ function createCardHTML(j) {
                 <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
             </div>
 
-            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 8px; flex-grow: 1; display: flex; flex-direction: column; gap: 2px;">
+            <div style="margin: 0 12px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 6px; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; align-content: start;">
                 ${esDigital ? 
-                    `<div style="color: #00f2ff; font-size: 0.7em; text-align: center; margin-top: 20px; letter-spacing: 1px; font-weight: bold;">CONTENIDO DIGITAL</div>` : 
-                    [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Inserto', v: j["Estado Inserto"]}, {l: 'Portada', v: j["Estado Portada"]}, {l: 'Manual', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Extras', v: j["Estado Extras"]}]
+                    `<div style="color: #00f2ff; font-size: 0.7em; text-align: center; grid-column: 1/-1; margin-top: 20px; letter-spacing: 1px; font-weight: bold;">CONTENIDO DIGITAL</div>` : 
+                    [{l: 'Caja', v: j["Estado Caja"]}, 
+                     {l: 'Portada', v: j["Estado Portada"]},
+                     {l: 'Manual', v: j["Estado Manual"]}, 
+                     {l: 'Juego', v: j["Estado Juego"]}, 
+                     {l: 'Inserto', v: j["Estado Inserto"]}, 
+                     {l: 'Obi', v: j["Estado Spinecard"]}, 
+                     {l: 'Extras', v: j["Estado Extras"]}]
                     .filter(i => AppUtils.isValid(i.v)).map(i => `
-                        <div style="display: flex; justify-content: space-between; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.03);">
-                            <span style="color: #888; font-size: 0.7em; font-weight: 600;">${i.l}</span>
-                            <span style="color: #eee; font-size: 0.75em; font-weight: 800;">${i.v.toUpperCase()}</span>
+                        <div style="display: flex; flex-direction: column; padding: 4px 6px; border-radius: 4px; background: ${getStatusGradient(i.v)}; border-left: 2px solid rgba(255,255,255,0.1);">
+                            <span style="color: #888; font-size: 0.55em; font-weight: 700; text-transform: uppercase;">${i.l}</span>
+                            <span style="color: #eee; font-size: 0.7em; font-weight: 800;">${i.v.toUpperCase()}</span>
                         </div>
                     `).join('')
                 }
@@ -120,7 +149,7 @@ function createCardHTML(j) {
                     <div style="flex: 1; background: rgba(46, 158, 127, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                         <span style="font-size: 0.5em; color: #2e9e7f; font-weight: 900;">VALOR APROX</span>
                         <span style="font-size: 0.85em; color: #fff; font-weight: 900; line-height: 1;">${j["Tasación Actual"] || "S/T"}</span>
-                        <div style="font-size: 0.45em; color: #555; margin-top: 2px; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
+                        <div style="font-size: 0.5em; color: #555; margin-top: 2px; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
                     </div>
              </div>
         </div>`;
