@@ -131,11 +131,16 @@ function renderWishlist(games) {
                         <span style="font-size: 0.7em; color: ${rawRarezaColor}; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                     </div>
 
-                    <div style="flex: 1; background: rgba(149, 0, 255, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative;">
+                    <div style="flex: 1.2; background: rgba(149, 0, 255, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px;">
                         ${AppUtils.isValid(j["Link"]) ? 
-                            `<a href="${j["Link"]}" target="_blank" style="position: absolute; top: -12px; right: 5px; background: #9500ff; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.55em; font-weight: 900; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 20;">OFERTA <i class="fa-solid fa-external-link"></i></a>` : ''
+                            `<a href="${j["Link"]}" target="_blank" style="background: #9500ff; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.6em; font-weight: 900; text-decoration: none; text-align: center; width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                                MEJOR PRECIO <i class="fa-solid fa-external-link" style="font-size: 0.8em;"></i>
+                            </a>` : 
+                            `<span style="color: #444; font-size: 0.5em; font-weight: bold;">SIN LINK</span>`
                         }
-                        <div style="font-size: 0.45em; color: #555; margin-top: 2px; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
+                        <div style="font-size: 0.5em; color: #666; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2px; width: 100%; text-align: center;">
+                            Rev: ${j["Fecha revision"] || '--/--'}
+                        </div>
                     </div>
                 </div>
             </div>`;
