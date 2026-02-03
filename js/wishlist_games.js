@@ -33,12 +33,21 @@ function renderWishlist(games) {
             const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
             const styleRegion = AppUtils.getRegionStyle(j["Región"]);
 
-            // --- LÓGICA DE PRIORIDAD ---
-            const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
-            let colorPrioridad = "#333"; 
-            if (priorTexto.includes("CRÍTICO")) colorPrioridad = "#FF4D4D";
-            else if (priorTexto.includes("PRINCIPAL")) colorPrioridad = "#00FF88";
-            else if (priorTexto.includes("BONUS")) colorPrioridad = "#00D4FF";
+            // --- NUEVA LÓGICA DE PRIORIDAD (FUEGOS) ---
+            const priorRaw = (j["Prioridad"] || "NORMAL").trim().toUpperCase();
+            let priorIconos = "🔥";
+            let colorPrioridad = "#00D4FF"; // Default Normal (Celeste)
+
+            if (priorRaw.includes("MUY ALTA") || priorRaw.includes("CRÍTICO")) {
+                priorIconos = "🔥🔥🔥";
+                colorPrioridad = "#FF4D4D"; // Rojo
+            } else if (priorRaw.includes("ALTA") || priorRaw.includes("PRINCIPAL")) {
+                priorIconos = "🔥🔥";
+                colorPrioridad = "#00FF88"; // Verde neón
+            } else if (priorRaw.includes("NORMAL") || priorRaw.includes("BONUS")) {
+                priorIconos = "🔥";
+                colorPrioridad = "#00D4FF"; // Cyan
+            }
             
             // --- CÁLCULO DE MEJOR PRECIO ---
             const listaPrecios = [
@@ -54,25 +63,29 @@ function renderWishlist(games) {
                 ? listaPrecios.reduce((prev, curr) => (prev.eur < curr.eur) ? prev : curr) 
                 : { v: "--", n: "N/A" };
 
-            // --- VARIABLES PARA EL FOOTER (CORRECCIÓN DE ERRORES) ---
             const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
             const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
             const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
             const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
 
+            const getFlag = (reg) => {
+                const flags = { "JAP": "🇯🇵", "ESP": "🇪🇸", "USA": "🇺🇸", "EU": "🇪🇺", "UK": "🇬🇧" };
+                return flags[reg] || "🌐";
+            };
+
             return `
             <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden; border-radius: 12px;">
-    
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
-        
-                    <div class="icon-gradient-area" style="flex: 0 0 calc(60% - 6px); border-top-left-radius: 11px;">
-                        <div class="platform-icon-card" style="margin: 0; filter: none; align-items: center; justify-content: center;">
+                
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
+                    <div class="icon-gradient-area" style="flex: 0 0 60%; border-top-left-radius: 11px; display: flex; align-items: center; justify-content: center;">
+                        <div class="platform-icon-card" style="margin: 0; filter: none;">
                             ${getPlatformIcon(plat)}
                         </div>
                     </div>
-                
-                    <div style="background: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.2); white-space: nowrap; border-left: 1px solid rgba(255,255,255,0.1);">
-                        ${priorTexto}
+                    
+                    <div style="flex: 0 0 40%; background: ${colorPrioridad}; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.2); line-height: 1;">
+                        <span style="font-size: 0.85em; margin-bottom: 2px;">${priorIconos}</span>
+                        <span style="font-weight: 900; font-size: 0.55em; text-transform: uppercase; letter-spacing: 0.5px;">${priorRaw}</span>
                     </div>
                 </div>
                 
@@ -81,10 +94,10 @@ function renderWishlist(games) {
                         `<div style="color: var(--cyan); font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
                             <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${j["Edición"]}
                         </div>` : 
-                        `<div style="height: 12px;"></div>` /* Espaciador si no hay edición para mantener alineación */
+                        `<div style="height: 12px;"></div>`
                     }
                     
-                    <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2; display: flex; align-items: center; padding: 0;">
+                    <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
                         ${j["Nombre Juego"]}
                     </div>
                     
@@ -95,12 +108,12 @@ function renderWishlist(games) {
                     <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
-                        ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                            ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
                         </div>
                     </div>
                 </div>
 
-                <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
                 </div>
 
@@ -114,7 +127,6 @@ function renderWishlist(games) {
                 </div>
 
                 <div style="margin-top: 10px; height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; overflow: hidden; position: relative;">
-                    
                     <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                         <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
