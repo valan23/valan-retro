@@ -201,15 +201,19 @@
         }
 
         .icon-gradient-area {
-            /* Fondo blanco claro transparente solicitado */
+            /* Mantenemos tus estilos de fondo */
             background: rgba(255, 255, 255, 0.777) !important; 
-            /* Efecto de desenfoque de fondo para que resalte el logo */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
     
+            /* ACTIVAMOS EL CENTRADO TOTAL */
             display: flex;
-            align-items: center;
-            padding-left: 10px !important;
+            align-items: center;      /* Centrado vertical */
+            justify-content: center;   /* Centrado horizontal */
+    
+            /* Quitamos el padding-left para que no desvíe el icono del centro */
+            padding-left: 0 !important; 
+    
             margin-left: 6px !important; 
             border-top-left-radius: 11px;
         }
