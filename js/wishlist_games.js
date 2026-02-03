@@ -22,10 +22,10 @@ function renderWishlist(games) {
             const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
             
             const toRgba = (hex, alpha = 0.15) => {
-                if (!hex || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
-                const r = parseInt(hex.slice(1, 3), 16);
-                const g = parseInt(hex.slice(3, 5), 16);
-                const b = parseInt(hex.slice(5, 7), 16);
+                if (!hex || typeof hex !== 'string' || hex[0] !== '#') return `rgba(255,255,255,${alpha})`;
+                const r = parseInt(hex.slice(1, 3), 16), 
+                      g = parseInt(hex.slice(3, 5), 16), 
+                      b = parseInt(hex.slice(5, 7), 16);
                 return `rgba(${r}, ${g}, ${b}, ${alpha})`;
             };
             
@@ -59,13 +59,6 @@ function renderWishlist(games) {
             const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
             const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
             const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
-            
-            // Función auxiliar simple para RGBA si no existe
-            const toRgba = (hex, alpha) => {
-                if (!hex || hex[0] !== '#') return `rgba(255,255,255,${alpha})`;
-                const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-            };
 
             return `
             <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden; border-radius: 12px;">
