@@ -202,7 +202,7 @@
 
         .icon-gradient-area {
             /* Fondo blanco claro transparente solicitado */
-            background: rgba(255, 255, 255, 0.72) !important; 
+            background: rgba(255, 255, 255, 0.9) !important; 
             /* Efecto de desenfoque de fondo para que resalte el logo */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
