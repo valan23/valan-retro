@@ -16,23 +16,22 @@ function renderWishlist(games) {
         try {
             if (typeof AppUtils === 'undefined') return "";
 
-            const plataforma = j["Plataforma"] || "";
-            const carpeta = AppUtils.getPlatformFolder(plataforma);
-            const portadaNombre = j["Portada"] ? j["Portada"].trim() : "";
-            const fotoUrl = AppUtils.isValid(portadaNombre) 
-                ? `images/covers/${carpeta}/${portadaNombre}` 
-                : `images/covers/default.webp`;
+            const plat = j["Plataforma"] || "";
+            const carpeta = AppUtils.getPlatformFolder(plat);
+            const portada = j["Portada"] ? j["Portada"].trim() : "";
+            const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
+            
+            const toRgba = (hex, alpha = 0.15) => {
+                if (!hex || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            };
             
             // --- DEFINICIONES DE ESTADO Y REGIÓN ---
             const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
             const styleRegion = AppUtils.getRegionStyle(j["Región"]);
-                ? REGION_COLORS[region] 
-                : { bg: "rgba(255,255,255,0.1)", text: "#fff", border: "rgba(255,255,255,0.2)" };
-
-            const getFlag = (reg) => {
-                const flags = { "JAP": "🇯🇵", "ESP": "🇪🇸", "USA": "🇺🇸", "EU": "🇪🇺", "UK": "🇬🇧" };
-                return flags[reg] || "🌐";
-            };
 
             // --- LÓGICA DE PRIORIDAD ---
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
@@ -59,7 +58,7 @@ function renderWishlist(games) {
             const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
             const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
             const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
-            const rawRarezaColor = (typeof AppUtils.getRarezaColor === 'function') ? AppUtils.getRarezaColor(j["Rareza"]) : "#fff";
+            const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
             
             // Función auxiliar simple para RGBA si no existe
             const toRgba = (hex, alpha) => {
