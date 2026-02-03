@@ -24,10 +24,8 @@ function renderWishlist(games) {
                 : `images/covers/default.webp`;
             
             // --- DEFINICIONES DE ESTADO Y REGIÓN ---
-            const edicion = j["Edición"] || "";
-            const esEspecial = AppUtils.isValid(edicion);
-            const region = j["Región"] || "N/A";
-            const styleRegion = (typeof REGION_COLORS !== 'undefined' && REGION_COLORS[region]) 
+            const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
+            const styleRegion = AppUtils.getRegionStyle(j["Región"]);
                 ? REGION_COLORS[region] 
                 : { bg: "rgba(255,255,255,0.1)", text: "#fff", border: "rgba(255,255,255,0.2)" };
 
@@ -71,36 +69,41 @@ function renderWishlist(games) {
             };
 
             return `
-            <div class="card ${typeof getBrandClass === 'function' ? getBrandClass(plataforma) : ''}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden;">
-                
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
-                    <div class="icon-gradient-area">
-                        <div class="platform-icon-card" style="margin: 0; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.6));">
-                            ${typeof getPlatformIcon === 'function' ? getPlatformIcon(plataforma) : ''}
+            <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden; border-radius: 12px;">
+    
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
+        
+                    <div class="icon-gradient-area" style="flex: 0 0 calc(60% - 6px); border-top-left-radius: 11px;">
+                        <div class="platform-icon-card" style="margin: 0; filter: none; align-items: center; justify-content: center;">
+                            ${getPlatformIcon(plat)}
                         </div>
                     </div>
-                    <div style="background: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.7em; padding: 0 15px; display: flex; align-items: center; border-bottom-left-radius: 12px; box-shadow: -2px 0 10px rgba(0,0,0,0.3);">
+                
+                    <div style="background: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.75em; display: flex; align-items: center; justify-content: center; box-shadow: -2px 0 10px rgba(0,0,0,0.2); white-space: nowrap; border-left: 1px solid rgba(255,255,255,0.1);">
                         ${priorTexto}
                     </div>
                 </div>
                 
                 <div style="margin-top: 55px; padding: 0 12px;">
                     ${esEspecial ? 
-                        `<div style="color: #00d4ff; font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
-                            <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${edicion}
+                        `<div style="color: var(--cyan); font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
+                            <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${j["Edición"]}
                         </div>` : 
-                        `<div style="height: 12px;"></div>`
+                        `<div style="height: 12px;"></div>` /* Espaciador si no hay edición para mantener alineación */
                     }
+                    
                     <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2; display: flex; align-items: center; padding: 0;">
                         ${j["Nombre Juego"]}
                     </div>
+                    
                     <div style="font-size: 0.7em; color: #888; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
                         ${j["Nombre Japones"] || ""}
                     </div>
+                    
                     <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
-                             ${getFlag(region)} ${region}
+                        ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
                         </div>
                     </div>
                 </div>
@@ -121,23 +124,19 @@ function renderWishlist(games) {
                 <div style="margin-top: 10px; height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; overflow: hidden; position: relative;">
                     
                     <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="font-size: 1em; margin-bottom: 2px;"></i>
+                        <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-floppy-disk'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                         <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                     </div>
 
                     <div style="flex: 1; background: ${toRgba(rawRarezaColor, 0.15)}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                        <span style="font-size: 0.45em; color: #888; font-weight: 800; text-transform: uppercase; margin-bottom: 2px;">Rareza</span>
                         <span style="font-size: 0.7em; color: ${rawRarezaColor}; font-weight: 900; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                     </div>
 
                     <div style="flex: 1; background: rgba(149, 0, 255, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative;">
-                        <span style="font-size: 0.45em; color: #888; font-weight: 800; text-transform: uppercase;">Mínimo</span>
-                        <span style="font-size: 0.8em; color: #fff; font-weight: 900;">${precioMinObj.v}</span>
-                        <div style="font-size: 0.45em; color: #555; margin-top: 2px; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
-                        
                         ${AppUtils.isValid(j["Link"]) ? 
                             `<a href="${j["Link"]}" target="_blank" style="position: absolute; top: -12px; right: 5px; background: #9500ff; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.55em; font-weight: 900; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 20;">OFERTA <i class="fa-solid fa-external-link"></i></a>` : ''
                         }
+                        <div style="font-size: 0.45em; color: #555; margin-top: 2px; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
                     </div>
                 </div>
             </div>`;
