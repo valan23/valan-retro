@@ -106,11 +106,11 @@ const REGION_COLORS = {
 
 /* --- ESTILOS DE COMPLETITUD --- */
 const COMPLETITUD_COLORS = {
-    "NUEVO": { color: "#bf00ff", label: "NUEVO" },
-    "COMPLETO": { color: "#00ff88", label: "COMPLETO" },
-    "CASI COMPLETO": { color: "#ffff00", label: "CASI COMPLETO" },
-    "INCOMPLETO": { color: "#ffaa00", label: "INCOMPLETO" },
-    "SUELTO": { color: "#ff4d4d", label: "SUELTO" },
-    "REPRO": { color: "#bbbbbb", label: "REPRO" },
-    "DIGITAL": { color: "#00d4ff", label: "DIGITAL" }
+    "A ESTRENAR": { color: "#FFD700", label: "A ESTRENAR" },    // Dorado (Máximo valor)
+    "ÍNTEGRO": { color: "#2E9E7F", label: "ÍNTEGRO" },       // Verde Esmeralda (Completo + Extras)
+    "COMPLETO": { color: "#44CE1B", label: "COMPLETO" },      // Verde Estándar (Caja, Manual, Juego)
+    "INCOMPLETO": { color: "#FFAA00", label: "INCOMPLETO" },    // Naranja
+    "SUELTO": { color: "#FF4D4D", label: "SUELTO" },        // Rojo
+    "REPRO": { color: "#BBBBBB", label: "REPRO" },         // Gris
+    "DIGITAL": { color: "#00D4FF", label: "DIGITAL" }       // Celeste / Cyan
 };
