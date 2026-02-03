@@ -68,11 +68,6 @@ function renderWishlist(games) {
             const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
             const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
 
-            const getFlag = (reg) => {
-                const flags = { "JAP": "🇯🇵", "ESP": "🇪🇸", "USA": "🇺🇸", "EU": "🇪🇺", "UK": "🇬🇧" };
-                return flags[reg] || "🌐";
-            };
-
             return `
             <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; min-height: 520px; position: relative; overflow: hidden; border-radius: 12px;">
                 
@@ -106,11 +101,11 @@ function renderWishlist(games) {
                     </div>
                     
                     <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
-                        <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
-                        <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
-                            ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
-                        </div>
-                    </div>
+                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
+                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
+                              ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                         </div>
+                     </div>
                 </div>
 
                 <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
