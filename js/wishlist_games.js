@@ -23,14 +23,26 @@ function renderWishlist(games) {
                 ? `images/covers/${carpeta}/${portadaNombre}` 
                 : `images/covers/default.webp`;
             
-            // --- LÓGICA DE PRIORIDAD (Sustituye a Completitud) ---
+            // --- NUEVAS DEFINICIONES PARA EVITAR EL ERROR ---
+            const edicion = j["Edición"] || "";
+            const esEspecial = AppUtils.isValid(edicion);
+            const region = j["Región"] || "N/A";
+            const styleRegion = (typeof REGION_COLORS !== 'undefined' && REGION_COLORS[region]) 
+                ? REGION_COLORS[region] 
+                : { bg: "rgba(255,255,255,0.1)", text: "#fff", border: "rgba(255,255,255,0.2)" };
+
+            // Función local para banderas si no existe la global
+            const getFlag = (reg) => {
+                const flags = { "JAP": "🇯🇵", "ESP": "🇪🇸", "USA": "🇺🇸", "EU": "🇪🇺", "UK": "🇬🇧" };
+                return flags[reg] || "🌐";
+            };
+
+            // --- LÓGICA DE PRIORIDAD ---
             const priorTexto = (j["Prioridad"] || "DESEADO").trim().toUpperCase();
             let colorPrioridad = "#333"; 
-            let prioridadLabel = priorTexto;
-
-            if (priorTexto.includes("CRÍTICO")) colorPrioridad = "#FF4D4D";     // Rojo
-            else if (priorTexto.includes("PRINCIPAL")) colorPrioridad = "#00FF88"; // Verde (como Completo)
-            else if (priorTexto.includes("BONUS")) colorPrioridad = "#00D4FF";     // Cian
+            if (priorTexto.includes("CRÍTICO")) colorPrioridad = "#FF4D4D";
+            else if (priorTexto.includes("PRINCIPAL")) colorPrioridad = "#00FF88";
+            else if (priorTexto.includes("BONUS")) colorPrioridad = "#00D4FF";
             
             // --- CÁLCULO DE MEJOR PRECIO ---
             const listaPrecios = [
@@ -59,16 +71,16 @@ function renderWishlist(games) {
                     </div>
                     
                     <div style="background: ${colorPrioridad}; color: #000; font-weight: 900; font-size: 0.7em; padding: 0 15px; display: flex; align-items: center; border-bottom-left-radius: 12px; box-shadow: -2px 0 10px rgba(0,0,0,0.3);">
-                        ${prioridadLabel}
+                        ${priorTexto}
                     </div>
                 </div>
                 
                 <div style="margin-top: 55px; padding: 0 12px;">
                     ${esEspecial ? 
-                        `<div style="color: var(--cyan); font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
-                            <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${j["Edición"]}
+                        `<div style="color: #00d4ff; font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
+                            <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${edicion}
                         </div>` : 
-                        `<div style="height: 12px;"></div>` /* Espaciador si no hay edición para mantener alineación */
+                        `<div style="height: 12px;"></div>`
                     }
 
                     <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2; display: flex; align-items: center; padding: 0;">
@@ -82,7 +94,7 @@ function renderWishlist(games) {
                     <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
-                             ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                             ${getFlag(region)} ${region}
                         </div>
                     </div>
                 </div>
@@ -104,7 +116,6 @@ function renderWishlist(games) {
                 </div>
 
                 <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: stretch; background: rgba(0,0,0,0.2);">
-                    
                     <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.05);">
                         <span style="font-size: 0.5em; color: #888; text-transform: uppercase; font-weight: 800;">Formato</span>
                         <span style="font-size: 0.7em; color: ${esDigital ? '#00d4ff' : '#EFC36C'}; font-weight: 800;">
@@ -124,7 +135,6 @@ function renderWishlist(games) {
                         <span style="font-size: 0.85em; color: #fff; font-weight: 900; letter-spacing: -0.5px;">${precioMinObj.v}</span>
                         <span style="font-size: 0.45em; color: #555; font-weight: 700; margin-top: 1px;">ACT: ${j["Fecha revision"] || '--/--'}</span>
                     </div>
-
                 </div>
             </div>`;
         } catch (e) { 
