@@ -48,24 +48,37 @@ function createCardHTML(j) {
 
         const getStatusGradient = (val) => {
             const v = val ? val.toString().toUpperCase() : "";
-            // Caso Pendiente o Desconocido
+    
+            // Casos especiales (Gris para estados desconocidos)
             if (v === "PEND" || v === "?" || v === "S/D") {
                 return "linear-gradient(90deg, rgba(80,80,80,0.2) 0%, rgba(120,120,120,0.2) 100%)";
             }
-            // Caso Falta o 0
+    
+            // Caso Falta o 0 (Rojo sólido)
             if (v === "FALTA" || v === "0") {
                 return "linear-gradient(90deg, rgba(255,0,0,0.2) 0%, rgba(150,0,0,0.1) 100%)";
             }
-    
+
             const num = parseFloat(v);
             if (!isNaN(num)) {
-                // Interpolar entre Rojo (0) y Verde (10)
-                // Rojo: 255,0,0 | Verde: 0,255,0
-                const r = Math.floor(255 * (1 - num / 10));
-                const g = Math.floor(255 * (num / 10));
+                let r, g;
+        
+                if (num <= 5) {
+                    // Tramo 1: De Rojo (0) a Amarillo (5)
+                    // Rojo: 255,0,0 | Amarillo: 255,255,0
+                    r = 255;
+                    g = Math.floor(255 * (num / 5));
+                } else {
+                    // Tramo 2: De Amarillo (5) a Verde (10)
+                    // Amarillo: 255,255,0 | Verde: 0,255,0
+                    r = Math.floor(255 * (1 - (num - 5) / 5));
+                    g = 255;
+                }
+
                 return `linear-gradient(90deg, rgba(${r},${g},0,0.25) 0%, rgba(${r},${g},0,0.1) 100%)`;
             }
-            // Por defecto (si es un texto como "EXC", "MINT", etc., puedes poner un color fijo o tratarlo como 10)
+    
+            // Por defecto (Dorado translúcido para textos como "EXC" o "MINT")
             return "linear-gradient(90deg, rgba(239, 195, 108, 0.15) 0%, rgba(239, 195, 108, 0.05) 100%)";
         };
 
@@ -129,7 +142,7 @@ function createCardHTML(j) {
                     .filter(i => AppUtils.isValid(i.v)).map(i => `
                         <div style="display: flex; flex-direction: column; padding: 4px 6px; border-radius: 4px; background: ${getStatusGradient(i.v)}; border-left: 2px solid rgba(255,255,255,0.1);">
                             <span style="color: #888; font-size: 0.55em; font-weight: 700; text-transform: uppercase;">${i.l}</span>
-                            <span style="color: #eee; font-size: 0.9em; font-weight: 800; text-align: right;">${i.v.toUpperCase()}</span>
+                            <span style="color: #eee; font-size: 0.75em; font-weight: 800; text-align: right; margin-top: -2px;">${i.v.toUpperCase()}</span>
                         </div>
                     `).join('')
                 }
