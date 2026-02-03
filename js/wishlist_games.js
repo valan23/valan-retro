@@ -89,13 +89,13 @@ function renderWishlist(games) {
                         `<div style="color: var(--cyan); font-size: 0.65em; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.5px;">
                             <i class="fa-solid fa-star" style="font-size: 0.9em;"></i> ${j["Edición"]}
                         </div>` : 
-                        `<div style="height: 12px;"></div>`
+                        `<div style="height: 12px;"></div>` /* Espaciador si no hay edición para mantener alineación */
                     }
-                    
-                    <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2;">
+
+                    <div class="game-title" style="font-size: 1.1em; color: #EFC36C; font-weight: 700; line-height: 1.2; display: flex; align-items: center; padding: 0;">
                         ${j["Nombre Juego"]}
                     </div>
-                    
+
                     <div style="font-size: 0.7em; color: #888; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
                         ${j["Nombre Japones"] || ""}
                     </div>
