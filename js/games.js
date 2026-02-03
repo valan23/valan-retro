@@ -100,7 +100,7 @@ function createCardHTML(j) {
                     ${j["Nombre Juego"]}
                 </div>
 
-                <div style="font-size: 0.7em; color: #222; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
+                <div style="font-size: 0.7em; color: #666; font-family: 'Noto Sans JP', sans-serif; min-height: 1.2em; margin-top: 2px;">
                     ${j["Nombre Japones"] || ""}
                 </div>
 
