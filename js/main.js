@@ -40,40 +40,26 @@ window.onload = init;
 async function switchSection(sectionId, btn) {
     currentSection = sectionId;
     currentPlatform = "TODAS"; 
-    currentFormat = "all"; // Reset de formato al cambiar sección
+    currentFormat = "all"; 
 
-    // 1. Corregido: Ahora buscamos '.tab-link' para actualizar el estado visual
     document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
-    
-    // Verificamos que 'btn' exista antes de añadir la clase (evita errores si se llama por código)
     if (btn) btn.classList.add('active');
 
-    // 2. Manejo de visibilidad de secciones
     document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
-    const targetSection = document.getElementById('section-' + sectionId);
-    if (targetSection) targetSection.classList.add('active');
+    document.getElementById('section-' + sectionId).classList.add('active');
     
     try {
         const data = await loadTabData(sectionId);
         
-        // 3. Renderizado según la sección activa
-        if(sectionId === 'videojuegos') {
-            createFilters(data, 'platform-filters');
-            renderGames(data); 
-        } else if(sectionId === 'deseados') {
-            createFilters(data, 'platform-filters-wishlist');
-            renderWishlist(data); 
-        } else if(sectionId === 'jugados') {
-            createFilters(data, 'platform-filters-played');
-            renderPlayed(data); 
-        }
+        // Renderizamos filtros y juegos
+        const filterId = sectionId === 'videojuegos' ? 'platform-filters' : 
+                         (sectionId === 'deseados' ? 'platform-filters-wishlist' : 'platform-filters-played');
         
-        // Reiniciar el valor del buscador al cambiar de sección para evitar confusiones
+        createFilters(data, filterId);
+        applyFilters(); // Centralizamos el renderizado inicial aquí
+        
         document.getElementById('searchInput').value = "";
-        
-    } catch (error) { 
-        console.error("Error al cargar la sección:", error); 
-    }
+    } catch (error) { console.error(error); }
 }
 
 function createFilters(games, containerId) {
