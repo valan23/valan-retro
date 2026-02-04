@@ -42,9 +42,13 @@ async function switchSection(sectionId, btn) {
     currentPlatform = "TODAS"; 
     currentFormat = "all"; // Reset de formato al cambiar sección
 
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    // 1. Corregido: Ahora buscamos '.tab-link' para actualizar el estado visual
+    document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
+    
+    // Verificamos que 'btn' exista antes de añadir la clase (evita errores si se llama por código)
+    if (btn) btn.classList.add('active');
 
+    // 2. Manejo de visibilidad de secciones
     document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
     const targetSection = document.getElementById('section-' + sectionId);
     if (targetSection) targetSection.classList.add('active');
@@ -52,7 +56,7 @@ async function switchSection(sectionId, btn) {
     try {
         const data = await loadTabData(sectionId);
         
-        // Limpiamos los filtros anteriores antes de crear nuevos
+        // 3. Renderizado según la sección activa
         if(sectionId === 'videojuegos') {
             createFilters(data, 'platform-filters');
             renderGames(data); 
@@ -63,7 +67,13 @@ async function switchSection(sectionId, btn) {
             createFilters(data, 'platform-filters-played');
             renderPlayed(data); 
         }
-    } catch (error) { console.error(error); }
+        
+        // Reiniciar el valor del buscador al cambiar de sección para evitar confusiones
+        document.getElementById('searchInput').value = "";
+        
+    } catch (error) { 
+        console.error("Error al cargar la sección:", error); 
+    }
 }
 
 function createFilters(games, containerId) {
