@@ -100,12 +100,16 @@ function renderWishlist(games) {
                         ${j["Nombre Japones"] || ""}
                     </div>
                     
-                    <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px;">
-                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
-                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text};">
-                              ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
-                         </div>
-                     </div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
+                            <span style="font-size: 0.7em; color: #555;">•</span>
+                            <span style="font-size: 0.7em; color: #888; font-style: italic;">${j["Desarrolladora"] || "Unknown Dev"}</span>
+                        </div>
+                        <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold;">
+                            ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                        </div>
+                    </div>
                 </div>
 
                 <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
