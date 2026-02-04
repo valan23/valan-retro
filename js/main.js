@@ -76,6 +76,24 @@ async function switchSection(sectionId, btn) {
     }
 }
 
+function toggleDropdown(id) {
+    const menus = document.querySelectorAll('.dropdown-content');
+    menus.forEach(menu => {
+        if (menu.id === id) {
+            menu.classList.toggle('show');
+        } else {
+            menu.classList.remove('show');
+        }
+    });
+}
+
+// Cerrar si haces clic fuera del botón
+window.onclick = function(event) {
+    if (!event.target.closest('.dropdown-filter')) {
+        document.querySelectorAll('.dropdown-content').forEach(m => m.classList.remove('show'));
+    }
+}
+
 function createFilters(games, containerId) {
     const counts = games.reduce((acc, game) => {
         const p = game["Plataforma"];
