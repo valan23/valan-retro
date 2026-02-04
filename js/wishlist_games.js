@@ -110,7 +110,7 @@ function renderWishlist(games) {
                         </span>
 
                         <span style="font-size: 0.7em; color: #555; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="color: #ccc; margin-right: 4px;">•</span>
+                            <span style="color: #ccc; margin-right: 4px;">|</span>
                             ${j["Desarrolladora"] || "Unknown"}
                         </span>
                     </div>
