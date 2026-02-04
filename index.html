@@ -27,10 +27,19 @@
     <nav class="main-nav">
         <div class="nav-container">
             <img src="images/main_logo.png" class="nav-logo"> 
-            <div class="main-tabs"> 
-                <span class="tab-link active" onclick="switchSection('videojuegos', this)">Juegos</span>
-                <span class="tab-link" onclick="switchSection('deseados', this)">Deseados</span>
-                <span class="tab-link" onclick="switchSection('jugados', this)">Jugados</span>
+            <div class="main-tabs">
+                <span class="tab-link active" onclick="switchSection('videojuegos', this)">
+                    <span class="tab-top">Colección</span>
+                    <span class="tab-bottom">Juegos</span>
+                </span>
+                <span class="tab-link" onclick="switchSection('deseados', this)">
+                    <span class="tab-top">Juegos</span>
+                    <span class="tab-bottom">Deseados</span>
+                </span>
+                <span class="tab-link" onclick="switchSection('jugados', this)">
+                    <span class="tab-top">Diario de</span>
+                    <span class="tab-bottom">Juegos</span>
+                </span>
             </div>
 
             <div class="search-wrapper">
