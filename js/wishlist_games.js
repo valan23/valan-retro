@@ -100,17 +100,19 @@ function renderWishlist(games) {
                         ${j["Nombre Japones"] || ""}
                     </div>
                     
-                    <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;">
-                        <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold; white-space: nowrap;">
-                            ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                    <div style="margin-top: 8px; line-height: 1.2;">
+                        <div style="display: inline-flex; align-items: center; gap: 8px; vertical-align: middle;">
+                            <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold; white-space: nowrap;">
+                                ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                            </div>
+
+                            <span style="font-size: 0.7em; color: #888; font-weight: bold; white-space: nowrap;">
+                                ${j["Año"] || "????"}
+                            </span>
                         </div>
 
-                        <span style="font-size: 0.7em; color: #888; font-weight: bold; white-space: nowrap;">
-                            ${j["Año"] || "????"}
-                        </span>
-
-                        <span style="font-size: 0.7em; color: #555; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="color: #ccc; margin-right: 4px;">|</span>
+                        <span style="font-size: 0.7em; color: #555; word-wrap: break-word;">
+                            <span style="color: #ccc; margin: 0 6px;">|</span>
                             ${j["Desarrolladora"] || "Unknown"}
                         </span>
                     </div>
