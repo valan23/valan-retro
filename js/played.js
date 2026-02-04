@@ -49,11 +49,11 @@ function renderPlayed(games) {
 
         const proceso = (j["Proceso Juego"] || "Terminado").toUpperCase();
         let colorProceso = "#2E9E7F"; 
-        if (proceso.includes("COMPLETADO") || proceso.includes("100%")) colorProceso = "#10C809";
-        if (proceso.includes("EN PROCESO") || proceso.includes("JUGANDO")) colorProceso = "#46A68B";
-        if (proceso.includes("JUGADO")) colorProceso = "#C7EB57";
-        if (proceso.includes("PROBADO")) colorProceso = "#E38B44";
-        if (proceso.includes("ABANDONADO")) colorProceso = "#D63B18";
+        if (proceso.includes("COMPLETADO") || proceso.includes("100%")) colorProceso = "#9825DA";
+        if (proceso.includes("EN PROCESO") || proceso.includes("JUGANDO")) colorProceso = "#4242C9";
+        if (proceso.includes("JUGADO")) colorProceso = "#42A5C9";
+        if (proceso.includes("PROBADO")) colorProceso = "#87B7CC";
+        if (proceso.includes("ABANDONADO")) colorProceso = "#CCCCCC";
 
         return `
         <div class="card ${getBrandClass(plataforma)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
@@ -68,7 +68,7 @@ function renderPlayed(games) {
                     <div style="flex: 1; background: ${toRgba(colorProceso, 0.15)}; color: ${colorProceso}; font-size: 0.5em; font-weight: 900; display: flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.05);">
                         ${proceso}
                     </div>
-                    <div style="flex: 1.5; background: hsla(${hue}, 80%, 45%, 0.15); color: hsl(${hue}, 80%, 60%); font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.2em; border-bottom-left-radius: 12px;">
+                    <div style="flex: 1.5; background: hsla(${hue}, 80%, 45%, 0.15); color: hsl(${hue}, 80%, 60%); font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.2em;">
                         ${nota.toFixed(1)}
                     </div>
                 </div>
