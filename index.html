@@ -25,31 +25,30 @@
 <body>
 
     <nav class="main-nav">
-        <div class="nav-container">
-            <img src="images/main_logo.png" class="nav-logo"> 
-            <div class="main-tabs">
-                <span class="tab-link active" onclick="switchSection('videojuegos', this)">
-                    <span class="tab-top">Colección</span>
-                    <span class="tab-bottom">Juegos</span>
-                </span>
-                <span class="tab-link" onclick="switchSection('deseados', this)">
-                    <span class="tab-top">Juegos</span>
-                    <span class="tab-bottom">Deseados</span>
-                </span>
-                <span class="tab-link" onclick="switchSection('jugados', this)">
-                    <span class="tab-top">Diario de</span>
-                    <span class="tab-bottom">Juegos</span>
-                </span>
-            </div>
+    <div class="nav-container">
+        <img src="images/main_logo.png" alt="VALAN" class="nav-logo">
 
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass search-icon" style="position: absolute; left: 15px; color: #555;"></i>
-                <input type="text" id="searchInput" placeholder="Buscar título..." 
-                       onkeyup="filterGames()" 
-                       style="padding-left: 40px !important; width: 100%; height: 40px; border-radius: 20px; background: #1a1a20; border: 1px solid #333; color: white;">
-            </div>
+        <div class="main-tabs">
+            <span class="tab-link active" onclick="switchSection('videojuegos', this)">
+                <span class="tab-top">Colección</span>
+                <span class="tab-bottom">Juegos</span>
+            </span>
+            <span class="tab-link" onclick="switchSection('deseados', this)">
+                <span class="tab-top">Juegos</span>
+                <span class="tab-bottom">Deseados</span>
+            </span>
+            <span class="tab-link" onclick="switchSection('jugados', this)">
+                <span class="tab-top">Diario</span>
+                <span class="tab-bottom">Jugados</span>
+            </span>
         </div>
-    </nav>
+
+        <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Buscar título..." onkeyup="filterGames()">
+        </div>
+    </div>
+</nav>
 
     <div class="container">
 
