@@ -137,7 +137,7 @@ font-family: 'Inter', sans-serif;
 background: #0b0b0e;
 color: #e0e0e0;
 padding: 10px;
-padding-top: 140px !important;
+padding-top: 180px !important;
 overflow-x: hidden;
 }
 
@@ -151,127 +151,76 @@ overflow-x: hidden;
 
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
 
-/* --- NUEVOS DROPDOWNS PROFESIONALES --- */
-.filters-bar {
+.brand-nav {
+    width: 100%;
+    background: rgba(15, 15, 18, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin: 20px 0 40px 0;
+    padding: 15px 0;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 135px; /* Se queda pegada debajo de la navbar principal al hacer scroll */
+    z-index: 998;
+    backdrop-filter: blur(10px);
 }
 
-.dropdown-filter { position: relative; }
-
-.dropbtn {
-    background: #1a1a20;
-    color: #eee;
-    padding: 10px 18px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    cursor: pointer;
+.brand-selector {
     display: flex;
+    justify-content: center;
+    gap: 35px;
+    flex-wrap: wrap;
+}
+
+/* El botón de la marca estilo "Mini Tab" */
+.brand-icon {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    text-transform: uppercase;
-    transition: 0.3s;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 15px;
+    opacity: 0.4; /* Apagado si no está seleccionado */
 }
 
-.dropbtn:hover { border-color: var(--accent); background: #22222a; }
+.brand-icon:hover {
+    opacity: 0.8;
+}
 
-.dropdown-content {
-    display: none;
+.brand-icon.active {
+    opacity: 1;
+}
+
+/* La raya dorada para la marca seleccionada */
+.brand-icon.active::after {
+    content: "";
     position: absolute;
-    top: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: #121216;
-    border: 1px solid #2a2a32;
-    border-radius: 12px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-    z-index: 1000;
-    padding: 20px;
-    min-width: 320px;
-    max-height: 450px;
-    overflow-y: auto;
-}
-
-.dropdown-content.show { display: block; animation: fadeIn 0.2s ease; }
-
-/* Ajuste de los selectores internos para el Dropdown */
-.dropdown-content .brand-selector {
-    gap: 15px; /* Más compacto dentro del menú */
-}
-
-.dropdown-content .brand-icon {
-    min-width: 80px;
-}
-
-.dropdown-content .format-buttons {
-    flex-direction: column; /* Formatos uno debajo de otro */
+    bottom: -15px;
+    left: 0;
     width: 100%;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
 }
 
-.dropdown-content .format-btn {
-    width: 100%;
-    text-align: left;
+.brand-logo-img {
+    height: 18px; /* Tamaño discreto y elegante */
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 5px;
 }
 
-.brand-selector { 
-display: flex; flex-wrap: wrap; justify-content: center; 
-gap: 40px 80px; width: 100%; 
+.brand-icon span {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
 }
 
-
-
-/* EL BOTÓN DE FILTRO REDISEÑADO */
-.brand-icon, .filter-btn {
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-min-width: 110px; padding: 10px;
-}
-
-/* ÁREA DEL ICONO: Aquí es donde resolvemos el problema del contraste */
-.icon-wrapper {
-width: 60px; height: 45px;
-background: rgba(255, 255, 255, 0.05); /* Fondo mate sutil */
-border-radius: 8px;
-display: flex; align-items: center; justify-content: center;
-margin-bottom: 8px;
-transition: all 0.3s ease;
-border: 1px solid rgba(255, 255, 255, 0.03);
-padding: 5px;
-}
-
-.brand-logo-img, .btn-console-icon {
-max-height: 25px; 
-width: auto; 
-max-width: 45px;  
-object-fit: contain;
-filter: none !important; /* Cambiado de drop-shadow a none */
-}
-
-.brand-icon span, .filter-btn span {
-font-size: 9px; font-weight: 700; color: #666; 
-text-transform: uppercase; letter-spacing: 1px;
-transition: color 0.3s;
-}
-
-/* Hover y Estados Activos */
-.brand-icon:hover .icon-wrapper, .filter-btn:hover .icon-wrapper {
-background: rgba(255, 255, 255, 0.12);
-transform: translateY(-3px);
-border-color: rgba(255, 255, 255, 0.1);
-}
-
-.brand-icon.active .icon-wrapper, .filter-btn.active .icon-wrapper {
-background: rgba(149, 0, 255, 0.1) !important;
-color: var(--accent) !important;
-border: 1px solid var(--accent) !important;
-}
-
-.brand-icon.active span, .filter-btn.active span {
-color: var(--purple);
+.brand-icon.active span {
+    color: var(--accent);
 }
 
 /* --- GRID DE JUEGOS --- */
@@ -415,9 +364,7 @@ border-color: var(--accent) !important;
         max-width: 300px;
         justify-content: center;
     }
-    .brand-selector { gap: 20px 15px; }
     .brand-icon, .filter-btn { min-width: 80px; }
-    .icon-wrapper { width: 50px; height: 38px; }
     .brand-logo-img { max-height: 18px; }
     .brand-icon span, .filter-btn span { font-size: 7px; }
     .main-tabs { 
@@ -432,13 +379,5 @@ border-color: var(--accent) !important;
     }
     body {
         padding-top: 180px !important; /* Aumenta el margen porque la barra ahora es más alta */
-    }
-    .dropdown-content {
-        position: fixed;
-        bottom: 0; top: auto; left: 0;
-        width: 100%;
-        transform: none;
-        border-radius: 20px 20px 0 0;
-        padding-bottom: 40px;
     }
 }
