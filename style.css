@@ -2,15 +2,12 @@
 /* NAVBAR: Ajuste de separación y fondo */
 .main-nav {
     position: fixed;
-    top: 0; left: 0; width: 100%; 
-    min-height: 75px; /* min-height en lugar de height fijo */
+    top: 0; left: 0; width: 100%;
     z-index: 9999;
-    background: rgba(11, 11, 14, 0.95);
+    background: rgba(11, 11, 14, 0.98); /* Un poco más opaco para legibilidad */
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border-bottom: 2px solid;
     border-image: linear-gradient(to right, transparent, var(--accent), transparent) 1;
-    display: flex; align-items: center;
 }
 
 /* NAVBAR: Contenedor con posición relativa para permitir el centrado absoluto del menú */
@@ -20,26 +17,29 @@
     margin: 0 auto;
     padding: 10px 20px;
     display: flex;
-    flex-wrap: wrap; /* PERMITE QUE LOS ELEMENTOS BAJEN DE LÍNEA SI NO CABEN */
-    justify-content: space-between; /* Logo izquierda, buscador derecha, pestañas centro */
+    flex-direction: column; /* Apila las filas verticalmente */
+    gap: 15px;
+}
+
+/* FILA SUPERIOR: Logo e Izquierda, Buscador a la Derecha */
+.nav-row-top {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px; /* Espacio mínimo entre elementos antes de chocar */
+    width: 100%;
 }
 
 /* LOGO: Empujado a la izquierda */
 .nav-logo {
     height: 35px;
-    width: auto; /* Permite que el ancho se ajuste solo */
-    object-fit: contain; /* Evita que se estire */
-    flex-shrink: 0; /* No deja que el logo se haga pequeño */
+    width: auto;
+    object-fit: contain;
 }
 
 /* BUSCADOR: Empujado a la derecha */
 .search-wrapper {
-    width: 280px;
+    width: 400px; /* Ahora el buscador puede ser más ancho y profesional */
     position: relative;
-    order: 3;
-    flex-shrink: 1;
 }
 
 /* LUPA: Posicionada a la izquierda DENTRO de la barra */
@@ -66,11 +66,19 @@ outline: none; border-color: var(--accent);
 box-shadow: 0 0 15px rgba(239, 195, 108, 0.1);
 }
 
+/* FILA INFERIOR: Pestañas centradas */
+.nav-row-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Separación sutil entre filas */
+    padding-top: 10px;
+}
+
 /* TABS: Ahora están centrados naturalmente por el justify-content: center del padre */
 .main-tabs {
     display: flex;
-    gap: 20px;
-    order: 2; /* Prioridad de orden visual */
+    gap: 40px; /* Más espacio entre pestañas ahora que sobran líneas */
 }
 
 /* TABS: Interactividad completa */
@@ -120,7 +128,7 @@ font-family: 'Inter', sans-serif;
 background: #0b0b0e;
 color: #e0e0e0;
 padding: 10px;
-padding-top: 80px !important; 
+padding-top: 140px !important;
 overflow-x: hidden;
 }
 
@@ -357,6 +365,10 @@ border-color: var(--accent) !important;
         gap: 15px;
         padding: 15px 0;
     }
+    .nav-row-top {
+        flex-direction: column;
+        gap: 10px;
+    }
     .main-nav {
         height: auto;
     }
@@ -382,6 +394,6 @@ border-color: var(--accent) !important;
         max-width: 400px;
     }
     body {
-        padding-top: 150px !important; /* Aumenta el margen porque la barra ahora es más alta */
+        padding-top: 180px !important; /* Aumenta el margen porque la barra ahora es más alta */
     }
 }
