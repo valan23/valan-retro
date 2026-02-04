@@ -57,51 +57,43 @@
     <div class="container">
 
         <div id="section-videojuegos" class="section-content active">
-            <div class="filters-bar">
-                <div class="dropdown-filter">
-                    <button class="dropbtn" onclick="toggleDropdown('plat-games')">
-                        <i class="fa-solid fa-gamepad"></i> Plataforma <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                    <div id="plat-games" class="dropdown-content">
-                        <div id="platform-filters" class="brand-selector"></div>
-                    </div>
-                </div>
-
-                <div class="dropdown-filter">
-                    <button class="dropbtn" onclick="toggleDropdown('form-games')">
-                        <i class="fa-solid fa-box-open"></i> Formato <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                    <div id="form-games" class="dropdown-content">
-                        <div id="format-buttons-container-games" class="format-buttons"></div>
-                    </div>
-                </div>
+            <div class="brand-nav">
+                <div id="platform-filters" class="brand-selector"></div>
             </div>
-            <div id="game-grid" class="grid"></div> 
+            <div class="container">
+                <div id="format-buttons-container-games" class="format-buttons" style="margin: 20px 0;"></div>
+                <div id="game-grid" class="grid"></div> 
+            </div>
         </div>
-
+        
         <div id="section-deseados" class="section-content">
-            <div class="filter-section">
+            <div class="brand-nav">
                 <div id="platform-filters-wishlist" class="brand-selector"></div>
-                <div id="format-buttons-container-wishlist" class="format-buttons" style="margin-top: 30px;"></div>
             </div>
-            <div id="wishlist-grid" class="grid"></div>
+
+            <div class="container">
+                <div id="format-buttons-container-wishlist" class="format-buttons" style="margin: 20px 0;"></div>
+                <div id="wishlist-grid" class="grid"></div>
+            </div>
         </div>
 
         <div id="section-jugados" class="section-content">
-            <div class="filter-section">
+            <div class="brand-nav">
                 <div id="platform-filters-played" class="brand-selector"></div>
-                <div id="format-buttons-container-played" class="format-buttons" style="margin-top: 30px; margin-bottom: 20px;"></div>
-                
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 25px 0;">
-                
+            </div>
+
+            <div class="container">
+                <div id="format-buttons-container-played" class="format-buttons" style="margin: 20px 0;"></div>
+            
                 <div class="year-filter-container">
-                    <span style="color: #555; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: block; letter-spacing: 1px;">
+                    <span style="color: #555; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: block; text-align: center; letter-spacing: 1px;">
                         <i class="fa-solid fa-calendar-days"></i> Año de finalización
                     </span>
                     <div id="year-buttons-container" class="year-buttons"></div>
                 </div>
+
+                <div id="played-grid" class="grid"></div>
             </div>
-            <div id="played-grid" class="grid"></div>
         </div>
     </div>
 
