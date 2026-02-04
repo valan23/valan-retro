@@ -12,60 +12,70 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .section-content {
-            display: none; /* Oculta todas las secciones por defecto */
-        }
-        .section-content.active {
-            display: block; /* Solo muestra la que tiene la clase active */
+        .section-content { display: none; }
+        .section-content.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <img src="images/main_logo.png" alt="VALAN" class="nav-logo">
+
+            <div class="main-tabs">
+                <span class="tab-link active" onclick="switchSection('videojuegos', this)">Juegos</span>
+                <span class="tab-link" onclick="switchSection('deseados', this)">Wishlist</span>
+                <span class="tab-link" onclick="switchSection('jugados', this)">Diario</span>
+            </div>
+
+            <div class="search-wrapper" style="margin: 0; width: 250px;">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Buscar título..." onkeyup="filterGames()">
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <header>
+        <header style="margin-top: 40px; margin-bottom: 60px;">
             <div class="logo-container">
                 <img src="images/main_logo.png" alt="VALAN RETRO" class="main-logo">
-            </div>
-            
-            <input type="text" id="searchInput" placeholder="Buscar por título..." onkeyup="filterGames()">
-            
-            <div class="main-tabs">
-                <button class="tab-btn active" onclick="switchSection('videojuegos', this)">
-                    <i class="fa-solid fa-gamepad"></i> Juegos
-                </button>
-                <button class="tab-btn" onclick="switchSection('deseados', this)">
-                    <i class="fa-solid fa-heart"></i> Deseados
-                </button>
-                <button class="tab-btn" onclick="switchSection('jugados', this)">
-                    <i class="fa-solid fa-trophy"></i> Diario
-                </button>
             </div>
         </header>
 
         <div id="section-videojuegos" class="section-content active">
-            <div id="platform-filters" class="filter-container"></div>
-            <div class="format-filter-container">
-                <div id="format-buttons-container-games" class="format-buttons"></div>
+            <div class="filter-section">
+                <div id="platform-filters" class="brand-selector"></div>
+                <div id="format-buttons-container-games" class="format-buttons" style="margin-top: 30px;"></div>
             </div>
             <div id="game-grid" class="grid"></div> 
         </div>
 
         <div id="section-deseados" class="section-content">
-            <div id="platform-filters-wishlist" class="filter-container"></div>
-            <div class="format-filter-container">
-                <div id="format-buttons-container-wishlist" class="format-buttons"></div>
+            <div class="filter-section">
+                <div id="platform-filters-wishlist" class="brand-selector"></div>
+                <div id="format-buttons-container-wishlist" class="format-buttons" style="margin-top: 30px;"></div>
             </div>
             <div id="wishlist-grid" class="grid"></div>
         </div>
 
         <div id="section-jugados" class="section-content">
-            <div id="platform-filters-played" class="filter-container"></div>
-            <div class="format-filter-container">
-                <div id="format-buttons-container-played" class="format-buttons"></div>
-            </div>
-            <div class="year-filter-container">
-                <span class="year-label" style="display: block; margin-bottom: 10px; color: #888; font-size: 0.9em;">Filtrar por año de finalización:</span>
-                <div id="year-buttons-container" class="year-buttons"></div>
+            <div class="filter-section">
+                <div id="platform-filters-played" class="brand-selector"></div>
+                <div id="format-buttons-container-played" class="format-buttons" style="margin-top: 30px; margin-bottom: 20px;"></div>
+                
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 25px 0;">
+                
+                <div class="year-filter-container">
+                    <span style="color: #555; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: block; letter-spacing: 1px;">
+                        <i class="fa-solid fa-calendar-days"></i> Año de finalización
+                    </span>
+                    <div id="year-buttons-container" class="year-buttons"></div>
+                </div>
             </div>
             <div id="played-grid" class="grid"></div>
         </div>
@@ -77,5 +87,6 @@
     <script src="js/wishlist_games.js"></script>
     <script src="js/played.js"></script>
     <script src="js/main.js"></script>
+
 </body>
 </html>
