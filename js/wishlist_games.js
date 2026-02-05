@@ -117,18 +117,28 @@ function createWishlistCardHTML(j) {
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; margin-left: 6px;">
-                <div style="flex: 1; background: rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2);">
-                    <span style="font-size: 0.6rem; color: ${rawRarezaColor}; font-weight: 900; text-align: center;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
+    
+                <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 11px;">
+                    <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="font-size: 1em; margin-bottom: 2px;"></i>
+                    <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
-                
-                <div style="flex: 2; display: flex; align-items: center; justify-content: center; padding: 0 10px; background: rgba(46, 158, 127, 0.05);">
-                    ${AppUtils.isValid(j["Link"]) ? `
-                        <a href="${j["Link"]}" target="_blank" class="buy-button" style="background: #2e9e7f; color: #fff; text-decoration: none; padding: 6px 0; width: 100%; border-radius: 6px; font-size: 0.7rem; font-weight: 900; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s;">
-                            <i class="fa-solid fa-cart-shopping"></i> COMPRAR
-                        </a>
-                    ` : `
-                        <span style="font-size: 0.6rem; color: #333; font-weight: 900; letter-spacing: 1px;">SIN ENLACE</span>
-                    `}
+
+                <div style="flex: 1; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-size: 0.5em; color: #555; font-weight: 800; text-transform: uppercase;">1ª Fecha / Últ.</span>
+                        <span style="font-size: 0.65em; color: #aaa; font-weight: 700;">${j["Primera fecha"] || '--/--'}</span>
+                        <span style="font-size: 0.65em; color: #eee; font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1px; padding-top: 1px;">${j["Ultima fecha"] || '--/--'}</span>
+                    </div>
+                </div>
+
+                <div style="flex: 1; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 4px;">
+                    ${AppUtils.isValid(j["Link"]) ? 
+                        `<a href="${j["Link"]}" target="_blank" style="background: #2e9e7f; color: #fff; padding: 3px 0; border-radius: 4px; font-size: 0.55em; font-weight: 900; text-decoration: none; width: 90%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 4px;">
+                            COMPRAR <i class="fa-solid fa-external-link" style="font-size: 0.8em;"></i>
+                        </a>` : 
+                        `<span style="color: #444; font-size: 0.5em; font-weight: bold; margin-bottom: 4px;">SIN LINK</span>`
+                    }
+                    <div style="font-size: 0.55em; color: #555; font-weight: bold;">${j["Fecha revision"] || '--/--'}</div>
                 </div>
             </div>
         </div>`;
