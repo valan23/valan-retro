@@ -1,64 +1,72 @@
+/* --- VARIABLES Y RESET --- */
+:root {
+    --accent: #efc36c;
+    --purple: #9500ff;
+    --cyan: #00f2ff;
+    --bg-dark: #0b0b0e;
+    --bg-card: #121216;
+    --text-muted: #666;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-/* NAVBAR: Ajuste de separación y fondo */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: #e0e0e0;
+    padding-top: 240px !important; /* Espacio para la triple barra fija */
+    overflow-x: hidden;
+}
+
+/* --- NAVEGACIÓN UNIFICADA (MAIN-NAV) --- */
 .main-nav {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 9999;
-    background: #0b0b0e; /* Fondo sólido para evitar transparencias con tarjetas */
+    background: #0b0b0e; /* Opaco para evitar transparencias con tarjetas */
     border-bottom: 2px solid;
     border-image: linear-gradient(to right, transparent, var(--accent), transparent) 1;
 }
 
-/* NAVBAR: Contenedor con posición relativa para permitir el centrado absoluto del menú */
 .nav-container {
     width: 100%;
     max-width: 1300px;
     margin: 0 auto;
-    padding: 10px 20px;
+    padding: 10px 20px 0 20px;
     display: flex;
-    flex-direction: column; /* Apila las filas verticalmente */
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* FILA SUPERIOR: Logo e Izquierda, Buscador a la Derecha */
+/* FILA SUPERIOR: Logo y Buscador */
 .nav-row-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding-bottom: 5px;
 }
 
-/* LOGO: Empujado a la izquierda */
-.nav-logo {
-    height: 35px;
-    width: auto;
-    object-fit: contain;
-}
+.nav-logo { height: 35px; width: auto; }
 
-/* BUSCADOR: Empujado a la derecha */
 .search-wrapper {
-    width: 400px; /* Ahora el buscador puede ser más ancho y profesional */
+    width: 400px;
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/* LUPA: Posicionada a la izquierda DENTRO de la barra */
 .search-icon {
     position: absolute;
     left: 15px;
     color: #555;
     font-size: 0.9rem;
     pointer-events: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* INPUT: Espacio a la izquierda para que el texto no pise la lupa */
 #searchInput {
     width: 100%;
-    padding: 10px 15px 10px 40px !important; /* El padding-left debe ser suficiente para la lupa */
+    padding: 10px 15px 10px 40px !important;
     border-radius: 20px;
     background: #1a1a20;
     border: 1px solid rgba(255,255,255,0.1);
@@ -68,113 +76,53 @@
     transition: border-color 0.3s;
 }
 
-#searchInput:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 15px rgba(239, 195, 108, 0.1);
-}
+#searchInput:focus { border-color: var(--accent); }
 
-/* FILA INFERIOR: Pestañas centradas */
+/* FILA MEDIA: Pestañas Principales */
 .nav-row-bottom {
     display: flex;
     justify-content: center;
     width: 100%;
-    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Separación sutil entre filas */
-    padding-top: 10px;
+    padding: 10px 0;
 }
 
-/* TABS: Ahora están centrados naturalmente por el justify-content: center del padre */
-.main-tabs {
-    display: flex;
-    gap: 40px; /* Más espacio entre pestañas ahora que sobran líneas */
-}
+.main-tabs { display: flex; gap: 40px; }
 
-/* TABS: Interactividad completa */
 .tab-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    line-height: 1.2;
-    text-align: center;
-    color: #666; /* Desactivado */
-    font-size: 0.85rem;
+    color: var(--text-muted);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
-    padding: 5px 10px;
-    transition: all 0.3s ease;
-    position: relative;
+    transition: 0.3s;
     border-bottom: 2px solid transparent;
 }
 
-.tab-top {
-    font-size: 0.65rem; /* Texto de arriba más pequeño */
-    text-transform: uppercase;
-    opacity: 0.8;
-    letter-spacing: 0.5px;
-}
+.tab-top { font-size: 0.65rem; opacity: 0.8; }
+.tab-bottom { font-size: 0.9rem; font-weight: 900; }
 
-.tab-bottom {
-    font-size: 0.9rem; /* Texto de abajo más prominente */
-    font-weight: 900;
-}
-
-/* Estado: Pasar el ratón (Hover) */
-.tab-link:hover {
-    color: #aaa;
-}
-
-/* Estado: Seleccionado (Activo) */
+.tab-link:hover { color: #aaa; }
 .tab-link.active {
     color: var(--accent) !important;
     border-bottom: 2px solid var(--accent);
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: #0b0b0e;
-    color: #e0e0e0;
-    /* Ajusta este valor si ves que el contenido empieza debajo de las barras */
-    padding-top: 220px !important; 
-    overflow-x: hidden;
-}
-
-:root {
---accent: #efc36c;   /* Dorado Logo */
---purple: #9500ff;   /* Morado Logo */
---cyan: #00f2ff;     /* Cian Logo */
---bg-card: #16161a;
---bg-icon-area: rgba(255, 255, 255, 0.08); /* Fondo para que resalten logos negros */
-}
-
+/* FILA INFERIOR: Marcas (Sub-Nav) */
 .nav-row-brands {
     width: 100%;
-    /* El degradado dorado empieza justo después de las pestañas */
-    background: linear-gradient(
-        to bottom, 
-        rgba(239, 195, 108, 0.12) 0%, 
-        transparent 100%
-    );
-    padding: 10px 0 15px 0;
+    padding: 12px 0 18px 0;
+    background: linear-gradient(to bottom, rgba(239, 195, 108, 0.1), transparent);
+    border-top: 1px solid;
+    border-image: linear-gradient(to right, transparent, rgba(239, 195, 108, 0.4), transparent) 1;
     display: flex;
     justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Línea divisoria sutil */
 }
 
-.section-content {
-    margin-top: 0;
-    padding-top: 0;
-}
+.brand-selector { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 
-.brand-selector {
-    display: flex;
-    justify-content: center;
-    gap: 35px;
-    flex-wrap: wrap;
-}
-
-/* El botón de la marca estilo "Mini Tab" */
 .brand-icon {
     display: flex;
     flex-direction: column;
@@ -182,217 +130,119 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0 15px;
-    opacity: 0.5;
+    opacity: 0.4;
+    position: relative;
 }
 
-.brand-icon:hover {
-    opacity: 0.9;
-    transform: translateY(-2px); /* Un pequeño salto sutil */
-}
+.brand-icon:hover { opacity: 0.8; transform: translateY(-2px); }
+.brand-icon.active { opacity: 1; }
 
-.brand-icon.active {
-    opacity: 1;
-}
-
-/* Ajuste de la raya dorada para que no quede muy lejos del texto grande */
 .brand-icon.active::after {
     content: "";
     position: absolute;
-    bottom: -15px;
+    bottom: -18px;
     left: 0;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
+    box-shadow: 0 0 10px var(--accent);
 }
 
-/* Logos más prominentes */
-.brand-logo-img {
-    height: 24px; /* Aumentado de 18px */
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 6px;
-}
+.brand-logo-img { height: 24px; width: auto; margin-bottom: 5px; }
+.brand-icon span { font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase; }
+.brand-icon.active span { color: var(--accent); }
 
-/* Letras de debajo más legibles */
-.brand-icon span {
-    font-size: 0.75rem; /* Aumentado de 0.65rem */
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #999;
-}
-
-.brand-icon.active span {
-    color: var(--accent);
-}
-
+/* --- GRID Y TARJETAS --- */
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
 
-/* --- GRID DE JUEGOS --- */
-.grid, #played-grid {
-display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 25px; margin-top: 30px;
+.grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px; 
+    margin-top: 20px;
 }
 
 .card {
-position: relative;
-display: flex;
-flex-direction: column;
-overflow: hidden;
-min-height: 480px;
-background: #121216;
-border: 1px solid rgba(255, 255, 255, 0.05);
-border-radius: 12px;
-transition: transform 0.3s ease;
-z-index: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 480px;
+    transition: transform 0.3s ease;
 }
 
-/* Líneas laterales (Mantenidas) */
-.card.nintendo { 
-box-shadow: inset 6px 0 0 0 #e60012; 
---brand-color: #e60012; /* Añadimos esta variable */
---brand-color-soft: rgba(255, 173, 179, 0.2); 
-}
-.card.sony { 
-box-shadow: inset 6px 0 0 0 #003791; 
---brand-color: #003791;
---brand-color-soft: rgba(161, 197, 255, 0.2); 
-}
-.card.sega { 
-box-shadow: inset 6px 0 0 0 #0089cf; 
---brand-color: #0089cf;
---brand-color-soft: rgba(158, 224, 255, 0.2); 
-}
-.card.xbox { 
-box-shadow: inset 6px 0 0 0 #107c10; 
---brand-color: #107c10;
---brand-color-soft: rgba(161, 242, 161, 0.2); 
-}
-.card.pc { 
-box-shadow: inset 6px 0 0 0 #4c5b6a; 
---brand-color: #4c5b6a;
---brand-color-soft: rgba(194, 194, 194, 0.2); 
-}
-.card.otros { 
-box-shadow: inset 6px 0 0 0 var(--purple); 
---brand-color: var(--purple);
---brand-color-soft: rgba(218, 168, 255, 0.2); 
-}
+.card:hover { transform: translateY(-5px); }
 
-.icon-gradient-area {
-/* Fondo blanco claro transparente solicitado */
-            background: rgba(255, 255, 255, 0.777) !important; 
-/* Efecto de desenfoque de fondo para que resalte el logo */
-backdrop-filter: blur(4px);
--webkit-backdrop-filter: blur(4px);
+/* Colores de marca por tarjeta */
+.card.nintendo { box-shadow: inset 6px 0 0 0 #e60012; --brand-color-soft: rgba(230, 0, 18, 0.1); }
+.card.sony { box-shadow: inset 6px 0 0 0 #003791; --brand-color-soft: rgba(0, 55, 145, 0.1); }
+.card.sega { box-shadow: inset 6px 0 0 0 #0089cf; --brand-color-soft: rgba(0, 137, 207, 0.1); }
+.card.xbox { box-shadow: inset 6px 0 0 0 #107c10; --brand-color-soft: rgba(16, 124, 16, 0.1); }
+.card.pc { box-shadow: inset 6px 0 0 0 #4c5b6a; --brand-color-soft: rgba(76, 91, 106, 0.1); }
+.card.otros { box-shadow: inset 6px 0 0 0 var(--purple); --brand-color-soft: rgba(149, 0, 255, 0.1); }
 
-display: flex;
-align-items: center;
-padding-left: 10px !important;
-margin-left: 6px !important; 
-border-top-left-radius: 11px;
-}
-
-.card-footer-item, [style*="background: ${bgFormato}"] {
-margin-left: 6px !important;
-}
-
-/* Nueva clase común para el área del icono en el header */
 .card-header-brand {
-flex-grow: 1;
-background: var(--brand-color-soft); /* Usa el fondo suave de la marca */
-display: flex;
-align-items: center;
-padding-left: 15px;
-margin-left: 6px; /* Para no tapar la línea de box-shadow lateral */
+    background: var(--brand-color-soft);
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-left: 6px;
 }
 
-/* Icono plataforma en tarjeta con fondo protector */
 .card-platform-box {
-background: rgba(255, 255, 255, 0.9); /* Fondo blanco para logos en tarjeta */
-padding: 4px 8px; border-radius: 4px;
-display: inline-flex; align-items: center; justify-content: center;
-height: 28px; width: auto; margin-left: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    border-radius: 4px;
+    height: 28px;
+    display: flex;
+    align-items: center;
 }
 
 .card-platform-box img { max-height: 18px; width: auto; }
 
 .game-title {
-color: #fff; font-weight: 700; text-transform: uppercase;
-padding: 20px 15px 5px 15px; font-size: 1.1em;
+    color: #fff; font-weight: 700; text-transform: uppercase;
+    padding: 20px 15px 5px 15px; font-size: 1.1rem;
 }
 
 .details-grid {
-display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
-font-size: 0.72em; color: #888; background: rgba(0,0,0,0.4);
-padding: 12px; border-radius: 8px; margin: 10px 15px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+    font-size: 0.75rem; color: #888; background: rgba(0,0,0,0.3);
+    padding: 12px; border-radius: 8px; margin: 10px 15px;
 }
 
 .price-tag {
-text-align: right; font-size: 0.9em; font-weight: 800; color: var(--cyan);
-background: rgba(0, 242, 255, 0.05); padding: 5px 10px; border-radius: 6px;
+    text-align: right; font-weight: 800; color: var(--cyan);
+    background: rgba(0, 242, 255, 0.05); padding: 5px 10px; border-radius: 6px;
 }
 
-.year-buttons, .format-buttons {
-display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+/* --- FILTROS SECUNDARIOS --- */
+.format-buttons, .year-buttons {
+    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    margin: 20px 0;
 }
 
-.year-btn, .format-btn {
-background: #1a1a20; border: 1px solid #333; color: #777;
-padding: 8px 18px; border-radius: 20px; cursor: pointer;
-font-size: 0.85em; font-weight: 700; transition: 0.3s;
+.format-btn, .year-btn {
+    background: #1a1a20; border: 1px solid #333; color: #777;
+    padding: 8px 18px; border-radius: 20px; cursor: pointer;
+    font-size: 0.8rem; font-weight: 700; transition: 0.3s;
 }
 
-.year-btn.active, .format-btn.active {
-background: var(--accent) !important; color: #000 !important;
-border-color: var(--accent) !important;
+.format-btn.active, .year-btn.active {
+    background: var(--accent) !important; color: #000 !important;
+    border-color: var(--accent) !important;
 }
 
-/* --- RESPONSIVE MÓVIL --- */
-@media (max-width: 600px) {
-    .nav-container {
-        flex-direction: column;
-        height: auto;
-        gap: 15px;
-        padding: 15px 0;
-    }
-    .nav-row-top {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .main-nav {
-        height: auto;
-    }
-    .nav-logo, .search-wrapper {
-        position: static !important; /* Quita el posicionamiento absoluto */
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-    }
-    .brand-nav {
-        top: 155px; /* Ajusta si tu nav móvil es más alta */
-        padding: 5px 0 10px 0;
-    }
-    .brand-selector {
-        gap: 15px; /* Iconos más juntos en móvil */
-    }
-    .brand-icon, .filter-btn { min-width: 80px; }
-    .brand-logo-img { max-height: 20px; }
-    .brand-icon span {
-        font-size: 0.6rem;
-    }
-    .main-tabs { 
-        gap: 8px; 
-        order: 1; /* Pone las pestañas arriba si quieres, o déjalo igual */
-        width: 100%;
-        justify-content: center;
-    }
-    .search-wrapper {
-        width: 100%;
-        max-width: 400px;
-    }
-    body {
-        padding-top: 220px !important; /* Aumenta el margen porque la barra ahora es más alta */
-    }
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    body { padding-top: 280px !important; }
+    .nav-row-top { flex-direction: column; gap: 15px; }
+    .search-wrapper { width: 100%; }
+    .main-tabs { gap: 15px; }
+    .tab-bottom { font-size: 0.75rem; }
+    .brand-selector { gap: 15px; }
+    .brand-logo-img { height: 20px; }
 }
