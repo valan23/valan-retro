@@ -35,7 +35,7 @@ function renderPlayed(games) {
             };
             
             const plat = j["Plataforma"] || "";
-            const carpeta = AppUtils.getPlatformFolder(plataforma);
+            const carpeta = AppUtils.getPlatformFolder(plat);
             const portada = (j["Portada"] || "").trim();
             const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
             
