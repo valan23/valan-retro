@@ -30,8 +30,11 @@ function createWishlistCardHTML(j) {
         
         const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
+        
+        // --- LÓGICA DE FORMATO (ESTO ES LO QUE FALTABA) ---
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
-        const rawRarezaColor = AppUtils.getRarezaColor(j["Rareza"]);
+        const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
+        const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
 
         // --- LÓGICA DE PRIORIDAD ---
         const priorRaw = (j["Prioridad"] || "NORMAL").trim().toUpperCase();
@@ -56,7 +59,6 @@ function createWishlistCardHTML(j) {
             { n: 'Mercari', v: j["Precio Mercari"], c: '#59C0C2' }
         ].filter(p => AppUtils.isValid(p.v));
 
-        // Calcular el precio más bajo (requiere AppUtils.obtenerValorEnEuros)
         let precioMinObj = { v: null };
         if (listaPrecios.length > 0) {
             precioMinObj = listaPrecios.reduce((prev, curr) => {
@@ -74,7 +76,6 @@ function createWishlistCardHTML(j) {
 
         return `
         <div class="card ${getBrandClass(plat)}">
-            
             <div style="display: flex; height: 45px; align-items: stretch; position: relative; z-index: 10;">
                 <div class="icon-gradient-area" style="flex: 1.2; display: flex; align-items: center; padding-left: 10px;">
                     ${getPlatformIcon(plat)}
@@ -117,18 +118,15 @@ function createWishlistCardHTML(j) {
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; margin-left: 6px;">
-    
                 <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 11px;">
                     <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                     <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
 
                 <div style="flex: 1; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2px;">
-                    <div style="display: flex; flex-direction: column;">
-                        <span style="font-size: 0.5em; color: #555; font-weight: 800; text-transform: uppercase;">1ª Fecha / Últ.</span>
-                        <span style="font-size: 0.65em; color: #aaa; font-weight: 700;">${j["Primera fecha"] || '--/--'}</span>
-                        <span style="font-size: 0.65em; color: #eee; font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1px; padding-top: 1px;">${j["Ultima fecha"] || '--/--'}</span>
-                    </div>
+                    <span style="font-size: 0.5em; color: #555; font-weight: 800; text-transform: uppercase;">1ª Fecha / Últ.</span>
+                    <span style="font-size: 0.65em; color: #aaa; font-weight: 700;">${j["Primera fecha"] || '--/--'}</span>
+                    <span style="font-size: 0.65em; color: #eee; font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1px; padding-top: 1px;">${j["Ultima fecha"] || '--/--'}</span>
                 </div>
 
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 4px;">
