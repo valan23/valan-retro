@@ -193,12 +193,13 @@ body {
 }
 
 .icon-gradient-area {
+    flex: 0 0 60%; /* O 1.2, según prefieras el ancho */
     background: rgba(255, 255, 255, 0.77) !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
     margin-left: 6px; 
-    border-top-left-radius: 12px; 
+    border-top-left-radius: 12px;
     height: 100%;
 }
 
