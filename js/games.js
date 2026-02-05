@@ -63,8 +63,8 @@ function createCardHTML(j) {
         <div class="card ${getBrandClass(plat)}">
             
             <div style="display: flex; height: 45px; align-items: stretch; position: relative; z-index: 10;">
-                <div class="icon-gradient-area" style="flex: 1; display: flex; align-items: center; padding-left: 10px;">
-                    ${getPlatformIcon(plat)}
+                <div class="icon-gradient-area">
+                    ${getPlatformIcon(plataforma)}
                 </div>
                 <div style="width: 100px; background: ${toRgba(colorCompBase, 0.25)}; color: ${colorCompBase}; font-weight: 900; font-size: 0.7em; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.05); letter-spacing: 0.5px;">
                     ${(j["Completitud"] || "???").toUpperCase()}
