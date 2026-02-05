@@ -35,7 +35,6 @@ function createCardHTML(j) {
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
 
-        // Estilos dinámicos
         const toRgba = (hex, alpha = 0.15) => {
             if (!hex || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
             const r = parseInt(hex.slice(1, 3), 16);
@@ -60,18 +59,18 @@ function createCardHTML(j) {
 
         // --- CONSTRUCCIÓN DEL HTML ---
         return `
-        <div class="card ${getBrandClass(plat)}">
+        <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; overflow: hidden;">
             
             <div style="display: flex; height: 45px; align-items: stretch; position: relative; z-index: 10;">
                 <div class="icon-gradient-area">
                     ${getPlatformIcon(plat)}
                 </div>
-                <div style="width: 100px; background: ${toRgba(colorCompBase, 0.25)}; color: ${colorCompBase}; font-weight: 900; font-size: 0.7em; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.05); letter-spacing: 0.5px;">
+                <div style="flex: 1; background: ${toRgba(colorCompBase, 0.25)}; color: ${colorCompBase}; font-weight: 900; font-size: 0.7em; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.05); letter-spacing: 0.5px;">
                     ${(j["Completitud"] || "???").toUpperCase()}
                 </div>
             </div>
             
-            <div style="padding: 15px 15px 0 15px; margin-left: 6px;">
+            <div style="padding: 15px 15px 0 15px;">
                 ${esEspecial ? 
                     `<div style="color: var(--cyan); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px;">
                         <i class="fa-solid fa-star"></i> ${j["Edición"]}
@@ -111,17 +110,17 @@ function createCardHTML(j) {
                 }
             </div>
 
-            <div style="margin-top: 15px; height: 50px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; margin-left: 6px;">
+            <div style="margin-top: 15px; height: 50px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch;">
                 <div style="flex: 1; background: ${esDigital ? 'rgba(0, 242, 255, 0.1)' : 'rgba(239, 195, 108, 0.1)'}; color: ${esDigital ? 'var(--cyan)' : 'var(--accent)'}; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2);">
                     <i class="fa-solid ${esDigital ? 'fa-cloud' : 'fa-compact-disc'}" style="font-size: 0.8rem; margin-bottom: 2px;"></i>
                     <span style="font-size: 0.55rem; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
-                <div style="flex: 1.2; background: ${toRgba(rawRarezaColor, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2);">
-                    <span style="font-size: 0.7rem; color: ${rawRarezaColor}; font-weight: 900; letter-spacing: 0.5px;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
+                <div style="flex: 1; background: ${toRgba(rawRarezaColor, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2);">
+                    <span style="font-size: 0.65rem; color: ${rawRarezaColor}; font-weight: 900; letter-spacing: 0.5px; text-align: center; line-height: 1;">${(j["Rareza"] || "COMÚN").toUpperCase()}</span>
                 </div>
-                <div style="flex: 1.5; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
+                <div style="flex: 1; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
                     <span style="font-size: 0.45rem; color: #2e9e7f; font-weight: 900; text-transform: uppercase;">Valor Est.</span>
-                    <span style="font-size: 0.8rem; color: #fff; font-weight: 900;">${j["Tasación Actual"] || "S/T"}</span>
+                    <span style="font-size: 0.75rem; color: #fff; font-weight: 900;">${j["Tasación Actual"] || "S/T"}</span>
                 </div>
             </div>
         </div>`;
