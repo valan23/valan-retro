@@ -1,13 +1,18 @@
-// main.js - El Director de Orquesta Optimizado
+// main.js - El Director de Orquesta Unificado
 
 let dataStore = { 'videojuegos': null, 'deseados': null, 'jugados': null };
 let currentPlatform = "TODAS";
 let currentSection = 'videojuegos';
-let currentFormat = "all"; // Añadido para seguimiento global del filtro de formato
+let currentFormat = "all";
 
+// 1. Carga de datos optimizada
 async function loadTabData(sectionId) {
     if (dataStore[sectionId]) return dataStore[sectionId];
-    const urls = { 'videojuegos': CSV_URL_JUEGOS, 'deseados': CSV_URL_DESEADOS, 'jugados': CSV_URL_JUGADOS };
+    const urls = { 
+        'videojuegos': CSV_URL_JUEGOS, 
+        'deseados': CSV_URL_DESEADOS, 
+        'jugados': CSV_URL_JUGADOS 
+    };
 
     return new Promise((resolve, reject) => {
         Papa.parse(urls[sectionId], {
@@ -28,36 +33,51 @@ async function loadTabData(sectionId) {
     });
 }
 
+// 2. Inicialización
 async function init() {
     try {
         const games = await loadTabData('videojuegos');
-        createFilters(games, 'platform-filters');
+        // Usamos el ID global que definimos en el HTML de la Navbar
+        createFilters(games, 'global-platform-filters');
         renderGames(games);
-    } catch (error) { console.error("Error inicial:", error); }
+    } catch (error) { 
+        console.error("Error inicial:", error); 
+    }
 }
 window.onload = init;
 
+// 3. Cambio de Sección (Pestañas)
 async function switchSection(sectionId, btn) {
     currentSection = sectionId;
     currentPlatform = "TODAS"; 
     currentFormat = "all"; 
 
+    // UI de las pestañas
     document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
+    // Visibilidad de contenedores
     document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
-    document.getElementById('section-' + sectionId).classList.add('active');
+    const target = document.getElementById('section-' + sectionId);
+    if (target) target.classList.add('active');
     
     try {
         const data = await loadTabData(sectionId);
         
-        // Inyectamos siempre en el contenedor global de la Navbar
+        // Actualizamos las marcas en la Navbar fija
         createFilters(data, 'global-platform-filters');
         
+        // Limpiamos buscador y aplicamos filtros
+        if (document.getElementById('searchInput')) {
+            document.getElementById('searchInput').value = "";
+        }
         applyFilters();
-    } catch (error) { console.error(error); }
+    } catch (error) { 
+        console.error("Error al cambiar sección:", error); 
+    }
 }
 
+// 4. Generación de Filtros de Marcas
 function createFilters(games, containerId) {
     const counts = games.reduce((acc, game) => {
         const p = game["Plataforma"];
@@ -67,18 +87,16 @@ function createFilters(games, containerId) {
 
     const container = document.getElementById(containerId);
     if (!container) return;
-    
-    // El prefijo nos ayuda a saber en qué sección estamos
-    const prefix = containerId.includes('wishlist') ? 'wish' : (containerId.includes('played') ? 'played' : 'main');
 
-    // Construimos la lista de marcas estilo "Navbar"
+    // Botón "TODAS"
     let html = `
     <div class="brand-icon ${currentPlatform === 'TODAS' ? 'active' : ''}" onclick="showBrand('TODAS', this)">
-        <i class="fa-solid fa-house" style="margin-bottom:6px; font-size:18px;"></i> <span>TODAS</span>
+        <i class="fa-solid fa-house" style="margin-bottom:6px; font-size:18px;"></i> 
+        <span>TODAS</span>
     </div>`;
 
+    // Botones de marcas configuradas
     for (const [brandName, data] of Object.entries(BRANDS_CONFIG)) {
-        // Solo mostramos la marca si hay juegos de sus plataformas en esta sección
         const hasGames = data.platforms.some(p => counts[p] > 0);
         
         if (hasGames) {
@@ -93,48 +111,41 @@ function createFilters(games, containerId) {
     
     container.innerHTML = html;
 
-    // Aprovechamos para renderizar los botones de formato (Físico/Digital)
-    const formatContainerId = containerId.replace('platform-filters', 'format-buttons-container');
+    // Renderizar botones de formato (Físico/Digital) debajo de la sección activa
+    const formatSuffix = currentSection === 'videojuegos' ? 'games' : (currentSection === 'deseados' ? 'wishlist' : 'played');
+    const formatContainerId = `format-buttons-container-${formatSuffix}`;
     renderFormatFilters(games, formatContainerId);
 }
 
+// 5. Lógica de Filtrado de Marcas
 function showBrand(brand, element) {
-    // 1. UI: Gestionar clase activa
     element.parentElement.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
     
-    // 2. Lógica: Actualizar plataforma actual
     if (brand === 'TODAS') { 
         currentPlatform = "TODAS"; 
     } else {
-        // Pasamos el array de plataformas de esa marca (definido en config.js)
         currentPlatform = BRANDS_CONFIG[brand].platforms; 
     }
     
     applyFilters();
 }
 
-function filterByPlatform(p, btn) {
-    currentPlatform = p;
-    btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilters();
-}
-
+// 6. Aplicación de Filtros (Cerebro del filtrado)
 function applyFilters() {
     const q = document.getElementById('searchInput')?.value.toLowerCase() || "";
     const targetData = dataStore[currentSection];
     if (!targetData) return;
 
     const filtered = targetData.filter(j => {
-        // 1. Filtro de Plataforma (soporta Selección Única o Array de Marca)
+        // Filtro de Plataforma
         let matchesP = (currentPlatform === "TODAS") || 
                        (Array.isArray(currentPlatform) ? currentPlatform.includes(j["Plataforma"]) : j["Plataforma"] === currentPlatform);
         
-        // 2. Filtro de Búsqueda por Texto
+        // Filtro de Búsqueda
         let matchesS = (j["Nombre Juego"] || "").toLowerCase().includes(q);
         
-        // 3. Filtro de Formato (Físico/Digital)
+        // Filtro de Formato
         let matchesF = true;
         const formatVal = (j["Formato"] || "").toString().toUpperCase();
         if (currentFormat === 'digital') matchesF = formatVal.includes("DIGITAL");
@@ -143,19 +154,16 @@ function applyFilters() {
         return matchesP && matchesS && matchesF;
     });
 
-    // Renderizado según sección
-    if (currentSection === 'videojuegos') {
-        renderGames(filtered); // Esta función usa 'game-grid'
-    } else if (currentSection === 'deseados') {
-        renderWishlist(filtered); // Esta usa 'wishlist-grid'
-    } else if (currentSection === 'jugados') {
-        renderPlayed(filtered); // Esta usa 'played-grid'
-    }
+    // Ejecutar renderizado según sección activa
+    if (currentSection === 'videojuegos') renderGames(filtered);
+    else if (currentSection === 'deseados') renderWishlist(filtered);
+    else if (currentSection === 'jugados') renderPlayed(filtered);
 }
 
 function filterGames() { applyFilters(); }
 
-function renderFormatFilters(games, containerId, sectionPrefix) {
+// 7. Filtros de Formato
+function renderFormatFilters(games, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -166,9 +174,15 @@ function renderFormatFilters(games, containerId, sectionPrefix) {
     };
 
     container.innerHTML = `
-        <button class="format-btn ${currentFormat === 'all' ? 'active' : ''}" data-format="all"><i class="fa-solid fa-layer-group"></i> Todos (${counts.all})</button>
-        <button class="format-btn ${currentFormat === 'fisico' ? 'active' : ''}" data-format="fisico"><i class="fa-solid fa-floppy-disk"></i> Físico (${counts.fisico})</button>
-        <button class="format-btn ${currentFormat === 'digital' ? 'active' : ''}" data-format="digital"><i class="fa-solid fa-cloud-download"></i> Digital (${counts.digital})</button>
+        <button class="format-btn ${currentFormat === 'all' ? 'active' : ''}" data-format="all">
+            <i class="fa-solid fa-layer-group"></i> Todos (${counts.all})
+        </button>
+        <button class="format-btn ${currentFormat === 'fisico' ? 'active' : ''}" data-format="fisico">
+            <i class="fa-solid fa-floppy-disk"></i> Físico (${counts.fisico})
+        </button>
+        <button class="format-btn ${currentFormat === 'digital' ? 'active' : ''}" data-format="digital">
+            <i class="fa-solid fa-cloud-download"></i> Digital (${counts.digital})
+        </button>
     `;
 
     container.querySelectorAll('.format-btn').forEach(btn => {
@@ -181,7 +195,7 @@ function renderFormatFilters(games, containerId, sectionPrefix) {
     });
 }
 
-// Helpers universales
+// 8. Helpers (Banderas e Iconos)
 function getFlag(region) {
     if (!region) return '<span class="fi fi-xx"></span>';
     const codes = { "ESP": "es", "JAP": "jp", "USA": "us", "EU": "eu", "UK": "gb", "ITA": "it", "GER": "de", "AUS": "au", "ASIA": "hk" };
