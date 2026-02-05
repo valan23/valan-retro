@@ -31,10 +31,13 @@ function createWishlistCardHTML(j) {
         const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const esEspecial = AppUtils.isValid(j["Edición"]) && j["Edición"].toUpperCase() !== "ESTÁNDAR";
         
-        // --- LÓGICA DE FORMATO (ESTO ES LO QUE FALTABA) ---
+        // --- LÓGICA DE FORMATO ---
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
         const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
         const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
+
+        // --- LÓGICA DE RAREZA ---
+        const colorRareza = AppUtils.getRarezaColor(j["Rareza"]);
 
         // --- LÓGICA DE PRIORIDAD ---
         const priorRaw = (j["Prioridad"] || "NORMAL").trim().toUpperCase();
@@ -118,15 +121,15 @@ function createWishlistCardHTML(j) {
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; margin-left: 6px;">
+                
                 <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 11px;">
                     <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                     <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
 
-                <div style="flex: 1; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2px;">
-                    <span style="font-size: 0.5em; color: #555; font-weight: 800; text-transform: uppercase;">1ª Fecha / Últ.</span>
-                    <span style="font-size: 0.65em; color: #aaa; font-weight: 700;">${j["Primera fecha"] || '--/--'}</span>
-                    <span style="font-size: 0.65em; color: #eee; font-weight: 800; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1px; padding-top: 1px;">${j["Ultima fecha"] || '--/--'}</span>
+                <div style="flex: 1; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <span style="font-size: 0.5em; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 2px;">Rareza</span>
+                    <span style="font-size: 0.65em; color: ${colorRareza}; font-weight: 900; text-transform: uppercase;">${j["Rareza"] || '---'}</span>
                 </div>
 
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 4px;">
