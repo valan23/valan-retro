@@ -92,7 +92,7 @@ function renderPlayed(games) {
                             ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
                         </div>
                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
-                        <span style="font-size: 0.7em; color: #555;">| ${j["Desarrolladora"] || "---"}</span>
+                        <span style="font-size: 0.7em; color: #555;">| <i>${j["Desarrolladora"] || "---"}</i></span>
                     </div>
                 </div>
 
