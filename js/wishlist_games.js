@@ -33,7 +33,7 @@ function createWishlistCardHTML(j) {
         
         // --- LÓGICA DE FORMATO ---
         const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
-        const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.15)' : 'rgba(239, 195, 108, 0.15)';
+        const bgFormato = esDigital ? 'rgba(0, 212, 255, 0.1)' : 'rgba(239, 195, 108, 0.1)';
         const colorTextoFormato = esDigital ? '#00d4ff' : '#EFC36C';
 
         // --- LÓGICA DE RAREZA ---
@@ -83,13 +83,13 @@ function createWishlistCardHTML(j) {
                 <div class="icon-gradient-area">
                     ${getPlatformIcon(plat)}
                 </div>
-                <div style="flex: 0.8; background: ${toRgba(colorPrioridad, 0.25)}; border-left: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div style="flex: 1; background: ${toRgba(colorPrioridad, 0.25)}; border-left: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <span style="font-size: 0.5rem; color: ${colorPrioridad}; font-weight: 900; text-transform: uppercase;">Prioridad</span>
                     <span style="font-size: 0.8rem; line-height: 1;">${priorIconos}</span>
                 </div>
             </div>
 
-            <div style="padding: 15px 15px 0 15px; margin-left: 6px;">
+            <div style="padding: 15px 15px 0 15px;">
                 ${esEspecial ? `<div style="color: var(--cyan); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;"><i class="fa-solid fa-star"></i> ${j["Edición"]}</div>` : '<div style="height:12px"></div>'}
                 <div class="game-title" style="padding:0; line-height: 1.1; margin-bottom: 4px; color: #EFC36C;">${j["Nombre Juego"]}</div>
                 <div style="font-size: 0.7rem; color: #666; font-family: 'Noto Sans JP', sans-serif; min-height: 14px;">${j["Nombre Japones"] || ""}</div>
@@ -120,9 +120,8 @@ function createWishlistCardHTML(j) {
                 }).join('') : `<div style="text-align:center; color:#444; font-size:0.6rem; margin-top:20px;">SIN DATOS DE PRECIO</div>`}
             </div>
 
-            <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; margin-left: 6px;">
-                
-                <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; border-bottom-left-radius: 11px;">
+            <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch;">
+                <div style="flex: 1; background: ${bgFormato}; color: ${colorTextoFormato}; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <i class="fa-solid ${esDigital ? 'fa-cloud-download' : 'fa-compact-disc'}" style="font-size: 1em; margin-bottom: 2px;"></i>
                     <span style="font-size: 0.6em; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
@@ -134,7 +133,7 @@ function createWishlistCardHTML(j) {
 
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 4px;">
                     ${AppUtils.isValid(j["Link"]) ? 
-                        `<a href="${j["Link"]}" target="_blank" style="background: #2e9e7f; color: #fff; padding: 3px 0; border-radius: 4px; font-size: 0.55em; font-weight: 900; text-decoration: none; width: 90%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 4px;">
+                        `<a href="${j["Link"]}" target="_blank" style="background: #2e9e7f; color: #fff; padding: 4px 0; border-radius: 4px; font-size: 0.55em; font-weight: 900; text-decoration: none; width: 90%; box-shadow: 0 2px 4px rgba(0,0,0,0.3); margin-bottom: 4px;">
                             COMPRAR <i class="fa-solid fa-external-link" style="font-size: 0.8em;"></i>
                         </a>` : 
                         `<span style="color: #444; font-size: 0.5em; font-weight: bold; margin-bottom: 4px;">SIN LINK</span>`
