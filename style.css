@@ -11,11 +11,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
+    padding-top: 320px !important; 
     font-family: 'Inter', sans-serif;
     background: var(--bg-dark);
     color: #e0e0e0;
-    /* Ajusta este valor: si la barra ahora es más fina, quizás 240px-260px sea suficiente */
-    padding-top: 250px !important; 
     overflow-x: hidden;
 }
 
@@ -276,14 +275,19 @@ body {
 
 /* --- BARRA DE FILTROS PROFESIONAL --- */
 .filter-bar {
-    background: rgba(15, 15, 18, 0.98); /* Un poco más sólida para legibilidad */
-    backdrop-filter: blur(15px);
-    padding: 6px 0; /* Bajamos de 10px a 6px */
+    background: var(--bg-dark);
+    padding: 6px 0;
     width: 100%;
     display: flex;
     justify-content: center;
-    border-top: 1px solid rgba(239, 195, 108, 0.3); /* Línea más sutil */
+    border-top: 1px solid rgba(239, 195, 108, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* CAMBIO AQUÍ: En lugar de sticky, vamos a asegurar que empuje el contenido */
+    position: relative; 
+    z-index: 100;
+    margin-top: 0; 
+    box-shadow: 0 20px 20px var(--bg-dark);
 }
 
 .filter-container {
@@ -373,7 +377,9 @@ body {
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px; 
-    margin-top: 20px;
+    /* Aumenta este margen si ves que los títulos se siguen cortando */
+    margin-top: 60px; 
+    padding-bottom: 50px;
 }
 
 .card {
