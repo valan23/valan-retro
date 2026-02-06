@@ -202,35 +202,40 @@ function applyFilters() {
 
 // 7. Render de Filtros Profesionales (Navbar superior)
 function renderUniversalFormatFilters(games) {
-    // ID corregido para que coincida con tu HTML
     const container = document.getElementById('nav-format-filter');
     if (!container) return;
 
-    // Contadores dinámicos
+    // Calculamos totales sobre el set de datos actual
     const total = games.length;
-    const digital = games.filter(g => String(g["Formato"]).toUpperCase().includes("DIGITAL")).length;
+    const digital = games.filter(g => {
+        const formato = String(g["Formato"] || "").toUpperCase();
+        return formato.includes("DIGITAL");
+    }).length;
     const fisico = total - digital;
 
+    // Inyectamos los botones
     container.innerHTML = `
         <button class="year-btn ${currentFormat === 'all' ? 'active' : ''}" onclick="setFormatFilter('all')">
-            TODOS (${total})
+            TODOS <span>${total}</span>
         </button>
         <button class="year-btn ${currentFormat === 'fisico' ? 'active' : ''}" onclick="setFormatFilter('fisico')">
-            FÍSICO (${fisico})
+            FÍSICO <span>${fisico}</span>
         </button>
         <button class="year-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">
-            DIGITAL (${digital})
+            DIGITAL <span>${digital}</span>
         </button>
     `;
 
-    // Gestionar visibilidad de años (Solo en jugados)
-    // Buscamos el grupo padre del filtro de año en la navbar
-    const yearGroup = document.getElementById('nav-year-filter')?.parentElement;
+    // Lógica de visibilidad del Año
+    const yearGroup = document.getElementById('year-filter-group');
     if (yearGroup) {
-        yearGroup.style.display = (currentSection === 'jugados') ? 'flex' : 'none';
         if (currentSection === 'jugados') {
-            // Asegúrate de que en played.js la función apunte a 'nav-year-filter'
-            if (typeof updateYearButtons === 'function') updateYearButtons(games);
+            yearGroup.style.display = 'flex'; // Mostramos el grupo
+            if (typeof updateYearButtons === 'function') {
+                updateYearButtons(games); // Llamamos a played.js para llenar 'nav-year-filter'
+            }
+        } else {
+            yearGroup.style.display = 'none'; // Escondemos el grupo
         }
     }
 }
