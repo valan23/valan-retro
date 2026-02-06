@@ -119,15 +119,75 @@ function createFilters(games, containerId) {
 
 // 5. Lógica de Filtrado de Marcas
 function showBrand(brand, element) {
+    // UI: Marcamos la marca activa
     element.parentElement.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
     
     if (brand === 'TODAS') { 
         currentPlatform = "TODAS"; 
+        // Si elige TODAS, vaciamos la barra de consolas
+        const consoleContainer = document.getElementById('consoleSelector');
+        if (consoleContainer) consoleContainer.innerHTML = ""; 
     } else {
         currentPlatform = BRANDS_CONFIG[brand].platforms; 
+        // --- AQUÍ LA MAGIA ---
+        // Generamos los iconos de consolas para esta marca
+        createConsoleFilters(brand);
     }
     
+    applyFilters();
+}
+
+// Nueva función para llenar la barra de consolas
+function createConsoleFilters(brandName) {
+    const container = document.getElementById('consoleSelector');
+    if (!container) return;
+
+    const brandData = BRANDS_CONFIG[brandName];
+    if (!brandData) return;
+
+    // Obtenemos los juegos de la sección actual para saber si tenemos juegos de esa consola
+    const currentGames = dataStore[currentSection] || [];
+    const counts = currentGames.reduce((acc, game) => {
+        const p = game["Plataforma"];
+        acc[p] = (acc[p] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Botón "TODAS las de esta marca"
+    let html = `
+    <div class="console-icon active" onclick="filterBySpecificConsole('ALL_BRAND', this, '${brandName}')">
+        <i class="fa-solid fa-layer-group" style="margin-bottom:4px; font-size:14px;"></i> 
+        <span>TODAS</span>
+    </div>`;
+
+    // Generamos botones para cada consola de la marca
+    brandData.platforms.forEach(plat => {
+        // Solo mostramos la consola si tenemos juegos de ella en la sección actual
+        if (counts[plat] > 0) {
+            const icon = brandData.icons[plat] || "";
+            html += `
+                <div class="console-icon" onclick="filterBySpecificConsole('${plat}', this)">
+                    <img src="${icon}" class="console-logo-img" alt="${plat}">
+                    <span>${plat}</span>
+                </div>`;
+        }
+    });
+
+    container.innerHTML = html;
+}
+
+function filterBySpecificConsole(platform, element, brandName = null) {
+    // UI: Activar icono
+    element.parentElement.querySelectorAll('.console-icon').forEach(i => i.classList.remove('active'));
+    element.classList.add('active');
+
+    if (platform === 'ALL_BRAND') {
+        currentPlatform = BRANDS_CONFIG[brandName].platforms;
+    } else {
+        currentPlatform = platform; // Filtramos por una sola consola
+    }
+
     applyFilters();
 }
 
