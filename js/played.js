@@ -1,7 +1,6 @@
 /**
  * played.js - Diario de Juegos Finalizados
  */
-let currentPlayedYear = 'all';
 
 function renderPlayed(games) {
     const container = document.getElementById('played-grid');
@@ -131,7 +130,7 @@ function renderPlayed(games) {
 }
 
 function updateYearButtons(filteredGames) {
-    const container = document.getElementById('year-buttons-container');
+    const container = document.getElementById('year-filter-pills'); // El ID que pusimos en la barra nueva
     if (!container) return;
 
     // Obtener años únicos
@@ -159,15 +158,6 @@ function updateYearButtons(filteredGames) {
 
 // ESTA FUNCIÓN ES LA QUE HACE QUE EL FILTRO SE ACTIVE
 function filterByYear(year) {
-    console.log("Filtrando por año:", year);
-    currentPlayedYear = year;
-    
-    // IMPORTANTE: Aquí debes llamar a la función que redibuja tu grid.
-    // Si tu función de carga principal se llama applyFilters o renderPlayed:
-    if (typeof applyFilters === 'function') {
-        applyFilters(); 
-    } else {
-        // Si no tienes applyFilters, usa la colección global
-        renderPlayed(window.allGamesData); 
-    }
+    currentPlayedYear = year; // Actualiza la variable global de main.js
+    applyFilters(); // Llama al cerebro de filtrado
 }
