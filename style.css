@@ -14,7 +14,7 @@ body {
     font-family: 'Inter', sans-serif;
     background: var(--bg-dark);
     color: #e0e0e0;
-    padding-top: 240px !important; /* Espacio para la triple barra fija */
+    padding-top: 290px !important; /* Espacio para la triple barra fija */
     overflow-x: hidden;
 }
 
@@ -173,6 +173,67 @@ body {
 .brand-icon span { font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase; }
 .brand-icon.active span { color: var(--accent); }
 
+/* --- FILA DE CONSOLAS (MISMO FORMATO QUE MARCAS) --- */
+.nav-row-consoles {
+    width: 100%;
+    padding: 10px 0 15px 0;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    /* Línea superior que la separa de las marcas */
+    border-top: 1px solid;
+    border-image: linear-gradient(to right, transparent, rgba(239, 195, 108, 0.2), transparent) 1;
+}
+
+.console-selector {
+    display: flex;
+    justify-content: center;
+    gap: 25px; /* Un poco más cerrado que las marcas */
+    flex-wrap: wrap;
+}
+
+.console-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 10px;
+    opacity: 0.4;
+    position: relative;
+}
+
+.console-icon:hover { opacity: 0.8; transform: translateY(-2px); }
+.console-icon.active { opacity: 1; }
+
+/* El mismo indicador de línea activa que las marcas */
+.console-icon.active::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+.console-logo-img { 
+    height: 18px; /* Un poco más pequeña que el logo de marca */
+    width: auto; 
+    margin-bottom: 4px; 
+    filter: brightness(0) invert(1); /* Si los logos son negros, esto los pone blancos */
+}
+
+.console-icon span { 
+    font-size: 0.65rem; 
+    font-weight: 800; 
+    color: #888; 
+    text-transform: uppercase; 
+}
+
+.console-icon.active span { color: var(--accent); }
+
 /* --- GRID Y TARJETAS --- */
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
 
@@ -278,7 +339,9 @@ body {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    body { padding-top: 280px !important; }
+    body { 
+        padding-top: 340px !important; 
+    }
     .nav-row-top { flex-direction: column; gap: 15px; }
     .search-wrapper { width: 100%; }
     .main-tabs { gap: 15px; }
