@@ -24,11 +24,13 @@ body {
     top: 0; left: 0; width: 100%;
     z-index: 9999;
     
-    /* Degradado de Amarillo Intenso a un Blanco-Dorado muy claro */
+    /* Degradado tipo "Sándwich": 
+       Oscuro arriba -> Claro en el medio (para los logos) -> Oscuro abajo */
     background: linear-gradient(to bottom, 
-        #efc36c 0%,   /* Amarillo acento */
-        #0b0b0e 40%,  /* Dorado pálido/Blanco */
-        #fcf6ba 100%  /* Fundido final al negro de la web para suavizar el corte */
+        #0b0b0e 0%,      /* Superior oscuro */
+        #efc36c 35%,     /* Transición a amarillo */
+        #ffffff 65%,     /* Blanco puro: Aquí es donde los logos negros se verán perfectos */
+        #0b0b0e 100%     /* Volvemos al fondo de la web */
     );
     
     border-bottom: 2px solid;
@@ -128,7 +130,8 @@ body {
 .nav-row-brands {
     width: 100%;
     padding: 12px 0 18px 0;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.9); 
+    margin: 2px 0;
     display: flex;
     justify-content: center;
     /* Creamos la línea divisoria superior */
@@ -168,14 +171,19 @@ body {
 }
 
 .brand-logo-img { height: 24px; width: auto; margin-bottom: 5px; }
-.brand-icon span { font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase; }
+.brand-icon span { 
+    font-size: 0.7rem; 
+    color: #1a1a1a; /* Texto oscuro para que se lea sobre el fondo blanco/amarillo */
+    font-weight: 900;
+    text-transform: uppercase; }
 .brand-icon.active span { color: var(--accent); }
 
 /* --- FILA DE CONSOLAS (MISMO FORMATO QUE MARCAS) --- */
 .nav-row-consoles {
     width: 100%;
     padding: 10px 0 15px 0;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.9); 
+    margin: 2px 0;
     display: flex;
     justify-content: center;
     /* Línea superior que la separa de las marcas */
@@ -230,8 +238,8 @@ body {
 
 .console-icon span { 
     font-size: 0.65rem; 
-    font-weight: 800; 
-    color: #888; 
+    color: #1a1a1a; /* Texto oscuro para que se lea sobre el fondo blanco/amarillo */
+    font-weight: 900;
     text-transform: uppercase; 
 }
 
