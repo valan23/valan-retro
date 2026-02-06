@@ -24,17 +24,18 @@ body {
     top: 0; left: 0; width: 100%;
     z-index: 9999;
     
-    /* Degradado tipo "Sándwich": 
-       Oscuro arriba -> Claro en el medio (para los logos) -> Oscuro abajo */
+    /* Degradado: Fondo oscuro -> Amarillo -> Hueso (zona logos) -> Fondo oscuro */
     background: linear-gradient(to bottom, 
-        #0b0b0e 0%,      /* Superior oscuro */
-        #efc36c 35%,     /* Transición a amarillo */
-        #ffffff 65%,     /* Blanco puro: Aquí es donde los logos negros se verán perfectos */
-        #0b0b0e 100%     /* Volvemos al fondo de la web */
+        #0b0b0e 0%,
+        #efc36c 20%,
+        #f2f2e9 50%, /* Color Hueso: suave para los logos */
+        #f2f2e9 80%, 
+        #0b0b0e 100%
     );
     
+    /* Cambiamos la línea inferior a morado para que combine con el nuevo estilo */
     border-bottom: 2px solid;
-    border-image: linear-gradient(to right, transparent 0%, #efc36c 50%, transparent 100%) 1;
+    border-image: linear-gradient(to right, transparent 0%, #9500ff 50%, transparent 100%) 1;
     transition: transform 0.4s ease-in-out;
 }
 
@@ -155,7 +156,7 @@ body {
     position: relative;
 }
 
-.brand-icon:hover { opacity: 0.8; transform: translateY(-2px); }
+.brand-icon:hover { opacity: 1; transform: translateY(-2px); }
 .brand-icon.active { opacity: 1; }
 
 .brand-icon.active::after {
@@ -165,17 +166,20 @@ body {
     left: 0;
     width: 100%;
     height: 3px;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
+    background: #9500ff !important; /* Línea inferior morada */
+    box-shadow: 0 0 10px rgba(149, 0, 255, 0.5); /* Brillo morado sutil */
 }
 
 .brand-logo-img { height: 24px; width: auto; margin-bottom: 5px; }
 .brand-icon span { 
     font-size: 0.7rem; 
-    color: #1a1a1a; /* Texto oscuro para que se lea sobre el fondo blanco/amarillo */
-    font-weight: 900;
+    color: #1a1a1a !important; /* Negro por defecto */
+    font-weight: 800;
+    transition: 0.3s;
     text-transform: uppercase; }
-.brand-icon.active span { color: var(--accent); }
+.brand-icon.active span { 
+    color: #9500ff !important; /* Morado al activar */
+}
 
 /* --- FILA DE CONSOLAS (MISMO FORMATO QUE MARCAS) --- */
 .nav-row-consoles {
@@ -213,7 +217,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.console-icon:hover { opacity: 0.8; transform: translateY(-2px); }
+.console-icon:hover { opacity: 1; transform: translateY(-2px); }
 .console-icon.active { opacity: 1; }
 
 /* El mismo indicador de línea activa que las marcas */
@@ -224,8 +228,8 @@ body {
     left: 0;
     width: 100%;
     height: 3px;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
+    background: #9500ff !important; /* Línea inferior morada */
+    box-shadow: 0 0 10px rgba(149, 0, 255, 0.5); /* Brillo morado sutil */
 }
 
 .console-logo-img { 
@@ -236,12 +240,15 @@ body {
 
 .console-icon span { 
     font-size: 0.65rem; 
-    color: #1a1a1a; /* Texto oscuro para que se lea sobre el fondo blanco/amarillo */
-    font-weight: 900;
+    color: #1a1a1a !important; /* Negro por defecto */
+    font-weight: 800;
+    transition: 0.3s;
     text-transform: uppercase; 
 }
 
-.console-icon.active span { color: var(--accent); }
+.console-icon.active span { 
+    color: #9500ff !important; /* Morado al activar */
+}
 
 
 /* --- GRID Y TARJETAS --- */
