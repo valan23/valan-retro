@@ -157,7 +157,15 @@ function updateYearButtons(filteredGames) {
     `;
 }
 
-function filterByYear(year) {
+function filterByYear(year, element) {
+    // 1. Gestión visual de botones de año (tu lógica actual)
+    document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+
+    // 2. Actualizar la variable global del año
     currentPlayedYear = year; 
+
+    // 3. ¡ESTA ES LA CLAVE! 
+    // Llamamos a applyFilters para que filtre los datos por el año seleccionado
     applyFilters(); 
 }
