@@ -224,7 +224,7 @@ function renderUniversalFormatFilters(games) {
         <button class="year-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">
             DIGITAL <span>${digital}</span>
         </button>
-    `;
+        `;
 
     // Lógica de visibilidad del Año
     const yearGroup = document.getElementById('year-filter-group');
