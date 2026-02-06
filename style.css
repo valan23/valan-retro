@@ -14,7 +14,8 @@ body {
     font-family: 'Inter', sans-serif;
     background: var(--bg-dark);
     color: #e0e0e0;
-    padding-top: 290px !important; /* Espacio para la triple barra fija */
+    /* Ajusta este valor: si la barra ahora es más fina, quizás 240px-260px sea suficiente */
+    padding-top: 250px !important; 
     overflow-x: hidden;
 }
 
@@ -275,53 +276,47 @@ body {
 
 /* --- BARRA DE FILTROS PROFESIONAL --- */
 .filter-bar {
-    background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 10px 0;
+    background: rgba(15, 15, 18, 0.98); /* Un poco más sólida para legibilidad */
+    backdrop-filter: blur(15px);
+    padding: 6px 0; /* Bajamos de 10px a 6px */
     width: 100%;
     display: flex;
-    justify-content: center; /* Centra todo el contenido */
-    
-    /* Línea amarilla superior para separar de las consolas */
-    border-top: 1px solid;
-    border-image: linear-gradient(to right, transparent 10%, var(--accent) 50%, transparent 90%) 1;
-    
-    /* Línea sutil inferior para cerrar la zona de navegación */
+    justify-content: center;
+    border-top: 1px solid rgba(239, 195, 108, 0.3); /* Línea más sutil */
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .filter-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
     display: flex;
-    justify-content: center; /* Centra los grupos de filtros */
+    justify-content: center; 
     align-items: center;
-    gap: 40px; /* Espacio entre Formato y Año */
-    padding: 0 20px;
-    flex-wrap: wrap;
+    gap: 20px; /* Bajamos de 40px a 20px */
+    padding: 0 15px;
+    flex-wrap: wrap; /* Importante para que no rompa en pantallas pequeñas */
 }
 
 .filter-group {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px; /* Reducimos espacio etiqueta-botones */
 }
 
 .filter-label {
-    color: #666;
-    font-size: 0.65rem;
-    font-weight: 800;
+    color: var(--text-muted);
+    font-size: 0.6rem; /* Un punto más pequeña */
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
+    letter-spacing: 0.5px;
 }
 
 .filter-pills {
     display: flex;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 4px;
-    border-radius: 50px;
+    gap: 4px; /* Pegamos más los botones entre sí */
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px; /* Bajamos de 4px a 3px */
+    border-radius: 8px; /* Menos redondeado para ahorrar aire */
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -332,8 +327,9 @@ body {
     background: transparent;
     border: none;
     color: #888;
-    padding: 6px 14px;
-    font-size: 0.7rem;
+    padding: 4px 10px; /* Reducimos padding vertical de 6px a 4px */
+    font-size: 0.65rem; /* Letra ligeramente más pequeña */
+    border-radius: 6px;
     font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
@@ -341,12 +337,11 @@ body {
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    gap: 6px;
 }
 
 .year-btn span {
-    opacity: 0.5;
-    font-size: 0.6rem;
+    font-size: 0.55rem;
+    margin-left: 2px;
 }
 
 .year-btn:hover {
@@ -461,7 +456,7 @@ body {
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
     body { 
-        padding-top: 340px !important; 
+        padding-top: 310px !important; /* Ajuste para móvil */
     }
     .nav-row-top { flex-direction: column; gap: 15px; }
     .search-wrapper { width: 100%; }
@@ -470,11 +465,12 @@ body {
     .brand-selector { gap: 15px; }
     .brand-logo-img { height: 20px; }
     .filter-container {
-        gap: 15px;
-        justify-content: center;
+        gap: 10px;
+        padding: 5px;
     }
     .filter-group {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row; /* Mantener etiqueta al lado de botones */
+        justify-content: flex-start;
+        width: auto;
     }
 }
