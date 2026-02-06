@@ -23,10 +23,24 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 9999;
-    /* Degradado Dorado Metálico */
-    background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fcf6ba 75%, #aa771c 100%);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    
+    /* 1. Degradado vertical: del oro #efc36c al fondo oscuro */
+    background: linear-gradient(to bottom, 
+        rgba(239, 195, 108, 0.15) 0%,   /* Oro con 15% opacidad arriba */
+        rgba(11, 11, 14, 0.95) 100%     /* Tu color #0b0b0e casi opaco abajo */
+    );
+    
+    /* 2. Borde inferior: Línea oro que se desvanece a los lados */
+    border-bottom: 2px solid;
+    border-image: linear-gradient(to right, 
+        transparent 0%, 
+        #efc36c 50%, 
+        transparent 100%
+    ) 1;
+
+    /* Un sutil brillo extra para que la línea 'viva' */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px); /* Opcional: efecto cristal si hay contenido detrás */
 }
 
 .nav-container {
@@ -115,9 +129,8 @@ body {
 .nav-row-brands {
     width: 100%;
     padding: 12px 0 18px 0;
-    background: linear-gradient(to bottom, rgba(239, 195, 108, 0.1), transparent);
-    border-top: 1px solid;
-    border-image: linear-gradient(to right, transparent, rgba(239, 195, 108, 0.4), transparent) 1;
+    background: transparent; /* Quitamos el degradado previo para no ensuciar */
+    border-top: 1px solid rgba(239, 195, 108, 0.1); /* Separación muy tenue */
     display: flex;
     justify-content: center;
 }
