@@ -135,9 +135,10 @@ function updateYearButtons(filteredGames) {
     const container = document.getElementById('nav-year-filter'); 
     if (!container) return;
 
+    // Calculamos los años disponibles en el set de datos actual
     const counts = { all: filteredGames.length };
     filteredGames.forEach(j => {
-        const fecha = j["Ultima fecha"] || j["Ultima Fecha"] || j["Año"] || "";
+        const fecha = j["Ultima fecha"] || j["Ultima Fecha"] || j["Última Fecha"] || j["Año"] || "";
         const match = String(fecha).match(/\d{4}/);
         if (match) {
             const y = match[0];
@@ -147,25 +148,40 @@ function updateYearButtons(filteredGames) {
 
     const years = Object.keys(counts).filter(y => y !== 'all').sort((a, b) => b - a);
 
+    // IMPORTANTE: Se añade "this" en el onclick para pasar el elemento a filterByYear
     container.innerHTML = `
         <button class="year-btn ${currentPlayedYear === 'all' ? 'active' : ''}" 
-                onclick="filterByYear('all')">TODOS</button>
+                onclick="filterByYear('all', this)">
+            TODOS <span>${counts.all}</span>
+        </button>
         ${years.map(y => `
             <button class="year-btn ${currentPlayedYear === y ? 'active' : ''}" 
-                    onclick="filterByYear('${y}')">${y}</button>
+                    onclick="filterByYear('${y}', this)">
+                ${y} <span>${counts[y]}</span>
+            </button>
         `).join('')}
     `;
 }
 
 function filterByYear(year, element) {
-    // 1. Gestión visual de botones de año (tu lógica actual)
-    document.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
-    element.classList.add('active');
-
-    // 2. Actualizar la variable global del año
+    // 1. Guardar el año seleccionado en la variable global
     currentPlayedYear = year; 
 
-    // 3. ¡ESTA ES LA CLAVE! 
-    // Llamamos a applyFilters para que filtre los datos por el año seleccionado
-    applyFilters(); 
+    // 2. Gestión visual: Quitar 'active' de otros botones de año
+    // Solo buscamos dentro de la barra de años para no afectar a los de Formato
+    const container = document.getElementById('nav-year-filter');
+    if (container) {
+        container.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    // 3. Activar el botón pulsado (si existe el elemento)
+    if (element) {
+        element.classList.add('active');
+    }
+
+    // 4. Llamar al filtro global de main.js
+    // Esto hará que applyFilters recalcule todo y actualice los botones de Físico/Digital
+    if (typeof applyFilters === 'function') {
+        applyFilters(); 
+    }
 }
