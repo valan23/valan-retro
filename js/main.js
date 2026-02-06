@@ -2,10 +2,10 @@
 
 let dataStore = { 'videojuegos': null, 'deseados': null, 'jugados': null };
 let currentPlatform = "TODAS";
-let currentSection = 'videojuegos'; // 'videojuegos', 'deseados', 'jugados'
+let currentSection = 'videojuegos'; 
 let currentFormat = "all";
 let currentSearch = '';
-let currentPlayedYear = 'all'; // Para la sección de jugados
+let currentPlayedYear = 'all'; 
 
 // 1. Carga de datos optimizada
 async function loadTabData(sectionId) {
@@ -40,7 +40,7 @@ async function init() {
     try {
         const games = await loadTabData('videojuegos');
         createFilters(games, 'global-platform-filters');
-        applyFilters(); // Centralizamos el arranque aquí
+        applyFilters(); 
     } catch (error) { 
         console.error("Error inicial:", error); 
     }
@@ -58,7 +58,7 @@ async function switchSection(sectionId, btn) {
     document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
-    // Visibilidad de contenedores
+    // Visibilidad de contenedores de las secciones
     document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('section-' + sectionId);
     if (target) target.classList.add('active');
@@ -165,10 +165,8 @@ function applyFilters() {
     if (!dataToFilter) return;
 
     const filtered = dataToFilter.filter(game => {
-        // 1. Buscador
         const matchesSearch = game["Nombre Juego"].toLowerCase().includes(currentSearch.toLowerCase());
         
-        // 2. Plataforma
         let matchesPlatform = false;
         if (currentPlatform === "TODAS") {
             matchesPlatform = true;
@@ -178,14 +176,12 @@ function applyFilters() {
             matchesPlatform = game["Plataforma"] === currentPlatform;
         }
         
-        // 3. Formato (Físico/Digital)
         let matchesFormat = true;
         if (currentFormat !== "all") {
             const esDigital = String(game["Formato"]).toUpperCase().includes("DIGITAL");
             matchesFormat = (currentFormat === "digital") ? esDigital : !esDigital;
         }
 
-        // 4. Año (Solo para sección jugados)
         let matchesYear = true;
         if (currentSection === 'jugados' && currentPlayedYear !== 'all') {
             const fecha = game["Ultima fecha"] || game["Ultima Fecha"] || game["Última Fecha"] || game["Año"] || "";
@@ -200,13 +196,14 @@ function applyFilters() {
     else if (currentSection === 'deseados') renderWishlist(filtered);
     else if (currentSection === 'jugados') renderPlayed(filtered);
 
-    // Actualizar la barra de filtros profesional
+    // Actualizar la barra de filtros de la navegación
     renderUniversalFormatFilters(dataToFilter);
 }
 
-// 7. Render de Filtros Profesionales (Navbar)
+// 7. Render de Filtros Profesionales (Navbar superior)
 function renderUniversalFormatFilters(games) {
-    const container = document.getElementById('format-filter-pills');
+    // ID corregido para que coincida con tu HTML
+    const container = document.getElementById('nav-format-filter');
     if (!container) return;
 
     // Contadores dinámicos
@@ -215,23 +212,24 @@ function renderUniversalFormatFilters(games) {
     const fisico = total - digital;
 
     container.innerHTML = `
-        <button class="format-btn ${currentFormat === 'all' ? 'active' : ''}" onclick="setFormatFilter('all')">
+        <button class="year-btn ${currentFormat === 'all' ? 'active' : ''}" onclick="setFormatFilter('all')">
             TODOS (${total})
         </button>
-        <button class="format-btn ${currentFormat === 'fisico' ? 'active' : ''}" onclick="setFormatFilter('fisico')">
+        <button class="year-btn ${currentFormat === 'fisico' ? 'active' : ''}" onclick="setFormatFilter('fisico')">
             FÍSICO (${fisico})
         </button>
-        <button class="format-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">
+        <button class="year-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">
             DIGITAL (${digital})
         </button>
     `;
 
     // Gestionar visibilidad de años (Solo en jugados)
-    const yearGroup = document.getElementById('year-filter-group');
+    // Buscamos el grupo padre del filtro de año en la navbar
+    const yearGroup = document.getElementById('nav-year-filter')?.parentElement;
     if (yearGroup) {
         yearGroup.style.display = (currentSection === 'jugados') ? 'flex' : 'none';
         if (currentSection === 'jugados') {
-            // Esta función vive en played.js, asegúrate de que use el ID 'year-filter-pills'
+            // Asegúrate de que en played.js la función apunte a 'nav-year-filter'
             if (typeof updateYearButtons === 'function') updateYearButtons(games);
         }
     }
@@ -243,10 +241,9 @@ function setFormatFilter(format) {
 }
 
 // Listener del buscador
-document.getElementById('searchInput')?.addEventListener('input', (e) => {
-    currentSearch = e.target.value;
-    applyFilters();
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('searchInput')?.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        applyFilters();
+    });
 });
-
-// 8. Helpers de UI (Banderas e Iconos)
-// ... (Tus funciones getFlag, getPlatformIcon y getBrandClass se mantienen igual)
