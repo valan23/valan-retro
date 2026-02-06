@@ -199,12 +199,17 @@ function applyFilters() {
 }
 
 // 7. Render de Filtros Profesionales (Navbar superior)
-function renderUniversalFormatFilters(dataForCounters) {
+// main.js - Línea 228 aproximadamente
+function renderUniversalFormatFilters(dataForCounters) { // <--- Asegúrate que aquí diga dataForCounters
     const container = document.getElementById('nav-format-filter');
     if (!container) return;
 
-    const total = dataForCounters.length;
-    const digital = dataForCounters.filter(g => String(g["Formato"] || "").toUpperCase().includes("DIGITAL")).length;
+    // Usamos el mismo nombre que pusimos arriba en el paréntesis
+    const total = dataForCounters.length; 
+    const digital = dataForCounters.filter(g => {
+        const formato = String(g["Formato"] || "").toUpperCase();
+        return formato.includes("DIGITAL");
+    }).length;
     const fisico = total - digital;
 
     container.innerHTML = `
@@ -219,16 +224,17 @@ function renderUniversalFormatFilters(dataForCounters) {
         </button>
     `;
 
-    // Lógica de visibilidad del Año
+    // Lógica para mostrar/ocultar el grupo de año
     const yearGroup = document.getElementById('year-filter-group');
     if (yearGroup) {
         if (currentSection === 'jugados') {
-            yearGroup.style.display = 'flex'; // Mostramos el grupo
+            yearGroup.style.display = 'flex';
             if (typeof updateYearButtons === 'function') {
-                updateYearButtons(games); // Llamamos a played.js para llenar 'nav-year-filter'
+                // Aquí también pasamos dataForCounters
+                updateYearButtons(dataForCounters); 
             }
         } else {
-            yearGroup.style.display = 'none'; // Escondemos el grupo
+            yearGroup.style.display = 'none';
         }
     }
 }
