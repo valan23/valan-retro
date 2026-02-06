@@ -201,6 +201,12 @@ body {
     padding: 0 10px;
     opacity: 0.4;
     position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .console-icon:hover { opacity: 0.8; transform: translateY(-2px); }
