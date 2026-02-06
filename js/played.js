@@ -25,6 +25,8 @@ function renderPlayed(games) {
     // 4. Renderizado final
     container.innerHTML = filteredByYear.map(j => {
         try {
+            if (typeof AppUtils === 'undefined') return "";
+
             const toRgba = (hex, alpha = 0.15) => {
                 if (!hex || typeof hex !== 'string' || hex[0] !== '#') return `rgba(255,255,255,${alpha})`;
                 const r = parseInt(hex.slice(1, 3), 16),
@@ -57,10 +59,10 @@ function renderPlayed(games) {
             const fFin = j["Ultima fecha"] || j["Ultima Fecha"] || j["Última Fecha"] || "--/--";
 
             return `
-            <div class="card ${getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
+            <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
                     <div class="icon-gradient-area">
-                        ${getPlatformIcon(plat)}
+                        ${AppUtils.getPlatformIcon(plat)}
                     </div>
                     <div style="flex: 0 0 40%; display: flex; flex-direction: column; align-items: stretch; overflow: hidden;">
                         <div style="flex: 1; background: ${toRgba(colorProceso, 0.2)}; color: ${colorProceso}; font-size: 0.55em; font-weight: 900; display: flex; align-items: center; justify-content: center; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05);">
@@ -83,7 +85,7 @@ function renderPlayed(games) {
                     
                     <div style="margin-top: 8px; line-height: 1.2; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                         <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold;">
-                            ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                            ${AppUtils.getFlag(j["Región"])} ${j["Región"] || "N/A"}
                         </div>
                         <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                         <span style="font-size: 0.7em; color: #555;">| <i>${j["Desarrolladora"] || "---"}</i></span>
@@ -130,10 +132,9 @@ function renderPlayed(games) {
 }
 
 function updateYearButtons(filteredGames) {
-    const container = document.getElementById('year-filter-pills'); // El ID que pusimos en la barra nueva
+    const container = document.getElementById('year-filter-pills');
     if (!container) return;
 
-    // Obtener años únicos
     const counts = { all: filteredGames.length };
     filteredGames.forEach(j => {
         const fecha = j["Ultima fecha"] || j["Ultima Fecha"] || j["Año"] || "";
@@ -156,8 +157,7 @@ function updateYearButtons(filteredGames) {
     `;
 }
 
-// ESTA FUNCIÓN ES LA QUE HACE QUE EL FILTRO SE ACTIVE
 function filterByYear(year) {
-    currentPlayedYear = year; // Actualiza la variable global de main.js
-    applyFilters(); // Llama al cerebro de filtrado
+    currentPlayedYear = year; 
+    applyFilters(); 
 }
