@@ -69,12 +69,11 @@ body {
     width: 100%;
     padding: 10px 15px 10px 40px !important;
     border-radius: 20px;
-    background: #1a1a20;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0, 0, 0, 0.7); /* Más oscuro para contraste */
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.3s;
 }
 
 #searchInput:focus { border-color: var(--accent); }
@@ -93,7 +92,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--text-muted);
+    color: #1a1a1a; /* Texto casi negro para legibilidad */
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -105,10 +105,10 @@ body {
 .tab-top { font-size: 0.65rem; opacity: 0.8; }
 .tab-bottom { font-size: 0.9rem; font-weight: 900; }
 
-.tab-link:hover { color: #aaa; }
+.tab-link:hover { color: #444; }
 .tab-link.active {
-    color: var(--accent) !important;
-    border-bottom: 2px solid var(--accent);
+    color: #000 !important; /* Negro puro cuando está activo */
+    border-bottom: 2px solid #000
 }
 
 /* FILA INFERIOR: Marcas (Sub-Nav) */
