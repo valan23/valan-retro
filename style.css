@@ -23,9 +23,10 @@ body {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 9999;
-    background: #0b0b0e; /* Opaco para evitar transparencias con tarjetas */
-    border-bottom: 2px solid;
-    border-image: linear-gradient(to right, transparent, var(--accent), transparent) 1;
+    /* Degradado Dorado Metálico */
+    background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fcf6ba 75%, #aa771c 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .nav-container {
