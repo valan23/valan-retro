@@ -78,10 +78,10 @@ function createWishlistCardHTML(j) {
         };
 
         return `
-        <div class="card ${getBrandClass(plat)}">
+        <div class="card ${AppUtils.getBrandClass(plat)}">
             <div style="display: flex; height: 45px; align-items: stretch; position: relative; z-index: 10;">
                 <div class="icon-gradient-area">
-                    ${getPlatformIcon(plat)}
+                    ${AppUtils.getPlatformIcon(plat)}
                 </div>
                 <div style="flex: 1; background: ${toRgba(colorPrioridad, 0.25)}; border-left: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <span style="font-size: 0.5rem; color: ${colorPrioridad}; font-weight: 900; text-transform: uppercase;">Prioridad</span>
@@ -96,7 +96,7 @@ function createWishlistCardHTML(j) {
                 
                 <div style="margin-top: 8px; line-height: 1.2; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold;">
-                        ${getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                        ${AppUtils.getFlag(j["Región"])} ${j["Región"] || "N/A"}
                     </div>
                     <span style="font-size: 0.7em; color: #888; font-weight: bold;">${j["Año"] || "????"}</span>
                     <span style="font-size: 0.7em; color: #555;">| <i>${j["Desarrolladora"] || "---"}</i></span>
