@@ -269,6 +269,58 @@ body {
     color: var(--accent) !important; /* Solo amarillo cuando está activo */
 }
 
+.format-buttons, .year-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 25px 0;
+    padding: 0 10px;
+}
+
+.format-btn, .year-btn {
+    background: rgba(255, 255, 255, 0.03); /* Fondo casi invisible */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #999;
+    padding: 10px 22px;
+    border-radius: 50px; /* Estilo píldora */
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.format-btn i, .year-btn i {
+    font-size: 0.9rem;
+}
+
+/* Hover: Se ilumina sutilmente */
+.format-btn:hover, .year-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Estado Activo: El gran protagonista */
+.format-btn.active, .year-btn.active {
+    background: var(--accent) !important; /* Amarillo para Formato */
+    color: #000 !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 4px 15px rgba(239, 195, 108, 0.3);
+}
+
+/* Variación para los años (Si prefieres que destaquen diferente a los formatos) */
+.year-btn.active {
+    background: var(--cyan) !important; /* Cyan para los años, combina con Played */
+    border-color: var(--cyan) !important;
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
+}
 
 /* --- GRID Y TARJETAS --- */
 .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 10px; }
