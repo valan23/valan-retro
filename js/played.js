@@ -62,7 +62,9 @@ function renderPlayed(games) {
             <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
                     <div class="icon-gradient-area">
-                        ${AppUtils.getPlatformIcon(plat)}
+                        <div class="card-platform-box">
+                            ${AppUtils.getPlatformIcon(plat)}
+                        </div>
                     </div>
                     <div style="flex: 0 0 40%; display: flex; flex-direction: column; align-items: stretch; overflow: hidden;">
                         <div style="flex: 1; background: ${toRgba(colorProceso, 0.2)}; color: ${colorProceso}; font-size: 0.55em; font-weight: 900; display: flex; align-items: center; justify-content: center; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05);">
