@@ -497,7 +497,7 @@ body {
 }
 
 .icon-gradient-area {
-    flex: 0 0 60%;
+    flex: 0 0 60% !important;
     /* Cambiamos el blanco transparente por un tono oscuro que haga transicion con la tarjeta */
     background: rgba(0, 0, 0, 0.2) !important; 
     display: flex !important;
@@ -517,15 +517,15 @@ body {
 }
 
 .card-platform-box {
-    background: var(--accent); /* ¡AMARILLO CORPORATIVO! */
-    padding: 4px 10px;
-    border-radius: 6px; /* Bordes un poco más rectos para look retro */
-    height: 30px;
-    display: flex;
+    background-color: var(--accent) !important; /* Forzamos el amarillo */
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    height: 30px !important;
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    /* Quitamos cualquier borde o sombra previa */
-    border: none;
+    border: none !important;
+    box-shadow: none !important; /* Eliminamos cualquier sombra que traiga el JS */
 }
 
 .card-platform-box img { 
