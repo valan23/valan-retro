@@ -55,7 +55,7 @@ body {
 }
 
 .main-nav.compact {
-    transform: translateY(-295px)
+    transform: translateY(-265px); 
 }
 
 .nav-container {
@@ -389,7 +389,7 @@ body {
     justify-content: center;
     font-size: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    opacity: 0; /* Oculto por defecto */
+    opacity: 0; 
     visibility: hidden;
     transition: all 0.3s ease;
 }
