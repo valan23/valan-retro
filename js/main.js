@@ -264,10 +264,10 @@ function renderUniversalCompleteFilters(dataForCounters) {
 
     const types = [
         { id: 'all', label: 'TODOS' },
-        { id: 'A Estrenar', label: 'ESTRENAR' },
+        { id: 'A Estrenar', label: 'NUEVO' },
         { id: 'Íntegro', label: 'ÍNTEGRO' },
-        { id: 'Completo', label: 'CIB' },
-        { id: 'Incompleto', label: 'INC' },
+        { id: 'Completo', label: 'COMPLETO' },
+        { id: 'Incompleto', label: 'INCOMPLETO' },
         { id: 'Suelto', label: 'SUELTO' },
         { id: 'Repro', label: 'REPRO' },
         { id: 'Digital', label: 'DIGITAL' }
@@ -299,7 +299,7 @@ function renderWishlistPriorityFilters(dataForCounters) {
 
     const levels = [
         { id: 'all', label: 'TODAS' },
-        { id: 'MUY ALTA', label: 'CRÍTICO 🔥' },
+        { id: 'MUY ALTA', label: 'MUY ALTA' },
         { id: 'ALTA', label: 'ALTA' },
         { id: 'NORMAL', label: 'NORMAL' }
     ];
