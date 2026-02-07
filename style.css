@@ -497,8 +497,9 @@ body {
 }
 
 .icon-gradient-area {
-    flex: 0 0 60%; /* O 1.2, según prefieras el ancho */
-    background: rgba(255, 255, 255, 0.77) !important;
+    flex: 0 0 60%;
+    /* Cambiamos el blanco transparente por un tono oscuro que haga transicion con la tarjeta */
+    background: rgba(0, 0, 0, 0.2) !important; 
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -516,15 +517,23 @@ body {
 }
 
 .card-platform-box {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 4px 8px;
-    border-radius: 4px;
-    height: 28px;
+    background: var(--accent); /* ¡AMARILLO CORPORATIVO! */
+    padding: 4px 10px;
+    border-radius: 6px; /* Bordes un poco más rectos para look retro */
+    height: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* Quitamos cualquier borde o sombra previa */
+    border: none;
 }
 
-.card-platform-box img { max-height: 18px; width: auto; }
+.card-platform-box img { 
+    max-height: 20px; 
+    width: auto; 
+    /* Si algunos logos blancos no se ven bien, esta línea los vuelve oscuros/negros */
+    filter: brightness(0) saturate(100%); 
+}
 
 .game-title {
     color: #fff; font-weight: 700; text-transform: uppercase;
