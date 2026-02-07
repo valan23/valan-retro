@@ -58,6 +58,23 @@ body {
     transform: translateY(-265px); 
 }
 
+/* Estilo para los nuevos títulos de las filas */
+.nav-label-tag {
+    font-size: 0.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent); /* Color amarillo/dorado */
+    opacity: 0.6;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(239, 195, 108, 0.3);
+    padding-right: 15px;
+    min-width: 110px;
+    justify-content: flex-end;
+}
+
 .nav-container {
     width: 100%;
     max-width: 1300px;
@@ -143,6 +160,12 @@ body {
 .tab-link.active {
     color: var(--accent) !important; /* Vuelve el amarillo #efc36c */
     border-bottom: 2px solid var(--accent);
+}
+
+.nav-row-brands, .nav-row-consoles {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Mantiene el grupo centrado */
 }
 
 /* FILA INFERIOR: Marcas (Sub-Nav) */
