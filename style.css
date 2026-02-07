@@ -499,7 +499,11 @@ body {
 .icon-gradient-area {
     flex: 0 0 60% !important;
     /* Degradado de Amarillo a un Dorado/Naranja suave para dar volumen */
-    background: linear-gradient(135deg, var(--accent) 0%, #d4a74a 100%) !important; 
+    background: linear-gradient(165deg, 
+        var(--accent) 0%, 
+        var(--accent) 70%, 
+        var(--bg-card) 95%
+    ) !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
