@@ -432,7 +432,7 @@ body {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 99999 !important; /* Más alto que la main-nav que tiene 9999 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -441,6 +441,7 @@ body {
     opacity: 0; 
     visibility: hidden;
     transition: all 0.3s ease;
+    pointer-events: auto; /* Asegura que sea clicable */
 }
 
 .back-to-top.show {
