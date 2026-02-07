@@ -503,24 +503,11 @@ body {
     display: flex !important;
     align-items: center;
     justify-content: center;
-    margin-left: 0px !important;
+    margin-left: 6px !important;
     border-top-left-radius: 11px;
     height: 100%;
     /* Quitamos cualquier padding o margen que empuje el contenido */
     padding: 0 !important;
-}
-
-.icon-gradient-area > div, 
-.icon-gradient-area .card-platform-box,
-.platform-icon-card {
-    background-color: var(--accent) !important; /* El amarillo de la web */
-    padding: 4px 12px !important;
-    border-radius: 6px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    height: 30px !important;
-    min-width: 50px;
 }
 
 .platform-icon-card {
