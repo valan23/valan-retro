@@ -220,6 +220,8 @@ body {
     flex-wrap: wrap; 
     align-items: center;
     width: 100%; /* Ahora sí se centrará respecto a la pantalla */
+    max-width: 900px; /* <--- LIMITADOR: Ajusta este valor según prefieras */
+    margin: 0 auto;   /* Asegura que el bloque limitado esté centrado */
 }
 
 .brand-icon {
