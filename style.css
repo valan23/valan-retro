@@ -50,7 +50,11 @@ body {
     ) 1;
 
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+.main-nav.compact {
+    transform: translateY(-210px); 
 }
 
 .main-nav.nav-hidden {
