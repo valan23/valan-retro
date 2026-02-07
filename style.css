@@ -210,7 +210,12 @@ body {
     ) 1;
 }
 
-.brand-selector { display: flex; justify-content: flex-start !important; gap: 30px; flex-wrap: wrap; }
+.brand-selector { 
+    display: flex;
+    justify-content: center !important; /* Cambiado de flex-start a center */ 
+    gap: 30px; 
+    flex-wrap: wrap; 
+}
 
 .brand-icon {
     display: flex;
@@ -268,7 +273,7 @@ body {
 
 .console-selector {
     display: flex;
-    justify-content: flex-start !important;
+    justify-content: center !important; /* Cambiado de flex-start a center */
     gap: 25px; /* Un poco más cerrado que las marcas */
     flex-wrap: wrap;
 }
