@@ -38,7 +38,7 @@ function createConsoleCardHTML(c) {
         // Datos para el Header Doble
         const completitud = (c["Completitud"] || "SUELTA").toUpperCase();
         const colorCompBase = AppUtils.getHardwareCompletitudStyle(completitud);
-        const estadoNum = parseFloat(c["Estado General"]) || 0;
+        const estadoNum = Math.round(parseFloat(c["Estado General"])) || 0;
 
         // Helpers de estilo
         const toRgba = (hex, alpha = 0.15) => {
@@ -68,7 +68,7 @@ function createConsoleCardHTML(c) {
                         ${completitud}
                     </div>
                     <div style="flex: 1.5; background: ${toRgba(colorEstado, 0.15)}; color: ${colorEstado}; font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.2em;">
-                        ${estadoNum.toFixed(1)}
+                        ${estadoNum}
                     </div>
                 </div>
             </div>
