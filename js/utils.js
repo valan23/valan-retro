@@ -160,7 +160,7 @@ const AppUtils = {
         if (upperEd.includes("PLAYSTATION")) return '<i class="fa-brands fa-playstation"></i>';
         
         return '<i class="fa-solid fa-star"></i>';
-    }
+    },
 
     getHardwareModStyle: (valor) => {
         if (!valor || typeof HARDWARE_MODS === 'undefined') return "#888";
