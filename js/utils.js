@@ -161,4 +161,26 @@ const AppUtils = {
         
         return '<i class="fa-solid fa-star"></i>';
     }
+
+    getHardwareModStyle: (valor) => {
+        if (!valor || typeof HARDWARE_MODS === 'undefined') return "#888";
+        const v = valor.toUpperCase().trim();
+        
+        // Match exacto o parcial
+        if (v === "NO") return HARDWARE_MODS["NO"].color;
+        if (v.includes("ADAPTACIÓN")) return HARDWARE_MODS["ADAPTACIÓN"].color;
+        if (v.includes("HACK")) return HARDWARE_MODS["HACK MOD"].color;
+        
+        return "#888";
+    },
+
+    getHardwareModIcon: (valor) => {
+        if (!valor || typeof HARDWARE_MODS === 'undefined') return "";
+        const v = valor.toUpperCase().trim();
+        
+        if (v.includes("ADAPTACIÓN")) return `<i class="fa-solid ${HARDWARE_MODS["ADAPTACIÓN"].icon}" style="margin-right:4px;"></i>`;
+        if (v.includes("HACK")) return `<i class="fa-solid ${HARDWARE_MODS["HACK MOD"].icon}" style="margin-right:4px;"></i>`;
+        
+        return "";
+    }
 };
