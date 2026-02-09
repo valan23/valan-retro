@@ -55,6 +55,11 @@ function createConsoleCardHTML(c) {
         };
         const colorEstado = getScoreColor(estadoNum);
 
+        const modCampo = c["Modificada"] || "No";
+        const colorMod = AppUtils.getHardwareModStyle(modCampo);
+        const iconoMod = AppUtils.getHardwareModIcon(modCampo);
+        const detalleMod = c["Tipo Mod"] || "ORIGINAL";
+
         // --- CONSTRUCCIÓN DEL HTML ---
         return `
         <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
@@ -91,6 +96,7 @@ function createConsoleCardHTML(c) {
                         ${AppUtils.getFlag(c["Región"])} ${c["Región"] || "N/A"}
                     </div>
                     <span style="font-size: 0.7em; color: #888; font-weight: bold;">Fab: ${c["Año Fabricación"] || "????"}</span>
+                    <span style="font-size: 0.7em; color: #555; font-weight: 800; text-transform: uppercase;">Nº Serie: ${c["Número Serie"] || "S/N"</span>
                 </div>
             </div>
 
@@ -114,9 +120,14 @@ function createConsoleCardHTML(c) {
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; background: rgba(0,0,0,0.1);">
-                <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase;">Ubicación</span>
-                    <span style="font-size: 0.6rem; color: #ccc; font-weight: 900; line-height: 1;">COLECCIÓN</span>
+                <div style="flex: 1.2; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
+                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase;">MOD</span>
+                    <span style="font-size: 0.6rem; color: ${colorMod}; font-weight: 900; text-align: center; line-height: 1;">
+                        ${iconoMod}${modCampo.toUpperCase() === "NO" ? "ORIGINAL" : modCampo.toUpperCase()}
+                    </span>
+                    <span style="font-size: 0.45rem; color: #666; font-weight: 600; text-transform: uppercase; margin-top: 2px;">
+                        ${modCampo.toUpperCase() === "NO" ? "" : detalleMod}
+                    </span>
                 </div>
                 <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
                     <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase;">Nº Serie</span>
