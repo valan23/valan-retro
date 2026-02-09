@@ -2,27 +2,45 @@
  * played.js - Diario de Juegos Finalizados
  */
 
+const RA_USER = "valan87";
+const RA_API_KEY = "BvASVYlfne3kx6UbL2DZuJVgtmI7JkKn";
+
+async function fetchRAProgress(gameID) {
+    if (!gameID || gameID === "---") return null;
+    
+    const cacheKey = `ra_game_${gameID}`;
+    if (sessionStorage.getItem(cacheKey)) return JSON.parse(sessionStorage.getItem(cacheKey));
+
+    const PROXY = "https://api.allorigins.win/get?url=";
+    const URL = `https://retroachievements.org/API/API_GetGameInfoAndUserProgress.php?z=${RA_USER}&y=${RA_API_KEY}&g=${gameID}`;
+
+    try {
+        const resp = await fetch(PROXY + encodeURIComponent(URL));
+        const json = await resp.json();
+        const data = JSON.parse(json.contents);
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        return data;
+    } catch (e) {
+        return null;
+    }
+}
+
 function renderPlayed(games) {
     const container = document.getElementById('played-grid');
     if (!container) return;
 
-    // 1. ACTUALIZACIÓN DINÁMICA DE FORMATOS
     if (typeof renderFormatFilters === 'function') {
         renderFormatFilters(games, 'format-buttons-container-played', 'played');
     }
 
-    // 2. ACTUALIZACIÓN DINÁMICA DE AÑOS
     updateYearButtons(games);
 
-    // 3. Aplicar el filtro de año local
     const filteredByYear = games.filter(j => {
         if (currentPlayedYear === 'all') return true;
-        // Buscamos el año de finalización (4 dígitos) en cualquier campo de fecha
         const fechaVal = j["Ultima fecha"] || j["Ultima Fecha"] || j["Última Fecha"] || j["Año"] || "";
         return String(fechaVal).includes(currentPlayedYear);
     });
 
-    // 4. Renderizado final
     container.innerHTML = filteredByYear.map(j => {
         try {
             if (typeof AppUtils === 'undefined') return "";
@@ -40,6 +58,7 @@ function renderPlayed(games) {
             const portada = (j["Portada"] || "").trim();
             const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
             
+            const raID = j["RA_ID"];
             const styleRegion = AppUtils.getRegionStyle(j["Región"]);
             const nota = parseFloat(String(j["Nota"]).replace(',', '.')) || 0;
             const hue = Math.min(Math.max(nota * 12, 0), 120);
@@ -94,11 +113,15 @@ function renderPlayed(games) {
                     </div>
                 </div>
 
-                <div style="height: 150px; margin: 15px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <div style="height: 145px; margin: 15px 12px 5px; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     <img src="${fotoUrl}" loading="lazy" style="max-width: 90%; max-height: 90%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
                 </div>
 
-                <div style="margin: 0 12px 15px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px; flex-grow: 1; font-size: 0.75em; color: #bbb; font-style: italic; line-height: 1.4; display: flex; align-items: center;">
+                <div id="ra-container-${raID}" style="margin: 0 12px; display: flex; justify-content: flex-end; min-height: 18px;">
+                    ${raID ? `<span style="font-size: 0.5rem; color: #333;"><i class="fa-solid fa-circle-notch fa-spin"></i> RA</span>` : ''}
+                </div>
+
+                <div style="margin: 5px 12px 15px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px; flex-grow: 1; font-size: 0.75em; color: #bbb; font-style: italic; line-height: 1.4; display: flex; align-items: center;">
                     "${j["Comentarios"] || j["Comentario"] || "Sin comentarios."}"
                 </div>
 
@@ -131,13 +154,44 @@ function renderPlayed(games) {
             return ""; 
         }
     }).join('');
+
+    // --- DISPARAR ACTUALIZACIÓN RA ---
+    setTimeout(() => {
+        filteredByYear.forEach(async (j) => {
+            const raID = j["RA_ID"];
+            if (!raID) return;
+
+            const data = await fetchRAProgress(raID);
+            const raContainer = document.getElementById(`ra-container-${raID}`);
+            
+            if (raContainer && data && data.NumAwarded !== undefined) {
+                const total = data.NumAchievements;
+                const earned = data.NumAwarded;
+                const pct = total > 0 ? Math.round((earned / total) * 100) : 0;
+                const master = (earned === total && total > 0);
+                
+                raContainer.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 10px; border: 1px solid ${master ? '#D4BD66' : 'rgba(255,255,255,0.05)'}">
+                        <span style="font-size: 0.6em; font-weight: 900; color: ${master ? '#D4BD66' : '#999'};">
+                            ${master ? '<i class="fa-solid fa-trophy"></i> MASTERED' : `<i class="fa-solid fa-medal"></i> ${earned}/${total}`}
+                        </span>
+                        <div style="width: 35px; background: rgba(255,255,255,0.05); height: 3px; border-radius: 2px; overflow: hidden;">
+                            <div style="width: ${pct}%; background: ${master ? '#D4BD66' : '#2e9e7f'}; height: 100%;"></div>
+                        </div>
+                        <span style="font-size: 0.55em; font-weight: bold; color: #666;">${pct}%</span>
+                    </div>
+                `;
+            } else if (raContainer) {
+                raContainer.innerHTML = ""; 
+            }
+        });
+    }, 200);
 }
 
 function updateYearButtons(filteredGames) {
     const container = document.getElementById('nav-year-filter'); 
     if (!container) return;
 
-    // Calculamos los años disponibles en el set de datos actual
     const counts = { all: filteredGames.length };
     filteredGames.forEach(j => {
         const fecha = j["Ultima fecha"] || j["Ultima Fecha"] || j["Última Fecha"] || j["Año"] || "";
@@ -150,7 +204,6 @@ function updateYearButtons(filteredGames) {
 
     const years = Object.keys(counts).filter(y => y !== 'all').sort((a, b) => b - a);
 
-    // IMPORTANTE: Se añade "this" en el onclick para pasar el elemento a filterByYear
     container.innerHTML = `
         <button class="year-btn ${currentPlayedYear === 'all' ? 'active' : ''}" 
                 onclick="filterByYear('all', this)">
@@ -166,23 +219,14 @@ function updateYearButtons(filteredGames) {
 }
 
 function filterByYear(year, element) {
-    // 1. Guardar el año seleccionado en la variable global
     currentPlayedYear = year; 
-
-    // 2. Gestión visual: Quitar 'active' de otros botones de año
-    // Solo buscamos dentro de la barra de años para no afectar a los de Formato
     const container = document.getElementById('nav-year-filter');
     if (container) {
         container.querySelectorAll('.year-btn').forEach(btn => btn.classList.remove('active'));
     }
-
-    // 3. Activar el botón pulsado (si existe el elemento)
     if (element) {
         element.classList.add('active');
     }
-
-    // 4. Llamar al filtro global de main.js
-    // Esto hará que applyFilters recalcule todo y actualice los botones de Físico/Digital
     if (typeof applyFilters === 'function') {
         applyFilters(); 
     }
