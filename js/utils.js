@@ -58,6 +58,23 @@ const AppUtils = {
         return "#555";
     },
 
+    // NUEVA FUNCIÓN específica para Consolas
+    getHardwareCompletitudStyle: (valor) => {
+        if (!valor) return "#777";
+        const v = valor.toUpperCase().trim();
+        
+        // Buscamos en el nuevo objeto de hardware
+        if (typeof HARDWARE_COMPLETITUD !== 'undefined') {
+            if (HARDWARE_COMPLETITUD[v]) return HARDWARE_COMPLETITUD[v].color;
+            
+            // Búsqueda por coincidencia parcial (por si el CSV dice "Completa")
+            for (let key in HARDWARE_COMPLETITUD) {
+                if (v.includes(key)) return HARDWARE_COMPLETITUD[key].color;
+            }
+        }
+        return "#777"; // Color neutro si no coincide
+    },
+
     obtenerValorEnEuros: (precioStr) => {
         if (!AppUtils.isValid(precioStr)) return Infinity;
         const numStr = precioStr.toString().replace(/[^\d,.]/g, '').replace(',', '.');
