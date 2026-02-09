@@ -140,6 +140,7 @@ const AppUtils = {
             "NSO": "images/icons/nso.png",
             "RETROARCH": "images/icons/retroarch.png",
             "EPIC GAMES": "images/icons/epicgames.png",
+            "BATTLE.NET": "images/icons/battlenet.png",
             "GOG": "images/icons/gogcom.png"
         };
 
