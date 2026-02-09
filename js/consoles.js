@@ -31,7 +31,7 @@ function createConsoleCardHTML(c) {
         const portada = c["Portada"] ? c["Portada"].trim() : "";
         const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
 
-        const styleRegion = AppUtils.getRegionStyle(c["Región"]);
+        const styleRegion = AppUtils.getRegionStyle(j["Región"]);
         const modelo = c["Modelo"] || "";
         const esModeloEspecial = AppUtils.isValid(modelo) && modelo.toUpperCase() !== "ESTÁNDAR";
 
@@ -93,7 +93,7 @@ function createConsoleCardHTML(c) {
 
                 <div style="margin-top: 8px; line-height: 1.2; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold;">
-                        ${AppUtils.getFlag(c["Región"])} ${c["Región"] || "N/A"}
+                        ${AppUtils.getFlag(j["Región"])} ${j["Región"] || "N/A"}
                     </div>
                     <span style="font-size: 0.7em; color: #888; font-weight: bold;">Fab: ${c["Año Fabricación"] || "????"}</span>
                     <span style="font-size: 0.7em; color: #555; font-weight: 800; text-transform: uppercase;">Nº Serie: ${c["Número Serie"] || "S/N"}</span>
@@ -112,10 +112,10 @@ function createConsoleCardHTML(c) {
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; background: rgba(0,0,0,0.1);">
-                <div style="flex: 1.2; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
+                <div style="flex: 1.2; border-right: 1px solid rgba(255,255,255,0.05); background: ${toRgba(colorMod, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
                     <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 3px;">Hardware</span>
     
-                    <div style="background: ${toRgba(colorMod, 0.15)}; color: ${colorMod}; padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; width: 90%;">
+                    <div style="color: ${colorMod}; padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; width: 90%;">
                         <span style="font-size: 0.55rem; font-weight: 900; text-align: center; line-height: 1; text-transform: uppercase;">
                             ${iconoMod}${modCampo.toUpperCase() === "NO" ? "ORIGINAL" : modCampo.toUpperCase()}
                         </span>
@@ -133,7 +133,7 @@ function createConsoleCardHTML(c) {
                 </div>
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2px;">
                     <span style="font-size: 0.45rem; color: #2e9e7f; font-weight: 800; text-transform: uppercase;">Tasación</span>
-                    <span style="font-size: 0.7rem; color: #fff; font-weight: 900;">${c["Tasación"] || "---"}</span>
+                    <span style="font-size: 0.7rem; color: #fff; font-weight: 900;">${c["Tasación Actial"] || "---"}</span>
                     <span style="font-size: 0.4rem; color: #555;">${c["Fecha revisión"] || ""}</span>
                 </div>
             </div>
