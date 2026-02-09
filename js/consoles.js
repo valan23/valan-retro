@@ -31,7 +31,7 @@ function createConsoleCardHTML(c) {
         const portada = c["Portada"] ? c["Portada"].trim() : "";
         const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
 
-        const styleRegion = AppUtils.getRegionStyle(j["Región"]);
+        const styleRegion = AppUtils.getRegionStyle(c["Región"]);
         const modelo = c["Modelo"] || "";
         const esModeloEspecial = AppUtils.isValid(modelo) && modelo.toUpperCase() !== "ESTÁNDAR";
 
@@ -93,7 +93,7 @@ function createConsoleCardHTML(c) {
 
                 <div style="margin-top: 8px; line-height: 1.2; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <div style="font-size: 0.6em; padding: 2px 6px; border-radius: 4px; background: ${styleRegion.bg}; border: 1px solid ${styleRegion.border}; color: ${styleRegion.text}; font-weight: bold;">
-                        ${AppUtils.getFlag(j["Región"])} ${j["Región"] || "N/A"}
+                        ${AppUtils.getFlag(c["Región"])} ${c["Región"] || "N/A"}
                     </div>
                     <span style="font-size: 0.7em; color: #888; font-weight: bold;">Fab: ${c["Año Fabricación"] || "????"}</span>
                     <span style="font-size: 0.7em; color: #555; font-weight: 800; text-transform: uppercase;">Nº Serie: ${c["Número Serie"] || "S/N"}</span>
