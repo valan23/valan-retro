@@ -99,7 +99,7 @@ function renderPlayed(games) {
                 </div>
 
                 <div style="margin: 0 12px 15px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px; flex-grow: 1; font-size: 0.75em; color: #bbb; font-style: italic; line-height: 1.4; display: flex; align-items: center;">
-                    "${j["Comentario"] || "Sin comentarios."}"
+                    "${j["Comentarios"] || j["Comentario"] || "Sin comentarios."}"
                 </div>
 
                 <div style="height: 55px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: stretch; background: rgba(0,0,0,0.1);">
