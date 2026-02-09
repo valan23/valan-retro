@@ -133,8 +133,8 @@ function createConsoleCardHTML(c) {
                 </div>
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2px;">
                     <span style="font-size: 0.45rem; color: #2e9e7f; font-weight: 800; text-transform: uppercase;">Tasación</span>
-                    <span style="font-size: 0.7rem; color: #fff; font-weight: 900;">${c["Tasación Actial"] || "---"}</span>
-                    <span style="font-size: 0.4rem; color: #555;">${c["Fecha revisión"] || ""}</span>
+                    <span style="font-size: 0.7rem; color: #fff; font-weight: 900;">${c["Tasación Actual"] || "---"}</span>
+                    <span style="font-size: 0.55rem; color: #555;">${c["Fecha revisión"] || ""}</span>
                 </div>
             </div>
         </div>`;
