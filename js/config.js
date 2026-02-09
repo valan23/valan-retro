@@ -74,15 +74,12 @@ const BRANDS_CONFIG = {
         logo: "images/icons/PC_logo.png", 
         class: "pc", 
         folder: "pc",
-        platforms: ["Windows", "MS-DOS", "Steam", "GOG.com", "Battle.net", "Epic Games", "RetroArch"],
+        // Añadimos "PC" como plataforma genérica
+        platforms: ["PC", "Windows", "MS-DOS"], 
         icons: {
+            "PC": "images/icons/windows.png",
             "Windows": "images/icons/windows.png",
-            "MS-DOS": "images/icons/msdos.png",
-            "Steam": "images/icons/steam.png",
-            "GOG.com": "images/icons/gogcom.png",
-            "Battle.net": "images/icons/battlenet.png",
-            "Epic Games": "images/icons/epicgames.png",
-            "RetroArch": "images/icons/retroarch.png"
+            "MS-DOS": "images/icons/msdos.png"
         }
     },
     "OTROS": { 
