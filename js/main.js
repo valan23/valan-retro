@@ -1,6 +1,6 @@
 // main.js - El Director de Orquesta Unificado
 
-let dataStore = { 'videojuegos': null, 'deseados': null, 'jugados': null };
+let dataStore = { 'videojuegos': null, 'deseados': null, 'jugados': null, 'consolas': null };
 let currentPlatform = "TODAS";
 let currentSection = 'videojuegos'; 
 let currentFormat = "all";
@@ -15,7 +15,8 @@ async function loadTabData(sectionId) {
     const urls = { 
         'videojuegos': CSV_URL_JUEGOS, 
         'deseados': CSV_URL_DESEADOS, 
-        'jugados': CSV_URL_JUGADOS 
+        'jugados': CSV_URL_JUGADOS,
+        'consolas': CSV_URL_CONSOLAS 
     };
 
     return new Promise((resolve, reject) => {
@@ -218,6 +219,7 @@ function applyFilters() {
     if (currentSection === 'videojuegos') renderGames(finalFiltered);
     else if (currentSection === 'deseados') renderWishlist(finalFiltered);
     else if (currentSection === 'jugados') renderPlayed(finalFiltered);
+    else if (currentSection === 'consolas') renderConsolas(finalFiltered);
 }
 
 function renderUniversalFormatFilters(dataForCounters) {
