@@ -10,7 +10,6 @@ const AppUtils = {
     getPlatformFolder: (platform) => {
         if (!platform) return "otros";
         
-        // 1. Mapeo manual: Nombre en CSV -> Nombre de tu Carpeta
         const folderMap = { 
             "Famicom": "fc", 
             "Famicom Disk System": "fds", 
@@ -35,12 +34,8 @@ const AppUtils = {
         };
 
         const p = platform.trim();
-        
-        // 2. Si existe en el mapa, devolvemos la carpeta corta
         if (folderMap[p]) return folderMap[p];
 
-        // 3. Si no existe (ej. "Windows"), lo limpia automáticamente:
-        // Quita espacios, pone minúsculas y quita caracteres raros
         return p.toLowerCase()
                 .replace(/\s+/g, '')
                 .replace(/[^a-z0-9]/g, '');
@@ -70,13 +65,11 @@ const AppUtils = {
         if (isNaN(num)) return Infinity;
 
         const pLow = precioStr.toLowerCase();
-        // Detecta si es moneda japonesa
         const esTiendaJaponesa = precioStr.includes('¥') || pLow.includes('surugaya') || pLow.includes('mercari') || pLow.includes('yen');
         
         return esTiendaJaponesa ? (num / TASA_CAMBIO_YEN) : num;
     },
 
-    // CORREGIDO: Usamos los colores de rareza que definiste en el otro archivo para ser consistentes
     getRarezaColor: (rareza) => {
         if (typeof RAREZA_COLORS === 'undefined') return "#aaa";
         const r = (rareza || "").toUpperCase().trim();
@@ -88,7 +81,6 @@ const AppUtils = {
         return estado.toString().toUpperCase();
     },
 
-    // CORREGIDO: Ahora detecta la clase CSS basándose en tu BRANDS_CONFIG
     getBrandClass: (platformName) => {
         if (!platformName || typeof BRANDS_CONFIG === 'undefined') return "otros";
         for (const brand in BRANDS_CONFIG) {
@@ -124,12 +116,13 @@ const AppUtils = {
                 break; 
             }
         }
+        return `<span class="fi fi-${code}"></span>`;
+    },
 
     getEdicionIcon: (edicionTexto) => {
         if (!edicionTexto) return '<i class="fa-solid fa-star"></i>';
         const upperEd = edicionTexto.toUpperCase().trim();
         
-        // Mapeo de nombres a imágenes
         const iconos = {
             "STEAM": "images/icons/steam.png",
             "GAME PASS": "images/icons/xboxgamepass.png",
@@ -145,16 +138,13 @@ const AppUtils = {
         };
 
         if (iconos[upperEd]) {
-            return `<img src="${iconos[upperEd]}" style="height: 14px; width: auto; object-fit: contain;">`;
+            return `<img src="${iconos[upperEd]}" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;">`;
         }
 
-        // Si no es un servicio conocido, ponemos un icono genérico según palabras clave
         if (upperEd.includes("STEAM")) return '<i class="fa-brands fa-steam"></i>';
         if (upperEd.includes("XBOX")) return '<i class="fa-brands fa-xbox"></i>';
         if (upperEd.includes("PLAYSTATION")) return '<i class="fa-brands fa-playstation"></i>';
         
-        return '<i class="fa-solid fa-star"></i>'; // Por defecto
-    },
-        return `<span class="fi fi-${code}"></span>`;
+        return '<i class="fa-solid fa-star"></i>';
     }
 };
