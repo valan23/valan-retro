@@ -114,7 +114,7 @@ const REGION_COLORS = {
 
 /* --- ESTILOS DE COMPLETITUD --- */
 const COMPLETITUD_COLORS = {
-    "A ESTRENAR": { color: "#FFD700", label: "A ESTRENAR" },
+    "A ESTRENAR": { color: "#6827F5", label: "A ESTRENAR" },
     "ÍNTEGRO": { color: "#2E9E7F", label: "ÍNTEGRO" },
     "COMPLETO": { color: "#44CE1B", label: "COMPLETO" },
     "INCOMPLETO": { color: "#FFAA00", label: "INCOMPLETO" },
@@ -125,8 +125,8 @@ const COMPLETITUD_COLORS = {
 };
 
 const HARDWARE_COMPLETITUD = {
-    "COMPLETA": { color: "#00c851" },     // Verde
-    "CON ACCESORIOS": { color: "#F5D327" }, // Amarillo
+    "COMPLETA": { color: "#6827F5" },     // Morada
+    "CON ACCESORIOS": { color: "#44CE1B" }, // Verde
     "CON MANDOS": { color: "#ffbb33" },     // Naranja
     "SUELTA": { color: "#ff4444" }          // Rojo
 };
