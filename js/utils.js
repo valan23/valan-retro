@@ -124,6 +124,36 @@ const AppUtils = {
                 break; 
             }
         }
+
+    getEdicionIcon: (edicionTexto) => {
+        if (!edicionTexto) return '<i class="fa-solid fa-star"></i>';
+        const upperEd = edicionTexto.toUpperCase().trim();
+        
+        // Mapeo de nombres a imágenes
+        const iconos = {
+            "STEAM": "images/icons/steam.png",
+            "GAME PASS": "images/icons/xboxgamepass.png",
+            "XBOX GAME PASS": "images/icons/xboxgamepass.png",
+            "PS PLUS": "images/icons/psplus.png",
+            "PLAYSTATION PLUS": "images/icons/psplus.png",
+            "NINTENDO SWITCH ONLINE": "images/icons/nso.png",
+            "NSO": "images/icons/nso.png",
+            "RETROARCH": "images/icons/retroarch.png",
+            "EPIC GAMES": "images/icons/epicgames.png",
+            "GOG": "images/icons/gogcom.png"
+        };
+
+        if (iconos[upperEd]) {
+            return `<img src="${iconos[upperEd]}" style="height: 14px; width: auto; object-fit: contain;">`;
+        }
+
+        // Si no es un servicio conocido, ponemos un icono genérico según palabras clave
+        if (upperEd.includes("STEAM")) return '<i class="fa-brands fa-steam"></i>';
+        if (upperEd.includes("XBOX")) return '<i class="fa-brands fa-xbox"></i>';
+        if (upperEd.includes("PLAYSTATION")) return '<i class="fa-brands fa-playstation"></i>';
+        
+        return '<i class="fa-solid fa-star"></i>'; // Por defecto
+    },
         return `<span class="fi fi-${code}"></span>`;
     }
 };
