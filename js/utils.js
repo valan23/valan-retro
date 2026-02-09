@@ -7,15 +7,43 @@ const AppUtils = {
     isValid: (val) => val && val.toString().trim() !== "" && val.toString().toUpperCase() !== "NA",
 
     // CORREGIDO: Ahora busca la carpeta real definida en la marca
-    getPlatformFolder: (platformName) => {
-        if (!platformName || typeof BRANDS_CONFIG === 'undefined') return "otros";
-        for (const brand in BRANDS_CONFIG) {
-            if (BRANDS_CONFIG[brand].platforms.includes(platformName)) {
-                return BRANDS_CONFIG[brand].folder;
-            }
-        }
-        // Fallback: si no la encuentra, limpia el nombre
-        return platformName.toLowerCase().replace(/\s+/g, '');
+    getPlatformFolder: (platform) => {
+        if (!platform) return "otros";
+        
+        // 1. Mapeo manual: Nombre en CSV -> Nombre de tu Carpeta
+        const folderMap = { 
+            "Famicom": "fc", 
+            "Famicom Disk System": "fds", 
+            "Super Famicom": "sfc",
+            "Nintendo 64": "n64",
+            "Game Boy": "gb",
+            "Game Boy Color": "gbc",
+            "Game Boy Advance": "gba",
+            "Game Cube": "gc",
+            "Nintendo DS": "nds",
+            "Nintendo 3DS": "3ds",
+            "Switch": "switch",
+            "Master System": "sms",
+            "Mega Drive": "smd",
+            "Game Gear": "gg",
+            "PlayStation": "psx",
+            "PlayStation 2": "ps2",
+            "PlayStation 4": "ps4",
+            "PlayStation 5": "ps5",
+            "Xbox 360": "x360",
+            "Dreamcast": "dc"
+        };
+
+        const p = platform.trim();
+        
+        // 2. Si existe en el mapa, devolvemos la carpeta corta
+        if (folderMap[p]) return folderMap[p];
+
+        // 3. Si no existe (ej. "Windows"), lo limpia automáticamente:
+        // Quita espacios, pone minúsculas y quita caracteres raros
+        return p.toLowerCase()
+                .replace(/\s+/g, '')
+                .replace(/[^a-z0-9]/g, '');
     },
 
     getRegionStyle: (region) => {
