@@ -8,8 +8,8 @@ let currentSearch = '';
 let currentPlayedYear = 'all'; 
 let currentComplete = 'all'; 
 let currentPriority = 'all';
-let currentConsoleComplete = 'all'; // Para Caja, Manual, Suelta...
-let currentConsoleMod = 'all';      // Para Original, Modificada...
+let currentConsoleComplete = 'all'; 
+let currentConsoleMod = 'all';      
 
 // 1. Carga de datos optimizada
 async function loadTabData(sectionId) {
@@ -32,7 +32,6 @@ async function loadTabData(sectionId) {
                     for (let key in row) { newRow[key.trim()] = row[key]; }
                     return newRow;
                 }).filter(item => {
-                    // CORRECCIÓN: Filtro genérico para validar que la fila tenga nombre
                     const nombre = item["Nombre Juego"] || item["Nombre Consola"];
                     return nombre && nombre.trim() !== "";
                 });
@@ -56,7 +55,7 @@ async function init() {
 }
 window.onload = init;
 
-// 3. Cambio de Sección (Pestañas)
+// 3. Cambio de Sección
 async function switchSection(sectionId, btn) {
     currentSection = sectionId;
     currentPlatform = "TODAS"; 
@@ -65,6 +64,8 @@ async function switchSection(sectionId, btn) {
     currentSearch = "";
     currentComplete = "all";
     currentPriority = "all";
+    currentConsoleComplete = "all";
+    currentConsoleMod = "all";
 
     const searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.value = "";
@@ -119,7 +120,6 @@ function createFilters(data, containerId) {
     container.innerHTML = html;
 }
 
-// 5. Lógica de Marcas y Consolas
 function showBrand(brand, element) {
     element.parentElement.querySelectorAll('.brand-icon').forEach(i => i.classList.remove('active'));
     element.classList.add('active');
@@ -170,129 +170,143 @@ function filterBySpecificConsole(platform, element, brandName = null) {
     applyFilters();
 }
 
-// 6. EL CEREBRO: Aplicación de Filtros Unificada
+// 5. EL CEREBRO: Aplicación de Filtros Unificada
 function applyFilters() {
     const dataToFilter = dataStore[currentSection];
     if (!dataToFilter) return;
 
-    // 1. Filtro base (Plataforma, búsqueda y año)
+    // --- PASO 1: FILTRO BASE (Plataforma y Búsqueda) ---
     const baseFiltered = dataToFilter.filter(item => {
-        // CORRECCIÓN: Buscador dinámico según columna
         const colNombre = (currentSection === 'consolas') ? "Nombre Consola" : "Nombre Juego";
         const matchesSearch = (item[colNombre] || "").toLowerCase().includes(currentSearch.toLowerCase());
         
         let matchesPlatform = (currentPlatform === "TODAS") || 
             (Array.isArray(currentPlatform) ? currentPlatform.includes(item["Plataforma"]) : item["Plataforma"] === currentPlatform);
         
-        let matchesYear = true;
-        if (currentSection === 'jugados' && currentPlayedYear !== 'all') {
-            const fecha = item["Ultima fecha"] || item["Ultima Fecha"] || item["Última Fecha"] || item["Año"] || "";
-            matchesYear = String(fecha).includes(currentPlayedYear);
-        }
-        return matchesSearch && matchesPlatform && matchesYear;
+        return matchesSearch && matchesPlatform;
     });
 
-    // 2. Actualizar botones de la interfaz
+    // --- PASO 2: ACTUALIZAR VISIBILIDAD DE GRUPOS ---
+    renderConsoleHardwareFilters(baseFiltered);
     renderUniversalFormatFilters(baseFiltered);
     renderUniversalCompleteFilters(baseFiltered);
-    renderWishlistPriorityFilters(baseFiltered); 
-    renderConsoleHardwareFilters(baseFiltered);
+    renderWishlistPriorityFilters(baseFiltered);
 
-    // 3. Aplicar filtros secundarios (Formato, Completitud y Prioridad)
+    // --- PASO 3: FILTRADO FINAL SEGÚN SECCIÓN ---
     const finalFiltered = baseFiltered.filter(item => {
-        // Filtro Formato (No aplica a consolas)
-        let matchesFormat = true;
-        if (currentSection !== 'consolas' && currentFormat !== "all") {
-            const esDigital = String(item["Formato"] || "").toUpperCase().includes("DIGITAL");
-            matchesFormat = (currentFormat === "digital") ? esDigital : !esDigital;
-        }
-
-        // Filtro Completitud
-        let matchesComplete = true;
-        if (currentComplete !== "all") {
-            const valorCSV = String(item["Completitud"] || "").trim().toUpperCase();
-            matchesComplete = (valorCSV === currentComplete.toUpperCase());
-        }
-
-        // Filtro Prioridad (Solo Wishlist)
-        let matchesPriority = true;
-        if (currentSection === 'deseados' && currentPriority !== 'all') {
-            const priorRaw = String(item["Prioridad"] || "NORMAL").toUpperCase();
-            matchesPriority = priorRaw.includes(currentPriority.toUpperCase());
-        }
-
         if (currentSection === 'consolas') {
-        // Filtro de Completitud de Consola
-        let matchesConsoleComplete = true;
-        if (currentConsoleComplete !== "all") {
-            matchesConsoleComplete = String(item["Completitud"] || "").toUpperCase() === currentConsoleComplete.toUpperCase();
-        }
+            // Lógica Hardware
+            let matchesComp = (currentConsoleComplete === 'all') || 
+                String(item["Completitud"] || "").toUpperCase().includes(currentConsoleComplete);
 
-        // Filtro de Modificación
-        let matchesMod = true;
-        if (currentConsoleMod !== "all") {
-            const esModificada = String(item["Modificada"] || "No").toUpperCase() !== "NO";
-            matchesMod = (currentConsoleMod === "si") ? esModificada : !esModificada;
-        }
-        return matchesConsoleComplete && matchesMod;
-    }
+            let matchesMod = true;
+            if (currentConsoleMod !== 'all') {
+                const val = String(item["Modificada"] || "No").toUpperCase();
+                if (currentConsoleMod === 'HACK MOD') matchesMod = val.includes("HACK");
+                else matchesMod = (val === currentConsoleMod);
+            }
+            return matchesComp && matchesMod;
+        } else {
+            // Lógica Juegos
+            let matchesFormat = true;
+            if (currentFormat !== "all") {
+                const esDigital = String(item["Formato"] || "").toUpperCase().includes("DIGITAL");
+                matchesFormat = (currentFormat === "digital") ? esDigital : !esDigital;
+            }
 
-        return matchesFormat && matchesComplete && matchesPriority;
+            let matchesComplete = (currentComplete === "all") || 
+                (String(item["Completitud"] || "").trim().toUpperCase() === currentComplete.toUpperCase());
+
+            let matchesPriority = (currentSection !== 'deseados' || currentPriority === 'all') || 
+                String(item["Prioridad"] || "").toUpperCase().includes(currentPriority.toUpperCase());
+
+            let matchesYear = (currentSection !== 'jugados' || currentPlayedYear === 'all') || 
+                String(item["Ultima fecha"] || item["Ultima Fecha"] || item["Año"] || "").includes(currentPlayedYear);
+
+            return matchesFormat && matchesComplete && matchesPriority && matchesYear;
+        }
     });
 
-    // 4. Renderizado Final
+    // --- PASO 4: RENDERIZADO FINAL ---
     if (currentSection === 'videojuegos') renderGames(finalFiltered);
     else if (currentSection === 'deseados') renderWishlist(finalFiltered);
     else if (currentSection === 'jugados') renderPlayed(finalFiltered);
     else if (currentSection === 'consolas') renderConsolas(finalFiltered);
 }
 
-function renderUniversalFormatFilters(dataForCounters) {
-    const container = document.getElementById('nav-format-filter');
-    const groupFormat = document.getElementById('group-formato'); // Asumiendo que existe este ID de contenedor
-    if (!container) return;
+// 6. FUNCIONES DE RENDERIZADO DE FILTROS (PILLS)
 
-    // Ocultar si estamos en consolas
-    if (currentSection === 'consolas') {
-        if (groupFormat) groupFormat.style.display = 'none';
-        container.innerHTML = "";
+function renderConsoleHardwareFilters(dataForCounters) {
+    const groupHardwareMod = document.getElementById('group-hardware-filters');
+    const groupHardwareStatus = document.getElementById('group-hardware-status');
+
+    if (currentSection !== 'consolas') {
+        if (groupHardwareMod) groupHardwareMod.style.display = 'none';
+        if (groupHardwareStatus) groupHardwareStatus.style.display = 'none';
         return;
     }
+
+    if (groupHardwareMod) groupHardwareMod.style.display = 'flex';
+    if (groupHardwareStatus) groupHardwareStatus.style.display = 'flex';
+
+    // Filtro Modificación
+    const modOptions = [
+        { id: 'all', label: 'TODAS' },
+        { id: 'NO', label: 'ORIGINAL' },
+        { id: 'ADAPTACIÓN', label: 'ADAPTACIÓN' },
+        { id: 'HACK MOD', label: 'HACK MOD' }
+    ];
+
+    document.getElementById('nav-console-mod-filter').innerHTML = modOptions.map(opt => {
+        const count = (opt.id === 'all') ? dataForCounters.length : 
+            dataForCounters.filter(c => {
+                const val = String(c["Modificada"] || "No").toUpperCase();
+                return opt.id === 'HACK MOD' ? val.includes("HACK") : val === opt.id;
+            }).length;
+        return `<button class="year-btn ${currentConsoleMod === opt.id ? 'active' : ''}" onclick="setConsoleModFilter('${opt.id}')">${opt.label} <span>${count}</span></button>`;
+    }).join('');
+
+    // Filtro Completitud Hardware
+    const statusOptions = ['all', ...Object.keys(HARDWARE_COMPLETITUD)];
+    document.getElementById('nav-console-status-filter').innerHTML = statusOptions.map(opt => {
+        const label = opt === 'all' ? 'TODAS' : opt;
+        const count = (opt === 'all') ? dataForCounters.length : 
+            dataForCounters.filter(c => String(c["Completitud"] || "").toUpperCase().includes(opt)).length;
+        return `<button class="year-btn ${currentConsoleComplete === opt ? 'active' : ''}" onclick="setConsoleCompleteFilter('${opt}')">${label} <span>${count}</span></button>`;
+    }).join('');
+}
+
+function renderUniversalFormatFilters(dataForCounters) {
+    const container = document.getElementById('nav-format-filter');
+    const groupFormat = document.getElementById('group-formato');
+    const yearGroup = document.getElementById('year-filter-group');
+
+    if (currentSection === 'consolas') {
+        if (groupFormat) groupFormat.style.display = 'none';
+        if (yearGroup) yearGroup.style.display = 'none';
+        return;
+    }
+
     if (groupFormat) groupFormat.style.display = 'flex';
+    if (yearGroup) {
+        yearGroup.style.display = (currentSection === 'jugados') ? 'flex' : 'none';
+        if (currentSection === 'jugados' && typeof updateYearButtons === 'function') updateYearButtons(dataForCounters);
+    }
 
     const total = dataForCounters.length; 
-    const digital = dataForCounters.filter(g => 
-        String(g["Formato"] || "").toUpperCase().includes("DIGITAL")
-    ).length;
+    const digital = dataForCounters.filter(g => String(g["Formato"] || "").toUpperCase().includes("DIGITAL")).length;
     const fisico = total - digital;
 
     container.innerHTML = `
-        <button class="year-btn ${currentFormat === 'all' ? 'active' : ''}" onclick="setFormatFilter('all')">
-            TODOS <span>${total}</span>
-        </button>
-        <button class="year-btn ${currentFormat === 'fisico' ? 'active' : ''}" onclick="setFormatFilter('fisico')">
-            FÍSICO <span>${fisico}</span>
-        </button>
-        <button class="year-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">
-            DIGITAL <span>${digital}</span>
-        </button>
-    `;
-
-    const yearGroup = document.getElementById('year-filter-group');
-    if (yearGroup) {
-        yearGroup.style.display = (currentSection === 'jugados') ? 'flex' : 'none';
-        if (currentSection === 'jugados' && typeof updateYearButtons === 'function') {
-            updateYearButtons(dataForCounters); 
-        }
-    }
+        <button class="year-btn ${currentFormat === 'all' ? 'active' : ''}" onclick="setFormatFilter('all')">TODOS <span>${total}</span></button>
+        <button class="year-btn ${currentFormat === 'fisico' ? 'active' : ''}" onclick="setFormatFilter('fisico')">FÍSICO <span>${fisico}</span></button>
+        <button class="year-btn ${currentFormat === 'digital' ? 'active' : ''}" onclick="setFormatFilter('digital')">DIGITAL <span>${digital}</span></button>`;
 }
 
 function renderUniversalCompleteFilters(dataForCounters) {
     const container = document.getElementById('nav-status-filter');
     const groupComplete = document.getElementById('group-estado'); 
-    if (!container) return;
-
-    // En consolas de momento no mostramos este filtro de completitud de juegos
+    
     if (currentSection !== 'videojuegos') {
         if (groupComplete) groupComplete.style.display = 'none';
         return;
@@ -313,98 +327,34 @@ function renderUniversalCompleteFilters(dataForCounters) {
     container.innerHTML = types.map(type => {
         let count = (type.id === 'all') ? dataForCounters.length : 
             dataForCounters.filter(g => String(g["Completitud"] || "").trim().toUpperCase() === type.id.toUpperCase()).length;
-
-        return `
-            <button class="year-btn ${currentComplete === type.id ? 'active' : ''}" onclick="setCompleteFilter('${type.id}')">
-                ${type.label} <span>${count}</span>
-            </button>
-        `;
+        return `<button class="year-btn ${currentComplete === type.id ? 'active' : ''}" onclick="setCompleteFilter('${type.id}')">${type.label} <span>${count}</span></button>`;
     }).join('');
 }
 
 function renderWishlistPriorityFilters(dataForCounters) {
     const container = document.getElementById('nav-priority-filter');
     const groupPriority = document.getElementById('group-prioridad'); 
-    if (!container) return;
-
     if (currentSection !== 'deseados') {
         if (groupPriority) groupPriority.style.display = 'none';
         return;
     }
     if (groupPriority) groupPriority.style.display = 'flex';
 
-    const levels = [
-        { id: 'all', label: 'TODAS' },
-        { id: 'MUY ALTA', label: 'MUY ALTA' },
-        { id: 'ALTA', label: 'ALTA' },
-        { id: 'NORMAL', label: 'NORMAL' }
-    ];
-
+    const levels = [{ id: 'all', label: 'TODAS' }, { id: 'MUY ALTA', label: 'MUY ALTA' }, { id: 'ALTA', label: 'ALTA' }, { id: 'NORMAL', label: 'NORMAL' }];
     container.innerHTML = levels.map(lv => {
         let count = (lv.id === 'all') ? dataForCounters.length : 
             dataForCounters.filter(g => String(g["Prioridad"] || "").toUpperCase().includes(lv.id)).length;
-
-        return `
-            <button class="year-btn ${currentPriority === lv.id ? 'active' : ''}" onclick="setPriorityFilter('${lv.id}')">
-                ${lv.label} <span>${count}</span>
-            </button>
-        `;
+        return `<button class="year-btn ${currentPriority === lv.id ? 'active' : ''}" onclick="setPriorityFilter('${lv.id}')">${lv.label} <span>${count}</span></button>`;
     }).join('');
 }
 
-function setPriorityFilter(value) {
-    currentPriority = value;
-    applyFilters();
-}
+// 7. SETTERS Y LISTENERS
+function setPriorityFilter(val) { currentPriority = val; applyFilters(); }
+function setFormatFilter(val) { currentFormat = val; applyFilters(); }
+function setCompleteFilter(val) { currentComplete = val; applyFilters(); }
+function setConsoleModFilter(val) { currentConsoleMod = val; applyFilters(); }
+function setConsoleCompleteFilter(val) { currentConsoleComplete = val; applyFilters(); }
 
-function setFormatFilter(format) {
-    currentFormat = format;
-    if (format === 'digital') currentComplete = 'all';
-    applyFilters();
-}
-
-function setCompleteFilter(value) {
-    currentComplete = value;
-    applyFilters();
-}
-
-function renderConsoleHardwareFilters(dataForCounters) {
-    const groupHardware = document.getElementById('group-hardware-filters'); // Necesitarás este ID en tu HTML
-    if (!groupHardware) return;
-
-    if (currentSection !== 'consolas') {
-        groupHardware.style.display = 'none';
-        return;
-    }
-    groupHardware.style.display = 'flex';
-
-    // Generar HTML para Modificación
-    const modCount = {
-        all: dataForCounters.length,
-        si: dataForCounters.filter(c => String(c["Modificada"] || "No").toUpperCase() !== "NO").length,
-        no: dataForCounters.filter(c => String(c["Modificada"] || "No").toUpperCase() === "NO").length
-    };
-
-    // Puedes inyectar el HTML en contenedores específicos dentro de groupHardware
-    document.getElementById('nav-console-mod-filter').innerHTML = `
-        <button class="year-btn ${currentConsoleMod === 'all' ? 'active' : ''}" onclick="setConsoleModFilter('all')">TODAS <span>${modCount.all}</span></button>
-        <button class="year-btn ${currentConsoleMod === 'no' ? 'active' : ''}" onclick="setConsoleModFilter('no')">ORIGINAL <span>${modCount.no}</span></button>
-        <button class="year-btn ${currentConsoleMod === 'si' ? 'active' : ''}" onclick="setConsoleModFilter('si')">MOD <span>${modCount.si}</span></button>
-    `;
-}
-
-// Funciones para cambiar el estado
-function setConsoleModFilter(val) {
-    currentConsoleMod = val;
-    applyFilters();
-}
-
-function setConsoleCompleteFilter(val) {
-    currentConsoleComplete = val;
-    applyFilters();
-}
-
-// Listener del buscador
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchInput')?.addEventListener('input', (e) => {
         currentSearch = e.target.value;
