@@ -2,7 +2,6 @@
  * consoles.js - Renderizado de la Colección de Hardware
  */
 
-
 function renderConsolas(consolas) {
     const container = document.getElementById('consolas-grid');
     if (!container) return;
@@ -36,19 +35,23 @@ function createConsoleCardHTML(c) {
         const esVersionEspecial = AppUtils.isValid(version) && version.toUpperCase() !== "ESTÁNDAR";
         const modelo = c["Modelo"] || "";
 
-        // Datos para el Header Doble
-
+        // Manejo de Completitud de Hardware (con fallback por si falla la función)
         const completitud = (c["Completitud"] || "SUELTA").toUpperCase();
-        const colorCompBase = AppUtils.getHardwareCompletitudStyle(completitud);
-        const estadoNum = Math.round(parseFloat(c["Estado General"])) || 0;
+        const colorCompBase = (typeof AppUtils.getHardwareCompletitudStyle === 'function') 
+            ? AppUtils.getHardwareCompletitudStyle(completitud) 
+            : "#888";
+
+        // Estado numérico seguro
+        const estadoRaw = c["Estado General"] || "0";
+        const estadoNum = Math.round(parseFloat(estadoRaw.toString().replace(',', '.'))) || 0;
 
         // Nuevos campos para el centro del footer
-        const salidaVideo = c["Salida Vídeo"] || "RF/AV";
-        const mejorVideo = c["Mejor Vídeo"] || "N/A"; // Nuevo campo del CSV
+        const salidaVideo = c["Salida Vídeo"] || c["Salida Video"] || "RF/AV";
+        const mejorVideo = c["Mejor Vídeo"] || c["Mejor Video"] || "N/A";
 
         // Helpers de estilo
         const toRgba = (hex, alpha = 0.15) => {
-            if (!hex || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
+            if (!hex || typeof hex !== 'string' || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
             const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         };
@@ -60,12 +63,11 @@ function createConsoleCardHTML(c) {
         };
         const colorEstado = getScoreColor(estadoNum);
 
+        // Modificaciones
         const modCampo = c["Modificada"] || "No";
-        const colorMod = AppUtils.getHardwareModStyle(modCampo);
-        const iconoMod = AppUtils.getHardwareModIcon(modCampo);
-        const detalleMod = c["Tipo Mod"] || "ORIGINAL";
+        const colorMod = (typeof AppUtils.getHardwareModStyle === 'function') ? AppUtils.getHardwareModStyle(modCampo) : "#666";
+        const iconoMod = (typeof AppUtils.getHardwareModIcon === 'function') ? AppUtils.getHardwareModIcon(modCampo) : "• ";
 
-        // --- CONSTRUCCIÓN DEL HTML ---
         return `
         <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px;">
 
@@ -114,7 +116,7 @@ function createConsoleCardHTML(c) {
                 
                 <div style="display: flex; flex-direction: column;">
                     <span style="font-size: 0.5rem; color: #555; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Accesorios Originales</span>
-                    <span style="font-size: 0.65rem; color: #bbb; line-height: 1.2;">${c["Accesorios originales"] || "Ninguno"}</span>
+                    <span style="font-size: 0.65rem; color: #bbb; line-height: 1.2;">${c["Accesorios originales"] || c["Accesorios Originales"] || "Ninguno"}</span>
                 </div>
 
                 <div style="display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
@@ -125,9 +127,9 @@ function createConsoleCardHTML(c) {
                 </div>
             </div>
 
-            <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; background: rgba(0,0,0,0.1); margin-left: 6px; border-bottom-left-radius: 11px;">
+            <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; background: rgba(0,0,0,0.1);">
                 
-                <div style="flex: 1; margin-left: 6px; border-right: 1px solid rgba(255,255,255,0.05); background: ${toRgba(colorMod, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
+                <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); background: ${toRgba(colorMod, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
                     <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 2px;">MOD</span>
                     <div style="color: ${colorMod}; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
                         <span style="font-size: 0.55rem; font-weight: 900; text-align: center; line-height: 1; text-transform: uppercase;">
@@ -148,7 +150,7 @@ function createConsoleCardHTML(c) {
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2px;">
                     <span style="font-size: 0.45rem; color: #2e9e7f; font-weight: 800; text-transform: uppercase;">Valor Est.</span>
                     <span style="font-size: 0.7rem; color: #fff; font-weight: 900;">${c["Tasación Actual"] || "---"}</span>
-                    <span style="font-size: 0.45rem; color: #555;">${c["Fecha revisión"] || ""}</span>
+                    <span style="font-size: 0.4rem; color: #555;">${c["Fecha revisión"] || c["Fecha Revisión"] || ""}</span>
                 </div>
             </div>
         </div>`;
