@@ -10,8 +10,9 @@ const BRANDS_CONFIG = {
         logo: "images/icons/NINTENDO_logo.png", 
         class: "nintendo", 
         folder: "nintendo", // Carpeta para imágenes
-        platforms: ["Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Nintendo Switch Online","Switch 2"],
+        platforms: ["Game & Watch", "Famicom", "Famicom Disk System", "Game Boy", "Super Famicom", "Virtual Boy", "Nintendo 64", "Game Boy Color", "Game Boy Advance", "Game Cube", "Nintendo DS", "Wii", "Nintendo 3DS", "Wii U", "Switch", "Nintendo Switch Online","Switch 2"],
         icons: {
+            "Game & Watch": "images/icons/gamewatch.png",
             "Famicom": "images/icons/fc.png",
             "Famicom Disk System": "images/icons/fds.png",
             "Game Boy": "images/icons/gb.png",
@@ -145,5 +146,5 @@ const RAREZA_COLORS = {
 const HARDWARE_MODS = {
     "NO": { color: "#888888", icon: "" },                // Gris (Original)
     "ADAPTACIÓN": { color: "#33b5e5", icon: "fa-gear" }, // Azul (Mejoras funcionales como RGB, Recap, etc.)
-    "HACK MOD": { color: "#ffbb33", icon: "fa-microchip" } // Naranja (Chips, Flash, Mods de región)
+    "HACK MOD": { color: "#ffbb33", icon: "fa-screwdriver-wrench" } // Naranja (Chips, Flash, Mods de región)
 };
