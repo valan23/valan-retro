@@ -107,7 +107,7 @@ function createCardHTML(j) {
             <div style="margin: 0 15px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; align-content: start; border: 1px solid rgba(255,255,255,0.02);">
                 ${esDigital ? 
                     `<div style="color: var(--cyan); font-size: 0.7rem; text-align: center; grid-column: 1/-1; margin: 30px 0; letter-spacing: 2px; font-weight: 900; opacity: 0.6;">LICENCIA DIGITAL</div>` : 
-                    [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Port.', v: j["Estado Portada"]}, {l: 'Man.', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Ins.', v: j["Estado Inserto"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Ext.', v: j["Estado Extras"]}]
+                    [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Portada', v: j["Estado Portada"]}, {l: 'Manual', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Inserto', v: j["Estado Inserto"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Extras', v: j["Estado Extras"]}]
                     .filter(i => AppUtils.isValid(i.v)).map(i => `
                         <div style="display: flex; flex-direction: column; padding: 4px 8px; border-radius: 4px; background: ${getStatusGradient(i.v)}; border-left: 2px solid rgba(255,255,255,0.1);">
                             <span style="color: #555; font-size: 0.5rem; font-weight: 800; text-transform: uppercase;">${i.l}</span>
