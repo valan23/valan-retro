@@ -118,7 +118,7 @@ function createCardHTML(j) {
             </div>
 
             <div style="margin-top: 15px; height: 50px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch;">
-                <div style="flex: 1; background: ${esDigital ? 'rgba(0, 242, 255, 0.1)' : 'rgba(239, 195, 108, 0.1)'}; color: ${esDigital ? 'var(--cyan)' : 'var(--accent)'}; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2);">
+                <div style="flex: 1; background: ${esDigital ? 'rgba(0, 242, 255, 0.1)' : 'rgba(239, 195, 108, 0.1)'}; color: ${esDigital ? 'var(--cyan)' : 'var(--accent)'}; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid rgba(0,0,0,0.2); margin-left: 6px; border-bottom-left-radius: 11px;">
                     <i class="fa-solid ${esDigital ? 'fa-cloud' : 'fa-compact-disc'}" style="font-size: 0.8rem; margin-bottom: 2px;"></i>
                     <span style="font-size: 0.55rem; font-weight: 900;">${esDigital ? 'DIGITAL' : 'FÍSICO'}</span>
                 </div>
