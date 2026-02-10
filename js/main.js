@@ -8,6 +8,8 @@ let currentSearch = '';
 let currentPlayedYear = 'all'; 
 let currentComplete = 'all'; 
 let currentPriority = 'all';
+let currentConsoleComplete = 'all'; // Para Caja, Manual, Suelta...
+let currentConsoleMod = 'all';      // Para Original, Modificada...
 
 // 1. Carga de datos optimizada
 async function loadTabData(sectionId) {
@@ -194,6 +196,7 @@ function applyFilters() {
     renderUniversalFormatFilters(baseFiltered);
     renderUniversalCompleteFilters(baseFiltered);
     renderWishlistPriorityFilters(baseFiltered); 
+    renderConsoleHardwareFilters(baseFiltered);
 
     // 3. Aplicar filtros secundarios (Formato, Completitud y Prioridad)
     const finalFiltered = baseFiltered.filter(item => {
@@ -217,6 +220,22 @@ function applyFilters() {
             const priorRaw = String(item["Prioridad"] || "NORMAL").toUpperCase();
             matchesPriority = priorRaw.includes(currentPriority.toUpperCase());
         }
+
+        if (currentSection === 'consolas') {
+        // Filtro de Completitud de Consola
+        let matchesConsoleComplete = true;
+        if (currentConsoleComplete !== "all") {
+            matchesConsoleComplete = String(item["Completitud"] || "").toUpperCase() === currentConsoleComplete.toUpperCase();
+        }
+
+        // Filtro de Modificación
+        let matchesMod = true;
+        if (currentConsoleMod !== "all") {
+            const esModificada = String(item["Modificada"] || "No").toUpperCase() !== "NO";
+            matchesMod = (currentConsoleMod === "si") ? esModificada : !esModificada;
+        }
+        return matchesConsoleComplete && matchesMod;
+    }
 
         return matchesFormat && matchesComplete && matchesPriority;
     });
@@ -346,6 +365,42 @@ function setFormatFilter(format) {
 
 function setCompleteFilter(value) {
     currentComplete = value;
+    applyFilters();
+}
+
+function renderConsoleHardwareFilters(dataForCounters) {
+    const groupHardware = document.getElementById('group-hardware-filters'); // Necesitarás este ID en tu HTML
+    if (!groupHardware) return;
+
+    if (currentSection !== 'consolas') {
+        groupHardware.style.display = 'none';
+        return;
+    }
+    groupHardware.style.display = 'flex';
+
+    // Generar HTML para Modificación
+    const modCount = {
+        all: dataForCounters.length,
+        si: dataForCounters.filter(c => String(c["Modificada"] || "No").toUpperCase() !== "NO").length,
+        no: dataForCounters.filter(c => String(c["Modificada"] || "No").toUpperCase() === "NO").length
+    };
+
+    // Puedes inyectar el HTML en contenedores específicos dentro de groupHardware
+    document.getElementById('nav-console-mod-filter').innerHTML = `
+        <button class="year-btn ${currentConsoleMod === 'all' ? 'active' : ''}" onclick="setConsoleModFilter('all')">TODAS <span>${modCount.all}</span></button>
+        <button class="year-btn ${currentConsoleMod === 'no' ? 'active' : ''}" onclick="setConsoleModFilter('no')">ORIGINAL <span>${modCount.no}</span></button>
+        <button class="year-btn ${currentConsoleMod === 'si' ? 'active' : ''}" onclick="setConsoleModFilter('si')">MOD <span>${modCount.si}</span></button>
+    `;
+}
+
+// Funciones para cambiar el estado
+function setConsoleModFilter(val) {
+    currentConsoleMod = val;
+    applyFilters();
+}
+
+function setConsoleCompleteFilter(val) {
+    currentConsoleComplete = val;
     applyFilters();
 }
 
