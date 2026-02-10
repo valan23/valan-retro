@@ -11,6 +11,7 @@ const AppUtils = {
         if (!platform) return "otros";
         
         const folderMap = { 
+            "Game & Watch": "gaw", 
             "Famicom": "fc", 
             "Famicom Disk System": "fds", 
             "Super Famicom": "sfc",
