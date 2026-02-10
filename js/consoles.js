@@ -32,8 +32,9 @@ function createConsoleCardHTML(c) {
         const fotoUrl = AppUtils.isValid(portada) ? `images/covers/${carpeta}/${portada}` : `images/covers/default.webp`;
 
         const styleRegion = AppUtils.getRegionStyle(c["Región"]);
+        const version = c["Versión"] || "";
+        const esVersionEspecial = AppUtils.isValid(version) && version.toUpperCase() !== "ESTÁNDAR";
         const modelo = c["Modelo"] || "";
-        const esModeloEspecial = AppUtils.isValid(modelo) && modelo.toUpperCase() !== "ESTÁNDAR";
 
         // Datos para el Header Doble
 
