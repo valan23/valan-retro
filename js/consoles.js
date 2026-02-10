@@ -41,6 +41,10 @@ function createConsoleCardHTML(c) {
         const colorCompBase = AppUtils.getHardwareCompletitudStyle(completitud);
         const estadoNum = Math.round(parseFloat(c["Estado General"])) || 0;
 
+        // Nuevos campos para el centro del footer
+        const salidaVideo = c["Salida Vídeo"] || "RF/AV";
+        const regionFree = (c["Region Free"] || "No").toUpperCase() === "SÍ";
+
         // Helpers de estilo
         const toRgba = (hex, alpha = 0.15) => {
             if (!hex || !hex.startsWith('#')) return `rgba(255,255,255,${alpha})`;
@@ -80,15 +84,16 @@ function createConsoleCardHTML(c) {
             </div>
 
             <div style="margin-top: 45px; padding: 15px 15px 0 15px;">
-                ${esModeloEspecial ? 
+                ${esVersionEspecial ? 
                     `<div style="color: var(--cyan); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px;">
-                        <i class="fa-solid fa-microchip"></i> ${modelo}
+                        <i class="fa-solid fa-microchip"></i> ${version}
                     </div>` : '<div style="height:12px"></div>'
                 }
 
                 <div class="game-title" style="padding:0; line-height: 1.1; margin-bottom: 4px; font-size: 1.2rem;">${c["Nombre Consola"]}</div>
-                <div style="font-size: 0.7rem; color: #666; min-height: 14px;">
-                    ${c["Versión"] || ""}
+                
+                <div style="font-size: 0.7rem; color: #666; min-height: 14px; font-weight: 600; text-transform: uppercase;">
+                    ${modelo}
                 </div>
 
                 <div style="margin-top: 8px; line-height: 1.2; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -104,16 +109,24 @@ function createConsoleCardHTML(c) {
                 <img src="${fotoUrl}" loading="lazy" style="max-width: 95%; max-height: 95%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
             </div>
 
-            <div style="margin: 0 15px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; flex-grow: 1; display: flex; flex-direction: column; gap: 6px; border: 1px solid rgba(255,255,255,0.02);">
-                <div style="display: flex; flex-direction: column; margin-top: 4px;">
-                    <span style="font-size: 0.5rem; color: #555; font-weight: 800; text-transform: uppercase;">Accesorios Originales</span>
-                    <span style="font-size: 0.65rem; color: #bbb;">${c["Accesorios originales"] || "Ninguno"}</span>
+            <div style="margin: 0 15px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 10px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.02);">
+                
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 0.5rem; color: #555; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Accesorios Originales</span>
+                    <span style="font-size: 0.65rem; color: #bbb; line-height: 1.2;">${c["Accesorios originales"] || "Ninguno"}</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
+                    <span style="font-size: 0.5rem; color: #555; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Observaciones</span>
+                    <span style="font-size: 0.65rem; color: #999; line-height: 1.3; font-style: italic;">
+                        ${c["Observaciones"] || "Sin notas adicionales."}
+                    </span>
                 </div>
             </div>
 
             <div style="margin-top: 15px; height: 55px; border-top: 1px solid rgba(255,255,255,0.03); display: flex; align-items: stretch; background: rgba(0,0,0,0.1);">
                 <div style="flex: 1.2; border-right: 1px solid rgba(255,255,255,0.05); background: ${toRgba(colorMod, 0.15)}; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 5px;">
-                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 3px;">Hardware</span>
+                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 3px;">MOD</span>
     
                     <div style="color: ${colorMod}; padding: 2px 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; width: 90%;">
                         <span style="font-size: 0.55rem; font-weight: 900; text-align: center; line-height: 1; text-transform: uppercase;">
@@ -127,9 +140,12 @@ function createConsoleCardHTML(c) {
                         </span>` : ''
                     }
                 </div>
-                <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase;">Nº Serie</span>
-                    <span style="font-size: 0.55rem; color: #aaa; font-family: monospace;">${c["Número Serie"] || "S/N"}</span>
+                <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02);">
+                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 2px;">Output / Región</span>
+                    <span style="font-size: 0.6rem; color: #eee; font-weight: 800;">${salidaVideo}</span>
+                    <span style="font-size: 0.45rem; color: ${regionFree ? '#00c851' : '#888'}; font-weight: 900; text-transform: uppercase;">
+                        ${regionFree ? '<i class="fa-solid fa-unlock"></i> REGION FREE' : '<i class="fa-solid fa-lock"></i> REGION LOCKED'}
+                    </span>
                 </div>
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2px;">
                     <span style="font-size: 0.45rem; color: #2e9e7f; font-weight: 800; text-transform: uppercase;">Tasación</span>
