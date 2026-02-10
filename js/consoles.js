@@ -44,7 +44,7 @@ function createConsoleCardHTML(c) {
 
         // Nuevos campos para el centro del footer
         const salidaVideo = c["Salida Vídeo"] || "RF/AV";
-        const regionFree = (c["Region Free"] || "No").toUpperCase() === "SÍ";
+        const mejorVideo = c["Mejor Vídeo"] || "N/A"; // Nuevo campo del CSV
 
         // Helpers de estilo
         const toRgba = (hex, alpha = 0.15) => {
@@ -136,12 +136,13 @@ function createConsoleCardHTML(c) {
                     </div>
                 </div>
 
-                <div style="flex: 1; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02);">
-                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 2px;">Output / Región</span>
-                    <span style="font-size: 0.6rem; color: #eee; font-weight: 800;">${salidaVideo}</span>
-                    <span style="font-size: 0.45rem; color: ${regionFree ? '#00c851' : '#888'}; font-weight: 900; text-transform: uppercase;">
-                        ${regionFree ? 'REGION FREE' : 'REGION LOCKED'}
-                    </span>
+                <div style="flex: 1.2; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); padding: 0 4px;">
+                    <span style="font-size: 0.45rem; color: #555; font-weight: 800; text-transform: uppercase; margin-bottom: 1px;">Output Vídeo</span>
+                    <span style="font-size: 0.6rem; color: #eee; font-weight: 800; line-height: 1;">${salidaVideo}</span>
+                    <div style="margin-top: 2px; padding: 1px 4px; background: rgba(0, 200, 81, 0.1); border-radius: 3px; display: flex; align-items: center; gap: 2px;">
+                        <i class="fa-solid fa-up-long" style="font-size: 0.4rem; color: #00c851;"></i>
+                        <span style="font-size: 0.45rem; color: #00c851; font-weight: 900; text-transform: uppercase;">TOP: ${mejorVideo}</span>
+                    </div>
                 </div>
 
                 <div style="flex: 1; background: rgba(46, 158, 127, 0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2px;">
