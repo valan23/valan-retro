@@ -104,7 +104,7 @@ function createCardHTML(j) {
                 <img src="${fotoUrl}" loading="lazy" style="max-width: 95%; max-height: 95%; object-fit: contain;" onerror="this.src='images/covers/default.webp'">
             </div>
 
-            <div style="margin: 0 15px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; align-content: start; border: 1px solid rgba(255,255,255,0.02);">
+            <div style="margin: 0 15px; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; align-content: start; border: 1px solid rgba(255,255,255,0.02); margin-left: 6px; border-bottom-left-radius: 11px;">
                 ${esDigital ? 
                     `<div style="color: var(--cyan); font-size: 0.7rem; text-align: center; grid-column: 1/-1; margin: 30px 0; letter-spacing: 2px; font-weight: 900; opacity: 0.6;">LICENCIA DIGITAL</div>` : 
                     [{l: 'Caja', v: j["Estado Caja"]}, {l: 'Portada', v: j["Estado Portada"]}, {l: 'Manual', v: j["Estado Manual"]}, {l: 'Juego', v: j["Estado Juego"]}, {l: 'Inserto', v: j["Estado Inserto"]}, {l: 'Obi', v: j["Estado Spinecard"]}, {l: 'Extras', v: j["Estado Extras"]}]
