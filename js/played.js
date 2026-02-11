@@ -4,6 +4,27 @@
 
 // --- FUNCIONES AUXILIARES (Definirlas primero para evitar el ReferenceError) ---
 
+function getStarsHTML(nota) {
+    const starsMax = 5;
+    // Convertimos escala 10 a escala 5
+    const rating = Math.min(Math.max(nota / 2, 0), 5); 
+    let html = '';
+    
+    for (let i = 1; i <= starsMax; i++) {
+        if (rating >= i) {
+            // Estrella completa
+            html += '<i class="fa-solid fa-star"></i>';
+        } else if (rating >= i - 0.5) {
+            // Media estrella
+            html += '<i class="fa-solid fa-star-half-stroke"></i>';
+        } else {
+            // Estrella vacía
+            html += '<i class="fa-regular fa-star" style="opacity: 0.3;"></i>';
+        }
+    }
+    return html;
+}
+
 function updateYearButtons(filteredGames) {
     const container = document.getElementById('nav-year-filter'); 
     if (!container) return;
@@ -114,6 +135,7 @@ function renderPlayed(games) {
 
             const nota = parseFloat(String(j["Nota"]).replace(',', '.')) || 0;
             const hue = Math.min(Math.max(nota * 12, 0), 120);
+            const estrellasHTML = getStarsHTML(nota);
             const proceso = (j["Proceso Juego"] || "Terminado").toUpperCase();
             let colorProceso = "#2E9E7F"; 
             if (proceso.includes("COMPLETADO") || proceso.includes("100%")) colorProceso = "#9825DA";
@@ -131,8 +153,13 @@ function renderPlayed(games) {
                         <div style="flex: 1; background: ${toRgba(colorProceso, 0.2)}; color: ${colorProceso}; font-size: 0.55em; font-weight: 900; display: flex; align-items: center; justify-content: center; text-transform: uppercase;">
                             ${proceso}
                         </div>
-                        <div style="flex: 1.5; background: hsla(${hue}, 80%, 45%, 0.15); color: hsl(${hue}, 80%, 60%); font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.2em;">
-                            ${nota.toFixed(1)}
+                        <div style="flex: 1.5; background: hsla(${hue}, 80%, 45%, 0.15); color: hsl(${hue}, 80%, 60%); font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;">
+                            <div style="font-size: 0.65em; display: flex; gap: 1px; margin-bottom: 2px;">
+                                ${estrellasHTML}
+                            </div>
+                            <div style="font-size: 0.85em; line-height: 1;">
+                                ${nota.toFixed(1)}
+                            </div>
                         </div>
                     </div>
                 </div>
