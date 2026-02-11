@@ -16,17 +16,16 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          // Asegúrate de que el archivo sw.js esté en la raíz de tu GitHub
           navigator.serviceWorker.register('./sw.js')
             .then(reg => console.log('PWA: Service Worker registrado'))
             .catch(err => console.log('PWA: Error al registrar', err));
         });
       }
     </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.2/css/flag-icons.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -45,7 +44,6 @@
         <div class="nav-container">
             <div class="nav-row-top">
                 <img src="images/main_logo.png" alt="VALAN" class="nav-logo">
-            
                 <div class="search-wrapper">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                     <input type="text" id="searchInput" placeholder="Buscar en la colección..." onkeyup="filterGames()">
@@ -124,7 +122,6 @@
     </nav>
 
     <div class="container">
-
         <div id="section-videojuegos" class="section-content active">
             <div id="format-buttons-container-games" class="format-buttons" style="margin: 20px 0;"></div>
             <div id="game-grid" class="grid"></div> 
@@ -137,11 +134,9 @@
 
         <div id="section-jugados" class="section-content">
             <div id="format-buttons-container-played" class="format-buttons" style="margin: 20px 0;"></div>
-            
             <div class="year-filter-container">
                 <div id="year-filter-pills" class="year-buttons"></div>
             </div>
-
             <div id="played-grid" class="grid"></div>
         </div>
 
@@ -152,16 +147,13 @@
 
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
-
     <script src="js/games.js"></script>
     <script src="js/wishlist_games.js"></script>
     <script src="js/played.js"></script>
     <script src="js/consoles.js"></script>
-    
     <script src="js/main.js"></script>
     
     <button id="backToTop" class="back-to-top" aria-label="Volver arriba">↑</button>
     <script src="js/scroll_nav.js"></script>
-    
 </body>
 </html>
