@@ -134,13 +134,11 @@ const HARDWARE_COMPLETITUD = {
 
 /* --- ESTILOS DE RAREZA (Añadido) --- */
 const RAREZA_COLORS = {
-    "MINT": "#FFD700",
-    "MUY RARO": "#FF4D4D",
-    "RARO": "#FFAA00",
-    "BUSCADO": "#00D4FF",
-    "ESCASO": "#9500ff",
-    "COMÚN": "#2E9E7F",
-    "DEFAULT": "#888888"
+    "LEGENDARIO": "#ff8000",
+    "ÉPICO": "#a335ee",
+    "RARO": "#0070dd",
+    "INUSUAL": "#1eff00",
+    "COMÚN": "#ffffff"
 };
 
 const HARDWARE_MODS = {
