@@ -115,9 +115,9 @@ const REGION_COLORS = {
 
 /* --- ESTILOS DE COMPLETITUD --- */
 const COMPLETITUD_COLORS = {
-    "A ESTRENAR": { color: "#6827F5", label: "A ESTRENAR" },
-    "ÍNTEGRO": { color: "#2E9E7F", label: "ÍNTEGRO" },
-    "COMPLETO": { color: "#44CE1B", label: "COMPLETO" },
+    "A ESTRENAR": { color: "#6827F5", label: "NUEVO" },
+    "ÍNTEGRO": { color: "#2E9E7F", label: "FULL" },
+    "COMPLETO": { color: "#44CE1B", label: "BÁSICO" },
     "INCOMPLETO": { color: "#FFAA00", label: "INCOMPLETO" },
     "SUELTO": { color: "#FF4D4D", label: "SUELTO" },
     "REPRO": { color: "#BBBBBB", label: "REPRO" },
