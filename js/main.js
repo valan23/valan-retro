@@ -315,9 +315,9 @@ function renderUniversalCompleteFilters(dataForCounters) {
 
     const types = [
         { id: 'all', label: 'TODOS' },
-        { id: 'A Estrenar', label: 'NUEVO' },
-        { id: 'Íntegro', label: 'ÍNTEGRO' },
-        { id: 'Completo', label: 'COMPLETO' },
+        { id: 'Nuevo', label: 'NUEVO' },
+        { id: 'Full', label: 'FULL' },
+        { id: 'Básico', label: 'BÁSICO' },
         { id: 'Incompleto', label: 'INCOMPLETO' },
         { id: 'Suelto', label: 'SUELTO' },
         { id: 'Repro', label: 'REPRO' },
