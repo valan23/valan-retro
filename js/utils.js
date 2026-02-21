@@ -24,7 +24,7 @@ const AppUtils = {
             "Nintendo 3DS": "3ds",
             "Switch": "switch",
             "Master System": "sms",
-            "Mega Drive": "smd",
+            "Mega Drive": "md",
             "Game Gear": "gg",
             "PlayStation": "psx",
             "PlayStation 2": "ps2",
