@@ -77,11 +77,12 @@ const BRANDS_CONFIG = {
         class: "pc", 
         folder: "pc",
         // Añadimos "PC" como plataforma genérica
-        platforms: ["PC", "Windows", "MS-DOS"], 
+        platforms: ["PC", "Windows", "MS-DOS", "GOG.com"], 
         icons: {
             "PC": "images/icons/windows.png",
             "Windows": "images/icons/windows.png",
-            "MS-DOS": "images/icons/msdos.png"
+            "MS-DOS": "images/icons/msdos.png",
+            "GOG.com": "images/icons/gogcom.png"
         }
     },
     "OTROS": { 
