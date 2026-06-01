@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valan-retro-v2';
+const CACHE_NAME = 'valan-retro-v3';
 // Aquí solo ponemos lo que SI está físicamente en tu GitHub
 const STATIC_ASSETS = [
   './',
@@ -9,7 +9,7 @@ const STATIC_ASSETS = [
   './utils.js',
   './main.js',
   './games.js',
-  './wishlist.js',
+  './wishlist_games.js',
   './scroll_nav.js',
   './images/covers/default.webp'
 ];
