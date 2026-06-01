@@ -81,8 +81,8 @@ const BRANDS_CONFIG = {
         icons: {
             "PC": "images/icons/windows.png",
             "Windows": "images/icons/windows.png",
-            "MS-DOS": "images/icons/msdos.png",,
-            "Steam": "images/icons/steam.png"
+            "MS-DOS": "images/icons/msdos.png",
+            "Steam": "images/icons/steam.png",
             "GOG.com": "images/icons/gogcom.png",
             "Battle.net": "images/icons/battlenet.png",
             "Epic Games": "images/icons/epicgames.png"
@@ -95,7 +95,7 @@ const BRANDS_CONFIG = {
         platforms: ["Arcade", "NeoGeo AES", "PC Engine", "3DO", "WonderSwan Color"],
         icons: {
             "Arcade": "images/icons/arcade.png",
-            "NeoGeo AES": "images/icons/neogeo.png"
+            "NeoGeo AES": "images/icons/neogeo.png",
             "PC Engine": "images/icons/pce.png",
             "3DO": "images/icons/3do.png",
             "WonderSwan Color": "images/icons/wsc.png"
