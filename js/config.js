@@ -50,7 +50,7 @@ const BRANDS_CONFIG = {
         logo: "images/icons/PLAYSTATION_logo.png", 
         class: "sony", 
         folder: "sony",
-        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4",  "PlayStation Plus", "PlayStation 5"],
+        platforms: ["PlayStation", "PlayStation 2", "PlayStation Vita", "PlayStation 4", "PlayStation Plus", "PlayStation 5"],
         icons: {
             "PlayStation": "images/icons/psx.png",
             "PlayStation 2": "images/icons/ps2.png",
