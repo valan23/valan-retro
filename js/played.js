@@ -144,7 +144,7 @@ function renderPlayed(games) {
             const esDigital = (j["Formato"] || "").toString().toUpperCase().includes("DIGITAL");
 
             return `
-            <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; min-height: 520px; overflow: hidden; border-radius: 12px; ${master ? 'box-shadow: 0 0 15px rgba(212, 189, 102, 0.25); border: 1px solid rgba(212, 189, 102, 0.3);' : ''}">
+            <div class="card ${AppUtils.getBrandClass(plat)}" style="display: flex; flex-direction: column; position: relative; overflow: hidden; border-radius: 12px; ${master ? 'box-shadow: 0 0 15px rgba(212, 189, 102, 0.25); border: 1px solid rgba(212, 189, 102, 0.3);' : ''}">
                 <div style="position: absolute; top: 0; left: 0; width: 100%; height: 45px; z-index: 10; display: flex; align-items: stretch;">
                     <div class="icon-gradient-area">
                         <div class="card-platform-box">${AppUtils.getPlatformIcon(plat)}</div>
